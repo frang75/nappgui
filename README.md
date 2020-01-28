@@ -19,9 +19,13 @@ C:\>git clone https://github.com/frang75/nappgui.git
 - [Generate]
 - [Open Project]
 
+![NAppGUI CMake](https://nappgui.com/img/quick/nappgui_cmake.png)
+
 ## In Visual Studio 2019
 - Build->Build Solution
 - Run the examples under `demo` or `howto`
+
+![NAppGUI Build](https://nappgui.com/img/quick/rundemo_visualstudio.png)
 
 ## More info
 - NAppGUI Quick Start: https://nappgui.com/en/start/quick.html
