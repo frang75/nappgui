@@ -1,0 +1,1 @@
+processDesktopApp(Bricks "" "NO")

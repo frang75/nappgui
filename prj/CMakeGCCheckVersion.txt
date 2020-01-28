@@ -1,0 +1,22 @@
+# CMake Linux/GCC Version Checker
+
+# Check for valid GCC version
+#------------------------------------------------------------------------------
+macro(checkGCCVersion)
+
+    if (CMAKE_COMPILER_IS_GNUCC)
+	   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.2)
+            message(FATAL_ERROR "GCC 4.2 is the minimun supported version.")
+       elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
+            set(GCC_VERSION "gcc5")
+       elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7)
+            set(GCC_VERSION "gcc6")
+       elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8)
+            set(GCC_VERSION "gcc7")
+       endif()
+    else()
+        message(FATAL_ERROR "GCC Is not present.")
+    endif()
+
+endmacro()
+

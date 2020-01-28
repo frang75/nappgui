@@ -1,0 +1,22 @@
+# Build version
+#------------------------------------------------------------------------------
+# This is a 'Release' distribution
+if (EXISTS ${CMAKE_LIB_PATH})
+	set(VERSION_FILE ${CMAKE_PRJ_PATH}/build.txt)
+	if (EXISTS "${VERSION_FILE}")
+		file(READ ${VERSION_FILE} NAPPGUI_BUILD)
+		string(REPLACE "\r\n" "" NAPPGUI_BUILD ${NAPPGUI_BUILD})
+		string(REPLACE "\n" "" NAPPGUI_BUILD ${NAPPGUI_BUILD})
+	endif()
+
+# This a 'Development' version
+else()
+
+	execute_process(COMMAND "svn" "info" "--show-item" "revision" WORKING_DIRECTORY ${CMAKE_PRJ_PATH} OUTPUT_VARIABLE SVN_INFO)
+	if (NOT ${SVN_INFO} STREQUAL "")    
+		string(STRIP ${SVN_INFO} NAPPGUI_BUILD)
+	else()
+		set(NAPPGUI_BUILD "")
+	endif()
+
+endif()

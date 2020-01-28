@@ -1,0 +1,22 @@
+/*
+ * NAppGUI-v1.1.1.2372 Cross-platform C SDK
+ * © 2015-2020 Francisco Garcia Collado
+ * All rights reserved
+ * https://nappgui.com/en/legal/eula.html
+ *
+ * File: base64.h
+ * https://nappgui.com/en/inet/base64.html
+ *
+ */
+
+/* Base64 encoding */
+
+#include "inet.hxx"
+
+uint32_t b64_encoded_size(const uint32_t data_size);
+
+uint32_t b64_decoded_size(const uint32_t encoded_size);
+
+uint32_t b64_encode(const byte_t *data, const uint32_t size, char_t *base64);
+
+uint32_t b64_decode(const char_t *base64, const uint32_t size, byte_t *data);
