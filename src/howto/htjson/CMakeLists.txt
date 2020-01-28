@@ -1,1 +1,0 @@
-processCommandApp(htjson "inet;draw2d")

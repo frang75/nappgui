@@ -1,5 +1,5 @@
 #------------------------------------------
-# NAppGUI-v1.1.1.2372 CMake build script
+# NAppGUI-v1.1.1.2374 CMake build script
 #------------------------------------------
 cmake_minimum_required(VERSION 2.8)
 project(NAppGUI)
@@ -34,8 +34,5 @@ desktopApp("GuiHello" "howto/guihello" "" NRC_EMBEDDED NO)
 desktopApp("DrawHello" "howto/drawhello" "" NRC_EMBEDDED NO)
 desktopApp("DrawImg" "howto/drawimg" "" NRC_EMBEDDED NO)
 desktopApp("UrlImg" "howto/urlimg" "inet" NRC_EMBEDDED NO)
-desktopApp("ColorView" "howto/colorview" "" NRC_EMBEDDED NO)
-commandApp("howto/htjson" "inet;draw2d" NRC_EMBEDDED)
-commandApp("howto/stlcmp" "" NRC_EMBEDDED)
 
 # Your projects here!

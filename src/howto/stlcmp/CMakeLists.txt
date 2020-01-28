@@ -1,1 +1,0 @@
-processCommandApp(stlcmp "")
