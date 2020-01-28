@@ -28,7 +28,7 @@ C:\>git clone https://github.com/frang75/nappgui.git
 ![NAppGUI Build](https://nappgui.com/img/quick/rundemo_visualstudio.png)
 
 ## More info
-- [NAppGUI Quick Start](https://nappgui.com/en/quick/quick.html)
+- [NAppGUI Quick Start](https://nappgui.com/en/start/quick.html)
 - [NAppGUI Hello World](https://nappgui.com/en/start/hello.html)
 - [Create a new project](https://nappgui.com/en/start/newprj.html)
 - [Portability to macOS and Linux](https://nappgui.com/en/start/win_mac_linux.html)
