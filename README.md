@@ -1,6 +1,8 @@
 # NAppGUI
 Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and Linux.
 
+https://nappgui.com/img/quick/nappgui_stack.png
+
 ## Prerequisites
 - [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
 - [CMake](https://cmake.org/download/)
