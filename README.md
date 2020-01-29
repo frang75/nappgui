@@ -43,6 +43,7 @@ Get the working copy and run CMake in the same way as Windows
 ```
 git clone https://github.com/frang75/nappgui.git ~/nappgui
 ```
+![Xcode_Debugging](https://nappgui.com/img/start/xcode_debug.png)
 
 **Important:** `CMAKE_DEPLOYMENT_TARGET` must be `10.15` or `10.14`
 
