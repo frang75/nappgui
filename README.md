@@ -38,7 +38,7 @@ You must select the **Visual Studio 16 2019** generator with **x64** platform th
 
 ## Running on macOS
 
-Get the working copy and run CMake in the same way as Windows
+Get the working copy and run CMake in the same way as Windows, using `Xcode` generator.
 
 ```
 git clone https://github.com/frang75/nappgui.git ~/nappgui
