@@ -26,7 +26,7 @@ It will create a working copy on `C:\nappgui`
 
 ![NAppGUI CMake](https://nappgui.com/img/start/nappgui_cmake.png)
 
-You must select the **Visual Studio 16 2019** generator in CMake the first time.
+You must select the **Visual Studio 16 2019** generator with **x64** platform the first time.
 
 ![NAppGUI Generator](https://nappgui.com/img/start/cmake_generator.png)
 
