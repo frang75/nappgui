@@ -357,5 +357,17 @@ else()
 
 endif()
 
+# Check if toolset is available in distribution
+#------------------------------------------------------------------------------
 
+# We are in a binary dist
+if (EXISTS ${CMAKE_LIB_PATH})
+	if (NOT EXISTS ${CMAKE_LIB_PATH}/${NAPPGUI_COMPILER_TOOLSET}_${NAPPGUI_ARCH})
+		message(STATUS "- The platform '${NAPPGUI_COMPILER_TOOLSET}_${NAPPGUI_ARCH}' is not supported by this distribution")
+		message(STATUS "- Please check '${CMAKE_LIB_PATH}' directory")
+		message(STATUS "  and 'https://nappgui.com/en/start/win_mac_linux.html#h1'")
+		message(STATUS "  to see the compilers you can use.")
+		message(FATAL_ERROR "You can't continue")
+	endif()
+endif()
 

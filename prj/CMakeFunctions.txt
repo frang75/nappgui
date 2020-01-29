@@ -265,7 +265,7 @@ function(installResourcePacks targetName targetType sourceDir)
         if (EXISTS ${resourcePath}/logo.icns)
             add_custom_command(TARGET ${targetName} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${resourcePath}/logo.icns $<TARGET_FILE_DIR:${targetName}>/${resourceDestPath})
         else()
-            message(ERROR "logo.icns doesn't exists in '${resourcePath}'")
+            message(WARNING "logo.icns doesn't exists in '${resourcePath}'")
         endif()
 
     # Linux needs the app icon near the executable
@@ -274,7 +274,7 @@ function(installResourcePacks targetName targetType sourceDir)
         if (EXISTS ${resourcePath}/logo48.ico)
             add_custom_command(TARGET ${targetName} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${resourcePath}/logo48.ico $<TARGET_FILE_DIR:${targetName}>/logo.ico)
         else()
-            message(ERROR "logo48.ico doesn't exists in '${resourcePath}'")
+            message(WARNING "logo48.ico doesn't exists in '${resourcePath}'")
         endif()
 
     endif()
@@ -923,7 +923,7 @@ function(addTarget targetName targetPath nrcMode)
         add_subdirectory(${targetPath})
 
     else()
-        message(ERROR "${targetPath} doesn't exists.")
+        message(WARNING "${targetPath} doesn't exists.")
 
     endif()
 
