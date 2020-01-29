@@ -12,7 +12,7 @@ Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and
 ## Running on Windows
 ### Open a terminal
 ```
-C:\>git clone https://github.com/frang75/nappgui.git nappgui
+C:\>git clone https://github.com/frang75/nappgui.git C:\nappgui
 ```
 
 It will create a working copy on `C:\nappgui`
