@@ -4,15 +4,20 @@ Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and
 ![NAppGUI Stack](https://nappgui.com/img/quick/nappgui_stack.png)
 
 ## Prerequisites
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
-- [CMake](https://cmake.org/download/)
+- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) - Windows
+- [Xcode 10 or 11](https://developer.apple.com/xcode/) - macOS Mojave or Catalina
+- GCC 7 - Ubuntu 18.04 LTS
+- [CMake](https://cmake.org/download/) - Cross platform
 
-## Open a terminal
+## Running on Windows
+### Open a terminal
 ```
-C:\>git clone https://github.com/frang75/nappgui.git
+C:\>git clone https://github.com/frang75/nappgui.git nappgui
 ```
 
-## Open CMake
+It will create a working copy on `C:\nappgui`
+
+### Open CMake
 - **Where is the source code:** `C:\nappgui\src` (Or `src` folder in your working copy)
 - **Where to build the binaries:** `C:\nappgui_build` (Or other folder)
 - [Configure]
@@ -21,11 +26,15 @@ C:\>git clone https://github.com/frang75/nappgui.git
 
 ![NAppGUI CMake](https://nappgui.com/img/start/nappgui_cmake.png)
 
-## In Visual Studio 2019
+You must select the **Visual Studio 16 2019** generator in CMake the first time.
+
+![NAppGUI Generator](https://nappgui.com/img/start/cmake_generator.png)
+
+### In Visual Studio 2019 (after click in [Open Project])
 - Build->Build Solution
 - Run the examples under `demo` or `howto`
 
-![NAppGUI Build](https://nappgui.com/img/quick/rundemo_visualstudio.png)
+![NAppGUI Build](https://nappgui.com/img/start/rundemo_visualstudio.png)
 
 ## More info
 - [NAppGUI Quick Start](https://nappgui.com/en/start/quick.html)
