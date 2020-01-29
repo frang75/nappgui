@@ -36,9 +36,19 @@ You must select the **Visual Studio 16 2019** generator with **x64** platform th
 
 ![NAppGUI Build](https://nappgui.com/img/start/rundemo_visualstudio.png)
 
+## Running on macOS
+
+Get the working copy and run CMake in the same way as Windows
+
+```
+git clone https://github.com/frang75/nappgui.git ~/nappgui
+```
+
+**Important:** `CMAKE_DEPLOYMENT_TARGET` must be `10.15` or `10.14`
+
 ## More info
 - [NAppGUI Quick Start](https://nappgui.com/en/start/quick.html)
 - [NAppGUI Hello World](https://nappgui.com/en/start/hello.html)
 - [Create a new project](https://nappgui.com/en/start/newprj.html)
-- [Portability to macOS and Linux](https://nappgui.com/en/start/win_mac_linux.html)
+- [About Portability](https://nappgui.com/en/start/win_mac_linux.html)
 
