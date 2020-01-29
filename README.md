@@ -19,7 +19,7 @@ C:\>git clone https://github.com/frang75/nappgui.git
 - [Generate]
 - [Open Project]
 
-![NAppGUI CMake](https://nappgui.com/img/quick/nappgui_cmake.png)
+![NAppGUI CMake](https://nappgui.com/img/start/nappgui_cmake.png)
 
 ## In Visual Studio 2019
 - Build->Build Solution
