@@ -47,6 +47,23 @@ git clone https://github.com/frang75/nappgui.git ~/nappgui
 
 **Important:** `CMAKE_DEPLOYMENT_TARGET` must be `10.15` or `10.14`
 
+## Running on Ubuntu 18.04
+
+Get the working copy and run CMake, using `Unix Makefiles` generator.
+
+```
+cd ~/nappgui_build         // Or your binary dir
+make                       // Compile
+./demo/die/Debug/Die       // Run an example
+gdb ./demo/die/Debug/Die   // Debug an example
+```
+![gdb_Debugging](https://nappgui.com/img/start/debug_gdb.png)
+
+**Important:**
+
+* If you use `ECLIPSE CDT4 - Unix Makefiles` or other "Make based" generators, additional project files will be created.
+* The package is not tested in others Linux platforms. Theoretically, it should works if `gcc-7` and `gtk3` are present.
+
 ## More info
 - [NAppGUI Quick Start](https://nappgui.com/en/start/quick.html)
 - [NAppGUI Hello World](https://nappgui.com/en/start/hello.html)
