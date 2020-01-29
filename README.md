@@ -1,5 +1,5 @@
 # NAppGUI
-Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and Linux.
+Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and Linux, using just C.
 
 ![NAppGUI Stack](https://nappgui.com/img/quick/nappgui_stack.png)
 
