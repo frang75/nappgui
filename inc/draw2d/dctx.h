@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -22,6 +22,8 @@ Image *dctx_image(DCtx **ctx);
 void draw_clear(DCtx *ctx, const color_t color);
 
 void draw_matrix(DCtx *ctx, const T2Df *t2d);
+
+void draw_matrixd(DCtx *ctx, const T2Dd *t2d);
 
 void draw_matrix_cartesian(DCtx *ctx, const T2Df *t2d);
 

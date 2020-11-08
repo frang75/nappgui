@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -21,11 +21,23 @@ color_t color_rgba(const uint8_t r, const uint8_t g, const uint8_t b, const uint
 
 color_t color_rgbaf(const real32_t r, const real32_t g, const real32_t b, const real32_t a);
 
+color_t color_hsbf(const real32_t hue, const real32_t sat, const real32_t bright);
+
+color_t color_red(const uint8_t r);
+
+color_t color_green(const uint8_t g);
+
+color_t color_blue(const uint8_t b);
+
+color_t color_gray(const uint8_t l);
+
 color_t color_bgr(const uint32_t bgr);
 
 color_t color_html(const char_t *html);
 
 color_t color_alt(const color_t light_color, const color_t dark_color);
+
+void color_to_hsbf(const color_t color, real32_t *hue, real32_t *sat, real32_t *bright);
 
 void color_to_html(const color_t color, char_t *html, const uint32_t size);
 
@@ -39,9 +51,13 @@ void color_get_rgbaf(const color_t color, real32_t *r, real32_t *g, real32_t *b,
 
 uint8_t color_get_alpha(const color_t color);
 
+color_t color_set_alpha(const color_t color, const uint8_t alpha);
+
 bool_t color_dark_mode(void);
 
 extern const color_t kCOLOR_TRANSPARENT;
+
+extern const color_t kCOLOR_DEFAULT;
 
 extern const color_t kCOLOR_LABEL;
 
@@ -55,9 +71,13 @@ extern const color_t kCOLOR_TEXT;
 
 extern const color_t kCOLOR_SELTEXT;
 
+extern const color_t kCOLOR_HOTTEXT;
+
 extern const color_t kCOLOR_BGTEXT;
 
 extern const color_t kCOLOR_BGSELTEXT;
+
+extern const color_t kCOLOR_BGHOTTEXT;
 
 extern const color_t kCOLOR_HEADER;
 

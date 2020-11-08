@@ -10,7 +10,9 @@ struct _app_t
     Window *window;
     Image *image;
     ImageView *view;
+    Cell *slider;
     uint32_t filter;
+    real32_t angle;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -88,98 +90,44 @@ static const real32_t i_EMBOSS_FILTER[] =
 
 /*---------------------------------------------------------------------------*/
 
-static void i_convolution(const byte_t *rgb_data, byte_t *result, const uint32_t w, const uint32_t h, const uint32_t bpp, const real32_t *filter, const uint32_t fsize, const real32_t factor, const real32_t bias)
-{
-    register uint32_t i, j;
-    register uint32_t fi, fj;
-
-    for(j = 0; j < h; ++j)
-    for(i = 0; i < w; ++i)
-    {
-        real32_t r = 0, g = 0, b = 0;
-        for(fj = 0; fj < fsize; ++fj)
-        for(fi = 0; fi < fsize; ++fi)
-        {
-            uint32_t imageX = (i - fsize / 2 + fi + w) % w;
-            uint32_t imageY = (j - fsize / 2 + fj + h) % h;
-            const byte_t *pixel = rgb_data + bpp * (imageY * w + imageX);
-            r += pixel[0 % bpp] * filter[fj * fsize + fi];
-            g += pixel[1 % bpp] * filter[fj * fsize + fi];
-            b += pixel[2 % bpp] * filter[fj * fsize + fi];
-        }
-
-        r = bmath_clampf(r * factor + bias, 0, 255);
-        g = bmath_clampf(g * factor + bias, 0, 255);
-        b = bmath_clampf(b * factor + bias, 0, 255);
-        result[0] = (byte_t)r;
-        result[1] = (byte_t)g;
-        result[2] = (byte_t)b;
-        result += 3;
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void i_apply_filter(App *app)
 {
-    uint32_t w, h;
-    pixformat_t format;
-    Buffer *data = NULL;
-    Buffer *result = NULL;
-    const real32_t *filter = NULL;
-    uint32_t filter_size = 0;
-    real32_t filter_factor = 0;
-    real32_t filter_bias = 0;
+    Pixbuf *pixbuf = NULL;
+    Pixbuf *output = NULL;
     Image *image = NULL;
 
-    image_pixels(app->image, &w, &h, &format, &data);
-    result = buffer_create(w * h * 3);
+    image_pixels(app->image, ekFIMAGE, &pixbuf, NULL);
 
     switch (app->filter) {
     case 0:
-        filter = i_IDENT_FILTER;
-        filter_size = i_IDENT_SIZE;
-        filter_factor = i_IDENT_FACTOR;
-        filter_bias = i_IDENT_BIAS;
+        output = pixbuf_convolution(pixbuf, i_IDENT_FILTER, i_IDENT_SIZE, i_IDENT_SIZE, i_IDENT_FACTOR, i_IDENT_BIAS);
         break;
     case 1:
-        filter = i_BLUR_FILTER;
-        filter_size = i_BLUR_SIZE;
-        filter_factor = i_BLUR_FACTOR;
-        filter_bias = i_BLUR_BIAS;
+        output = pixbuf_convolution(pixbuf, i_BLUR_FILTER, i_BLUR_SIZE, i_BLUR_SIZE, i_BLUR_FACTOR, i_BLUR_BIAS);
         break;
     case 2:
-        filter = i_MOTION_FILTER;
-        filter_size = i_MOTION_SIZE;
-        filter_factor = i_MOTION_FACTOR;
-        filter_bias = i_MOTION_BIAS;
+        output = pixbuf_convolution(pixbuf, i_MOTION_FILTER, i_MOTION_SIZE, i_MOTION_SIZE, i_MOTION_FACTOR, i_MOTION_BIAS);
         break;
     case 3:
-        filter = i_EDGE_FILTER;
-        filter_size = i_EDGE_SIZE;
-        filter_factor = i_EDGE_FACTOR;
-        filter_bias = i_EDGE_BIAS;
+        output = pixbuf_convolution(pixbuf, i_EDGE_FILTER, i_EDGE_SIZE, i_EDGE_SIZE, i_EDGE_FACTOR, i_EDGE_BIAS);
         break;
     case 4:
-        filter = i_SHARPEN_FILTER;
-        filter_size = i_SHARPEN_SIZE;
-        filter_factor = i_SHARPEN_FACTOR;
-        filter_bias = i_SHARPEN_BIAS;
+        output = pixbuf_convolution(pixbuf, i_SHARPEN_FILTER, i_SHARPEN_SIZE, i_SHARPEN_SIZE, i_SHARPEN_FACTOR, i_SHARPEN_BIAS);
         break;
     case 5:
-        filter = i_EMBOSS_FILTER;
-        filter_size = i_EMBOSS_SIZE;
-        filter_factor = i_EMBOSS_FACTOR;
-        filter_bias = i_EMBOSS_BIAS;
+        output = pixbuf_convolution(pixbuf, i_EMBOSS_FILTER, i_EMBOSS_SIZE, i_EMBOSS_SIZE, i_EMBOSS_FACTOR, i_EMBOSS_BIAS);
+        break;
+    case 6:
+        output = pixbuf_rotate(pixbuf, (real32_t)(pixbuf_width(pixbuf) / 2), (real32_t)(pixbuf_height(pixbuf) / 2), app->angle * kBMATH_PIf, TRUE, color_gray(240));
         break;
     cassert_default();
     }
 
-    i_convolution(buffer_data(data), buffer_data(result), w, h, image_bpp(format), filter, filter_size, filter_factor, filter_bias);
-    image = image_from_pixels(w, h, ekRGB24, buffer_data(result));
+    cell_enabled(app->slider, app->filter == 6);
+    image = image_from_pixbuf(output, NULL);
     imageview_image(app->view, image);
-    buffer_destroy(&data);
-    buffer_destroy(&result);
+    pixbuf_destroy(&pixbuf);
+    pixbuf_destroy(&output);
     image_destroy(&image);
 }
 
@@ -194,11 +142,20 @@ static void i_OnButton(App *app, Event *e)
 
 /*---------------------------------------------------------------------------*/
 
+static void i_OnSlider(App *app, Event *e)
+{
+    const EvSlider *p = event_params(e, EvSlider);
+    app->angle = p->pos;
+    i_apply_filter(app);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static Panel *i_panel(App *app)
 {
     Panel *panel = panel_create();
     Layout *layout1 = layout_create(1, 2);
-    Layout *layout2 = layout_create(6, 1);
+    Layout *layout2 = layout_create(8, 1);
     Layout *layout3 = layout_create(2, 1);
     Button *button1 = button_radio();
     Button *button2 = button_radio();
@@ -206,6 +163,8 @@ static Panel *i_panel(App *app)
     Button *button4 = button_radio();
     Button *button5 = button_radio();
     Button *button6 = button_radio();
+    Button *button7 = button_radio();
+    Slider *slider = slider_create();
     ImageView *view1 = imageview_create();
     ImageView *view2 = imageview_create();
     uint32_t w, h;
@@ -215,8 +174,10 @@ static Panel *i_panel(App *app)
     button_text(button4, "Edge");
     button_text(button5, "Sharpen");
     button_text(button6, "Emboss");
+    button_text(button7, "Rotation");
     button_state(button3, ekON);
     button_OnClick(button1, listener(app, i_OnButton, App));
+    slider_OnMoved(slider, listener(app, i_OnSlider, App));
     image_size(app->image, &w, &h);
     imageview_image(view1, app->image);
     imageview_image(view2, app->image);
@@ -228,14 +189,24 @@ static Panel *i_panel(App *app)
     layout_button(layout2, button4, 3, 0);
     layout_button(layout2, button5, 4, 0);
     layout_button(layout2, button6, 5, 0);
+    layout_button(layout2, button7, 6, 0);
+    layout_slider(layout2, slider, 7, 0);
     layout_imageview(layout3, view1, 0, 0);
     layout_imageview(layout3, view2, 1, 0);
     layout_layout(layout1, layout2, 0, 0);
     layout_layout(layout1, layout3, 0, 1);
     layout_margin(layout1, 10);
+    layout_hmargin(layout2, 0, 15);
+    layout_hmargin(layout2, 1, 15);
+    layout_hmargin(layout2, 2, 15);
+    layout_hmargin(layout2, 3, 15);
+    layout_hmargin(layout2, 4, 15);
+    layout_hmargin(layout2, 5, 15);
     layout_vmargin(layout1, 0, 5);
     layout_hmargin(layout3, 0, 5);
+    layout_hexpand(layout2, 7);
     panel_layout(panel, layout1);
+    app->slider = layout_cell(layout2, 7, 0);
     app->view = view2;
     return panel;
 }

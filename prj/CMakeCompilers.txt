@@ -18,6 +18,11 @@ endfunction()
 
 #------------------------------------------------------------------------------
 
+# Avoid error in CMake [Generate]
+set(CMAKE_SHARED_LINKER_FLAGS_RELEASEWITHASSERT ${CMAKE_SHARED_LINKER_FLAGS_RELEASE})
+
+#------------------------------------------------------------------------------
+
 # Compiler Settings for all targets in the solution
 # Windows configuration (only for Microsoft VC Compiler)
 #------------------------------------------------------------------------------
@@ -79,6 +84,7 @@ if (WIN32)
         add_definitions(-DUNICODE -D_UNICODE)
 
         # Package tool
+        set(CMAKE_PACKAGE FALSE CACHE BOOL "Pack executables On/Off")
         set(CMAKE_PACKAGE_PATH "" CACHE PATH "Path to generated packages")
         set(CMAKE_PACKAGE_GEN "NSIS" CACHE STRING "Package generator utility")
         set_property(CACHE CMAKE_PACKAGE_GEN PROPERTY STRINGS "NSIS;TGZ")
@@ -200,6 +206,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(STATUS "- Deployment Target: ${CMAKE_OSX_DEPLOYMENT_TARGET}-${OSX_SDK_NAME}")
 
     # Package tool
+	set(CMAKE_PACKAGE FALSE CACHE BOOL "Pack executables On/Off")
     set(CMAKE_PACKAGE_PATH "" CACHE PATH "Path to generated packages")
     set(CMAKE_PACKAGE_GEN "DragNDrop" CACHE STRING "Package generator utility")
     set_property(CACHE CMAKE_PACKAGE_GEN PROPERTY STRINGS "DragNDrop;TGZ")
@@ -321,6 +328,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message(STATUS "- Build Config: ${CMAKE_BUILD_TYPE}")
 
     # Package tool
+	set(CMAKE_PACKAGE FALSE CACHE BOOL "Pack executables On/Off")
     set(CMAKE_PACKAGE_PATH "" CACHE PATH "Path to generated packages")
     set(CMAKE_PACKAGE_GEN "TGZ" CACHE STRING "Package generator utility")
     set_property(CACHE CMAKE_PACKAGE_GEN PROPERTY STRINGS "TGZ")

@@ -1,5 +1,5 @@
 #------------------------------------------
-# NAppGUI-v1.1.2.2443 CMake build script
+# NAppGUI-r2788 CMake build script
 #------------------------------------------
 cmake_minimum_required(VERSION 2.8)
 project(NAppGUI)
@@ -20,19 +20,20 @@ staticLib("osapp" "osgui;gui" NRC_NONE)
 staticLib("inet" "core" NRC_NONE)
 
 # NAppGUI Sources
-desktopApp("HelloWorld" "demo/hello" "" NRC_NONE NO)
-desktopApp("HelloCpp" "demo/hellocpp" "" NRC_NONE NO)
+desktopApp("HelloWorld" "demo/hello" "" NRC_NONE)
+desktopApp("HelloCpp" "demo/hellocpp" "" NRC_NONE)
 staticLib("demo/casino" "draw2d" NRC_EMBEDDED)
-desktopApp("Die" "demo/die" "demo/casino" NRC_EMBEDDED NO)
-desktopApp("Dice" "demo/dice" "demo/casino" NRC_EMBEDDED NO)
-desktopApp("Bricks" "demo/bricks" "" NRC_EMBEDDED NO)
-desktopApp("Fractals" "demo/fractals" "" NRC_EMBEDDED NO)
-desktopApp("Filters" "demo/filters" "" NRC_EMBEDDED NO)
-desktopApp("Bode" "demo/bode" "" NRC_PACKED NO)
-desktopApp("Products" "demo/products" "inet" NRC_PACKED NO)
-desktopApp("GuiHello" "howto/guihello" "" NRC_EMBEDDED NO)
-desktopApp("DrawHello" "howto/drawhello" "" NRC_EMBEDDED NO)
-desktopApp("DrawImg" "howto/drawimg" "" NRC_EMBEDDED NO)
-desktopApp("UrlImg" "howto/urlimg" "inet" NRC_EMBEDDED NO)
+desktopApp("Die" "demo/die" "demo/casino" NRC_EMBEDDED)
+desktopApp("Dice" "demo/dice" "demo/casino" NRC_EMBEDDED)
+desktopApp("Bricks" "demo/bricks" "" NRC_EMBEDDED)
+desktopApp("Fractals" "demo/fractals" "" NRC_EMBEDDED)
+desktopApp("Filters" "demo/filters" "" NRC_EMBEDDED)
+desktopApp("Bode" "demo/bode" "" NRC_PACKED)
+desktopApp("Products" "demo/products" "inet" NRC_PACKED)
+desktopApp("GuiHello" "howto/guihello" "" NRC_EMBEDDED)
+desktopApp("DrawHello" "howto/drawhello" "" NRC_EMBEDDED)
+desktopApp("Col2dHello" "howto/col2dhello" "" NRC_EMBEDDED)
+desktopApp("DrawImg" "howto/drawimg" "" NRC_EMBEDDED)
+desktopApp("UrlImg" "howto/urlimg" "inet" NRC_EMBEDDED)
 
 # Your projects here!

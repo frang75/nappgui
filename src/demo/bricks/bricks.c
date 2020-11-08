@@ -104,7 +104,7 @@ static void i_OnStart(App *app, Event *e)
  {
     Panel *panel = panel_create();
     Layout *layout = layout_create(1, 4);
-    View *view = view_create(0);
+    View *view = view_create();
     Slider *slider = slider_create();
     Label *label = label_create();
     Button *button = button_push();

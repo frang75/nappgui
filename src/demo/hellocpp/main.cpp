@@ -42,7 +42,7 @@ private:
 void MainWindow::i_OnButton(Event *e)
 {
     String *msg = str_printf("Button click (%d)\n", this->clicks);
-    textview_insert(this->text, tc(msg));
+    textview_writef(this->text, tc(msg));
     str_destroy(&msg);
     this->clicks += 1;
     unref(e);

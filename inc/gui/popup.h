@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -24,6 +24,10 @@ void popup_tooltip(PopUp *popup, const char_t *text);
 void popup_add_elem(PopUp *popup, const char_t *text, const Image *image);
 
 void popup_set_elem(PopUp *popup, const uint32_t index, const char_t *text, const Image *image);
+
+void popup_clear(PopUp *popup);
+
+uint32_t popup_size(const PopUp *popup);
 
 void popup_list_height(PopUp *popup, const uint32_t elems);
 

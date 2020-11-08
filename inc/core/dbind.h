@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -18,6 +18,8 @@ __EXTERN_C
 void dbind_imp(const char_t *type, const uint16_t size, const char_t *mname, const char_t *mtype, const uint16_t moffset, const uint16_t msize);
 
 void dbind_enum_imp(const char_t *type, const char_t *name, const enum_t value);
+
+void dbind_alias_imp(const char_t *type, const char_t *name, const char_t *alias);
 
 byte_t *dbind_create_imp(const char_t *type);
 
@@ -64,6 +66,15 @@ __END_C
                 (const char_t*)#type,\
                 (const char_t*)#value,\
                 (enum_t)value)\
+    )
+
+#define dbind_alias(type, value, alias)\
+    (\
+        (void)(((type)value) == value),\
+        dbind_alias_imp(\
+                (const char_t*)#type,\
+                (const char_t*)#value,\
+                alias)\
     )
 
 #define dbind_create(type)\

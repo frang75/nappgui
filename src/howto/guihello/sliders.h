@@ -1,4 +1,4 @@
-/* Labels basics */
+/* Sliders */
 
 #include "gui.hxx"
 

@@ -12,7 +12,6 @@ struct _app_t
     View *view;
     ImageView *iview;
     uint32_t res;
-    bool_t gray;
     real32_t angle;
     real32_t scale;
 };
@@ -49,7 +48,8 @@ static void i_draw(DCtx *ctx, const T2Df *t2d_global, const Font *font)
     draw_image(ctx, image2, 0, 0);
     draw_font(ctx, font);
     draw_matrix(ctx, t2d_global);
-    draw_text(ctx, ekFILL, "Hello Drawings!", 200, 15);
+    draw_text_color(ctx, color_rgb(255, 0, 0));
+    draw_text(ctx, "Hello Drawings!", 200, 15);
     draw_line_color(ctx, color_rgb(0, 128, 0));
     draw_line(ctx, 150, 350, 330, 350);
     draw_line_color(ctx, color_rgb(0, 0, 255));
@@ -64,7 +64,7 @@ static void i_OnDraw(App *app, Event *e)
 {
     T2Df t2d;
     const EvDraw *p = event_params(e, EvDraw);
-    t2d_rotatef(&t2d, kT2D_IDENTITYf, app->angle);
+    t2d_rotatef(&t2d, kT2D_IDENTf, app->angle);
     t2d_scalef(&t2d, &t2d, app->scale, 1);
     draw_clear(p->ctx, color_rgb(200, 200, 200));
     i_draw(p->ctx, &t2d, app->font);
@@ -75,9 +75,9 @@ static void i_OnDraw(App *app, Event *e)
 static void i_draw_img(App *app)
 {
     T2Df t2d;
-    DCtx *ctx = dctx_bitmap(i_WIDTH[app->res], i_HEIGHT[app->res], app->gray ? ekGRAY8 : ekRGB24);
+    DCtx *ctx = dctx_bitmap(i_WIDTH[app->res], i_HEIGHT[app->res], ekRGB24);
     Image *image;
-    t2d_scalef(&t2d, kT2D_IDENTITYf, i_SCALE[app->res], i_SCALE[app->res]);
+    t2d_scalef(&t2d, kT2D_IDENTf, i_SCALE[app->res], i_SCALE[app->res]);
     draw_clear(ctx, color_rgb(200, 200, 200));
     i_draw(ctx, &t2d, app->font);
     image = dctx_image(&ctx);
@@ -96,44 +96,30 @@ static void i_OnResolution(App *app, Event *e)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnGray(App *app, Event *e)
-{
-    const EvButton *p = event_params(e, EvButton);
-    app->gray = p->state == ekON ? TRUE : FALSE;
-    i_draw_img(app);
-}
-
-/*---------------------------------------------------------------------------*/
-
 static Layout *i_img_layout(App *app)
 {
-    Layout *layout = layout_create(7, 1);
+    Layout *layout = layout_create(5, 1);
     Label *label = label_create();
     Button *button1 = button_radio();
     Button *button2 = button_radio();
     Button *button3 = button_radio();
     Button *button4 = button_radio();
-    Button *button5 = button_check();
     label_text(label, "Image context:");
     button_text(button1, "600x400");
     button_text(button2, "300x200");
     button_text(button3, "150x100");
     button_text(button4, "75x50");
-    button_text(button5, "Grayscale");
     button_state(button1, ekON);
     button_OnClick(button1, listener(app, i_OnResolution, App));
-    button_OnClick(button5, listener(app, i_OnGray, App));
     layout_label(layout, label, 0, 0);
     layout_button(layout, button1, 1, 0);
     layout_button(layout, button2, 2, 0);
     layout_button(layout, button3, 3, 0);
     layout_button(layout, button4, 4, 0);
-    layout_button(layout, button5, 6, 0);
     layout_hmargin(layout, 0, 5);
     layout_hmargin(layout, 1, 10);
     layout_hmargin(layout, 2, 10);
     layout_hmargin(layout, 3, 10);
-    layout_hexpand(layout, 5);
     return layout;
 }
 
@@ -185,7 +171,7 @@ static Panel *i_panel(App *app)
     Layout *layout = layout_create(2, 2);
     Layout *wlayout = i_win_layout(app);
     Layout *ilayout = i_img_layout(app);
-    View *view = view_create(0);
+    View *view = view_create();
     ImageView *iview = imageview_create();
     view_size(view, s2df(600, 400));
     imageview_size(iview, s2df(600, 400));
@@ -195,6 +181,7 @@ static Panel *i_panel(App *app)
     layout_view(layout, view, 0, 1);
     layout_imageview(layout, iview, 1, 1);
     layout_layout(layout, ilayout, 1, 0);
+    layout_halign(layout, 1, 0, ekLEFT);
     layout_margin(layout, 10);
     layout_hmargin(layout, 0, 5);
     layout_vmargin(layout, 0, 5);
@@ -224,7 +211,6 @@ static App *i_create(void)
     app->window = window_create(ekWNSTD, &panel);
     app->font = font_system(25.f, 0);
     app->res = 0;
-    app->gray = FALSE;
     app->angle = 0;
     app->scale = 1;
     i_draw_img(app);

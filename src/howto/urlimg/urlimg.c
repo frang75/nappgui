@@ -1,6 +1,7 @@
 /* Images from URL */
 
 #include "nappgui.h"
+#include "inet.h"
 #include "httpreq.h"
 
 typedef struct _app_t App;
@@ -57,17 +58,28 @@ static const char_t *i_FILES[] = {
 
 /*---------------------------------------------------------------------------*/
 
-static __INLINE const char_t *i_pixformat(const pixformat_t format)
+static __INLINE String *i_pixformat(const pixformat_t format, const uint32_t ncolors)
 {
     switch (format) {
+    case ekINDEX1:
+        return str_printf("Indexed 1bbp (%d colors)", ncolors);
+    case ekINDEX2:
+        return str_printf("Indexed 2bbp (%d colors)", ncolors);
+    case ekINDEX4:
+        return str_printf("Indexed 4bbp (%d colors)", ncolors);
+    case ekINDEX8:
+        return str_printf("Indexed 8bbp (%d colors)", ncolors);
     case ekGRAY8:
-        return "GrayScale8";
+        return str_c("Gray8");
     case ekRGB24:
-        return "RGB24";
+        return str_c("RGB24");
     case ekRGBA32:
-        return "RGBA32";
+        return str_c("RGBA32");
+    case ekFIMAGE:
+    case ekOPTIMAL:
+    cassert_default();
     }
-    return "";
+    return str_c("");
 }
 
 /*---------------------------------------------------------------------------*/
@@ -76,41 +88,69 @@ static void i_download(App *app)
 {
     String *uri = str_printf("%s/%s", i_URI, i_FILES[app->selected]);
     ierror_t err;
-    Stream *stm = http_dget(i_HOST, 80, tc(uri), &err);
-    if (stm != NULL)
+    Http *http = http_create(i_HOST, 80, &err);
+    if (http != NULL)
     {
-        uint32_t width, height;
-        pixformat_t format;
-        uint64_t start = stm_bytes_readed(stm);
-        Image *image = image_read(stm);
-        uint64_t end = stm_bytes_readed(stm);
-        String *ssize = str_printf("%d bytes", (uint32_t)(end - start));
-        String *sres;
-        // Test for image pixels read
-        if (image_get_codec(image) != ekGIF)
+        uint32_t status = 0;
+        http_get(http, tc(uri), NULL, 0, &err);
+        status = http_response_status(http);
+        if (status >= 200 && status <= 299)
         {
-            Buffer *pixdata = NULL;
-            image_pixels(image, &width, &height, &format, &pixdata);
-            image_destroy(&image);
-            image = image_from_pixels(width, height, format, buffer_data(pixdata));
-            buffer_destroy(&pixdata);
-        }
-        else
-        {
-            image_size(image, &width, &height);
-            image_pixformat(image, &format);
+            Stream *stm = stm_memory(8096);
+
+            if (http_response_body(http, stm, &err) == TRUE)
+            {
+                uint32_t width, height;
+                pixformat_t format;
+                uint32_t ncolors = 0;
+                uint64_t start = stm_bytes_readed(stm);
+                Image *image = image_read(stm);
+                uint64_t end = stm_bytes_readed(stm);
+                String *ssize = str_printf("%d bytes", (uint32_t)(end - start));
+                String *sres = NULL;
+                String *sformat = NULL;
+
+                // Test for image pixels read
+                if (image_get_codec(image) != ekGIF)
+                {
+                    Pixbuf *pixdata = NULL;
+                    Palette *palette = NULL;
+                    image_pixels(image, ekOPTIMAL, &pixdata, &palette);
+                    image_destroy(&image);
+                    width = pixbuf_width(pixdata);
+                    height = pixbuf_height(pixdata);
+                    format = pixbuf_format(pixdata);
+                    image = image_from_pixbuf(pixdata, palette);
+                    pixbuf_destroy(&pixdata);
+
+                    if (palette != NULL)
+                    {
+                        ncolors = palette_size(palette);
+                        palette_destroy(&palette);
+                    }
+                }
+                else
+                {
+                    image_size(image, &width, &height);
+                    image_format(image, &format);
+                }
+
+                imageview_image(app->view, image);
+                sres = str_printf("%d x %d", width, height);
+                sformat = i_pixformat(format, ncolors);
+                label_text(app->imgname, i_FILES[app->selected]);
+                label_text(app->imgsize, tc(ssize));
+                label_text(app->imgres, tc(sres));
+                label_text(app->imgformat, tc(sformat));
+                image_destroy(&image);
+                stm_close(&stm);
+                str_destroy(&ssize);
+                str_destroy(&sres);
+                str_destroy(&sformat);
+            }
         }
 
-        imageview_image(app->view, image);
-        sres = str_printf("%d x %d", width, height);
-        label_text(app->imgname, i_FILES[app->selected]);
-        label_text(app->imgsize, tc(ssize));
-        label_text(app->imgres, tc(sres));
-        label_text(app->imgformat, i_pixformat(format));
-        image_destroy(&image);
-        stm_close(&stm);
-        str_destroy(&ssize);
-        str_destroy(&sres);
+        http_destroy(&http);
     }
 
     str_destroy(&uri);
@@ -209,6 +249,7 @@ static App *i_create(void)
     String *title = str_printf("Images from URL '%s%s'", i_HOST, i_URI);
     app->window = window_create(ekWNSTD, &panel);
     app->selected = 0;
+    inet_init();
     i_download(app);
     window_title(app->window, tc(title));
     window_origin(app->window, v2df(500, 200));
@@ -223,6 +264,7 @@ static App *i_create(void)
 static void i_destroy(App **app)
 {
     window_destroy(&(*app)->window);
+    inet_finish();
     heap_delete(app, App);
 }
 

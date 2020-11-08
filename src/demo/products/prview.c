@@ -253,7 +253,7 @@ static Layout *i_logout(Ctrl *ctrl)
     ImageView *view = imageview_create();
     Label *label0 = label_create();
     Label *label1 = label_create();
-    View *cview = view_create(0);
+    View *cview = view_create();
     Button *button = button_push();
     label_align(label0, ekCENTER);
     label_align(label1, ekCENTER);

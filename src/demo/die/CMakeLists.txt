@@ -1,1 +1,1 @@
-processDesktopApp(Die "demo/casino" "NO")
+processDesktopApp(Die "demo/casino")

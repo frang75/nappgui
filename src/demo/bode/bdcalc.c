@@ -26,7 +26,6 @@ log(w), w, w^2, w^3, w^4, w^5, w^6, w^7, w^8, w^9, w^10, w^11, w^12, db(G), phn(
 #include "bmem.h"
 #include "bmath.h"
 
-
 #define ppd      100 /* puntos por década     */
 #define decadas    4 /* decadas a representar */
 #define maxs      12 /* maxima potencia de w  */
@@ -208,6 +207,10 @@ static int evo(const float *C, const float *Z, const float T, float evolucion[N]
     float h=T/(N-1);
     int i, j, maxj;
     float cu0,cut,cu;
+
+    bmem_set_zero((byte_t*)x0, sizeof(x0));
+    bmem_set_zero((byte_t*)x1, sizeof(x1));
+    bmem_set_zero((byte_t*)kas, sizeof(kas));
 
     /* coeficientes segundo miembro */
     cu0=C[0]+C[1]/h;

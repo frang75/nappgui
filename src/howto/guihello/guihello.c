@@ -7,10 +7,12 @@
 #include "sliders.h"
 #include "form.h"
 #include "popcom.h"
+#include "textviews.h"
 #include "baslayout.h"
 #include "sublayout.h"
 #include "subpanel.h"
 #include "multilayout.h"
+#include "scrollpanel.h"
 
 typedef struct _app_t App;
 
@@ -48,16 +50,22 @@ static void i_set_panel(Layout *layout, const uint32_t index)
         panel = sliders();
         break;
     case 7:
-        panel = basic_layout();
+        panel = textviews();
         break;
     case 8:
-        panel = sublayouts();
+        panel = basic_layout();
         break;
     case 9:
-        panel = subpanels();
+        panel = sublayouts();
         break;
     case 10:
+        panel = subpanels();
+        break;
+    case 11:
         panel = multilayouts();
+        break;
+    case 12:
+        panel = scrollpanel();
         break;
     }
 
@@ -69,8 +77,11 @@ static void i_set_panel(Layout *layout, const uint32_t index)
 static void i_OnSelect(App *app, Event *e)
 {
     const EvButton *p = event_params(e, EvButton);
-    i_set_panel(app->layout, p->index);
-    window_update(app->window);
+    if (p->index != UINT32_MAX)
+    {
+        i_set_panel(app->layout, p->index);
+        window_update(app->window);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -79,24 +90,28 @@ static Panel *i_panel(App *app)
 {
     Panel *panel = panel_create();
     Layout *layout = layout_create(2, 1);
-    PopUp *popup = popup_create();
-    popup_add_elem(popup, "Labels single line", NULL);
-    popup_add_elem(popup, "Labels multi line", NULL);
-    popup_add_elem(popup, "Labels mouse sensitive", NULL);
-    popup_add_elem(popup, "Buttons", NULL);
-    popup_add_elem(popup, "PopUp Combo", NULL);
-    popup_add_elem(popup, "Form", NULL);
-    popup_add_elem(popup, "Sliders", NULL);
-    popup_add_elem(popup, "Basic Layout", NULL);
-    popup_add_elem(popup, "SubLayouts", NULL);
-    popup_add_elem(popup, "Subpanels", NULL);
-    popup_add_elem(popup, "Multi-Layouts", NULL);
-    popup_selected(popup, 0);
-    popup_OnSelect(popup, listener(app, i_OnSelect, App));
-    layout_popup(layout, popup, 0, 0);
+    ListBox *list = listbox_create();
+    listbox_size(list, s2df(180, 256));
+    listbox_add_elem(list, "Labels single line", NULL);
+    listbox_add_elem(list, "Labels multi line", NULL);
+    listbox_add_elem(list, "Labels mouse sensitive", NULL);
+    listbox_add_elem(list, "Buttons", NULL);
+    listbox_add_elem(list, "PopUp Combo", NULL);
+    listbox_add_elem(list, "Form", NULL);
+    listbox_add_elem(list, "Sliders", NULL);
+    listbox_add_elem(list, "TextViews", NULL);
+    listbox_add_elem(list, "Basic Layout", NULL);
+    listbox_add_elem(list, "SubLayouts", NULL);
+    listbox_add_elem(list, "Subpanels", NULL);
+    listbox_add_elem(list, "Multi-Layouts", NULL);
+    listbox_add_elem(list, "Scroll panel", NULL);
+    listbox_selected(list, 0);
+    listbox_OnSelect(list, listener(app, i_OnSelect, App));
+    layout_listbox(layout, list, 0, 0);
     i_set_panel(layout, 0);
     panel_layout(panel, layout);
     layout_valign(layout, 0, 0, ekTOP);
+    layout_valign(layout, 1, 0, ekTOP);
     layout_margin(layout, 10);
     layout_hmargin(layout, 0, 10);
     app->layout = layout;

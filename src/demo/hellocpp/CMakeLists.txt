@@ -1,1 +1,1 @@
-processDesktopApp(HelloCpp "" "NO")
+processDesktopApp(HelloCpp "")

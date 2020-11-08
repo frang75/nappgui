@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -21,14 +21,16 @@
 #endif
 
 #if defined (__GNUC__)
-
 #if defined(__APPLE__)
+#if (__GNUC__ < 4) || (__GNUC__ == 4)
+
 #if (__GNUC__ == 4) && (__GNUC_MINOR__ > 2)
 #pragma GCC diagnostic pop
 #endif
-#endif
 
 #pragma GCC diagnostic ignored "-Wcomment"
+#endif
+#endif
 #endif
 
 #if defined (__clang__)

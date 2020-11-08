@@ -1,1 +1,1 @@
-processDesktopApp(Products "inet" "NO")
+processDesktopApp(Products "inet")

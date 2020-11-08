@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -45,6 +45,8 @@ byte_t *array_all_imp(const Array *array);
 
 byte_t *array_insert_imp(Array *array, const uint32_t pos, const uint32_t n);
 
+byte_t *array_insert0_imp(Array *array, const uint32_t pos, const uint32_t n);
+
 void array_delete_imp(Array *array, const uint32_t pos, const uint32_t n, FPtr_remove func_remove);
 
 void array_delete_ptr_imp(Array *array, const uint32_t pos, const uint32_t n, FPtr_destroy func_destroy);
@@ -55,7 +57,11 @@ void array_pop_ptr_imp(Array *array, FPtr_destroy func_destroy);
 
 void array_sort_imp(Array *array, FPtr_compare func_compare);
 
+void array_sort_ex_imp(Array *array, FPtr_compare_ex func_compare, void *data);
+
 void array_sort_ptr_imp(Array *array, FPtr_compare func_compare);
+
+void array_sort_ptr_ex_imp(Array *array, FPtr_compare_ex func_compare, void *data);
 
 uint32_t array_find_ptr_imp(const Array *array, const void *elem);
 

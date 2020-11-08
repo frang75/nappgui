@@ -150,25 +150,29 @@ void ctrl_info(Ctrl *ctrl, Button *button)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnMoved1(Ctrl *ctrl, Event *e)
+static void i_OnMove1(Ctrl *ctrl, Event *e)
 {
+    S2Df size;
     const EvMouse *p = event_params(e, EvMouse);
-    plot_mouse1_x(ctrl->plot, p->x / p->width);
+    view_get_size(ctrl->view1, &size);
+    plot_mouse1_x(ctrl->plot, p->x / size.width);
     view_update(ctrl->view1);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnMoved2(Ctrl *ctrl, Event *e)
+static void i_OnMove2(Ctrl *ctrl, Event *e)
 {
+    S2Df size;
     const EvMouse *p = event_params(e, EvMouse);
-    plot_mouse2_x(ctrl->plot, p->x / p->width);
+    view_get_size(ctrl->view2, &size);
+    plot_mouse2_x(ctrl->plot, p->x / size.width);
     view_update(ctrl->view2);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnRedraw1(Ctrl *ctrl, Event *e)
+static void i_OnDraw1(Ctrl *ctrl, Event *e)
 {
 	const EvDraw *p = event_params(e, EvDraw);
     plot_draw_graph1(ctrl->plot, p->ctx, p->width, p->height);
@@ -176,7 +180,7 @@ static void i_OnRedraw1(Ctrl *ctrl, Event *e)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnRedraw2(Ctrl *ctrl, Event *e)
+static void i_OnDraw2(Ctrl *ctrl, Event *e)
 {
 	const EvDraw* p = event_params(e, EvDraw);
     plot_draw_graph2(ctrl->plot, p->ctx, p->width, p->height);
@@ -186,8 +190,8 @@ static void i_OnRedraw2(Ctrl *ctrl, Event *e)
 
 void ctrl_view1(Ctrl *ctrl, View *view)
 {
-    view_OnDraw(view, listener(ctrl, i_OnRedraw1, Ctrl));
-    view_OnMoved(view, listener(ctrl, i_OnMoved1, Ctrl));
+    view_OnDraw(view, listener(ctrl, i_OnDraw1, Ctrl));
+    view_OnMove(view, listener(ctrl, i_OnMove1, Ctrl));
     ctrl->view1 = view;	
 }
 
@@ -195,8 +199,8 @@ void ctrl_view1(Ctrl *ctrl, View *view)
 
 void ctrl_view2(Ctrl *ctrl, View *view)
 {
-    view_OnDraw(view, listener(ctrl, i_OnRedraw2, Ctrl));
-    view_OnMoved(view, listener(ctrl, i_OnMoved2, Ctrl));
+    view_OnDraw(view, listener(ctrl, i_OnDraw2, Ctrl));
+    view_OnMove(view, listener(ctrl, i_OnMove2, Ctrl));
     ctrl->view2 = view;	
 }
 
@@ -235,16 +239,16 @@ void ctrl_run(Ctrl *ctrl)
 
 void ctrl_OnModelChange(Ctrl *ctrl, Event *e)
 {
-    cassert(event_sender(e, void) == ctrl->model);
+    cassert(event_sender(e, Model) == ctrl->model);
     switch (event_type(e)) {
-    case ekEVENT_OBJVALIDATE:
+    case ekEVOBJVALIDATE:
     {
         bool_t *ok = event_result(e, bool_t);
         *ok = model_validate(ctrl->model);
         break;
     }
 
-    case ekEVENT_OBJCHANGE:
+    case ekEVOBJCHANGE:
         i_update_bode(ctrl, ctrl->model->cparams.T);
         view_update(ctrl->view1);
         view_update(ctrl->view2);

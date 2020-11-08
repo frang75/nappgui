@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -25,14 +25,16 @@
 #include "gui.h"
 #include "label.h"
 #include "layout.h"
+#include "listbox.h"
 #include "menu.h"
 #include "menuitem.h"
 #include "panel.h"
 #include "popup.h"
 #include "progress.h"
 #include "slider.h"
-#include "imageview.h"
 #include "textview.h"
+#include "imageview.h"
+#include "tableview.h"
 #include "updown.h"
 #include "window.h"
 

@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -28,6 +28,8 @@ void bmem_set4(byte_t *dest, const uint32_t size, const byte_t *mask);
 void bmem_set8(byte_t *dest, const uint32_t size, const byte_t *mask);
 
 void bmem_set16(byte_t *dest, const uint32_t size, const byte_t *mask);
+
+int bmem_cmp(const byte_t *mem1, const byte_t *mem2, const uint32_t size);
 
 bool_t bmem_is_zero(const byte_t *mem, const uint32_t size);
 
@@ -86,3 +88,7 @@ __END_C
 #define bmem_set_u32(dest, n, value)\
     {uint32_t ___value = (value);\
     bmem_set4((byte_t*)(dest), (uint32_t)(sizeof(uint32_t) * (n)), (const byte_t*)&___value); }
+
+#define bmem_set_r32(dest, n, value)\
+    {real32_t ___value = (value);\
+    bmem_set4((byte_t*)(dest), (uint32_t)(sizeof(real32_t) * (n)), (const byte_t*)&___value); }

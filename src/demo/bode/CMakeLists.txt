@@ -1,1 +1,1 @@
-processDesktopApp(Bode "" "NO")
+processDesktopApp(Bode "")

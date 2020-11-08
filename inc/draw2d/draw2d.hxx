@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -18,9 +18,16 @@
 
 typedef enum _pixformat_t
 {
+    ekINDEX1,
+    ekINDEX2,
+    ekINDEX4,
+    ekINDEX8,
     ekGRAY8,
     ekRGB24,
-    ekRGBA32
+    ekRGBA32,
+
+    ekFIMAGE = 0xfe,
+    ekOPTIMAL = 0xff
 } pixformat_t;
 
 typedef enum _codec_t
@@ -38,9 +45,11 @@ typedef enum _fstyle_t
     ekFITALIC       = 2,
     ekFSTRIKEOUT    = 4,
     ekFUNDERLINE    = 8,
+    ekFSUBSCRIPT    = 16,
+    ekFSUPSCRIPT    = 32,
 
     ekFPIXELS       = 0,
-    ekFPOINTS       = 16
+    ekFPOINTS       = 64
 } fstyle_t;
 
 typedef enum _linecap_t
@@ -93,6 +102,8 @@ typedef enum _ellipsis_t
 
 typedef uint32_t color_t;
 typedef struct _dctx_t DCtx;
+typedef struct _palette_t Palette;
+typedef struct _pixbuf_t Pixbuf;
 typedef struct _image_t Image;
 typedef struct _font_t Font;
 ArrPt(Image);

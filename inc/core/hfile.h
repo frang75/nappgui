@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -43,7 +43,7 @@ bool_t hfile_from_string(const char_t *pathname, const String *str, ferror_t *er
 
 bool_t hfile_from_data(const char_t *pathname, const byte_t *data, const uint32_t size, ferror_t *error);
 
-bool_t hfile_dir_loop(const char_t *pathname, Listener *listener, const bool_t direntry, const bool_t hiddens, ferror_t *error);
+bool_t hfile_dir_loop(const char_t *pathname, Listener *listener, const bool_t subdirs, const bool_t hiddens, ferror_t *error);
 
 String *hfile_appdata(const char_t *filename);
 

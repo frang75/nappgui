@@ -1,1 +1,1 @@
-processDesktopApp(Bricks "" "NO")
+processDesktopApp(Bricks "")

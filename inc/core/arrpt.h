@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -80,6 +80,12 @@
     ((void)((array) == (ArrPt(type)*)(array)),\
     FUNC_CHECK_COMPARE(func_compare, type),\
     array_sort_ptr_imp((Array*)(array), (FPtr_compare)func_compare))
+
+#define arrpt_sort_ex(array, func_compare, data, type, dtype)\
+    ((void)((array) == (ArrPt(type)*)(array)),\
+    (void)((data) == (dtype*)(data)),\
+    FUNC_CHECK_COMPARE_EX(func_compare, type, dtype),\
+    array_sort_ptr_ex_imp((Array*)(array), (FPtr_compare_ex)func_compare, (void*)(data)))
 
 #define arrpt_find(array, elem, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\

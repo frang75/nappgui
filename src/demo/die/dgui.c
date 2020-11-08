@@ -68,7 +68,7 @@ static void i_OnLang(App *app, Event *e)
     Panel *panel = panel_create();
     Layout *layout = layout_create(2, 1);
     Layout *layout1 = layout_create(2, 6);
-    View *view = view_create(0);
+    View *view = view_create();
     Label *label1 = label_create();
     Label *label2 = label_create();
     Label *label3 = label_create();

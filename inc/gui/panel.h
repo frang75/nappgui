@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -17,6 +17,12 @@ __EXTERN_C
 
 Panel *panel_create(void);
 
+void panel_data_imp(Panel *panel, void **data, FPtr_destroy func_destroy_item);
+
+void *panel_get_data_imp(const Panel *panel);
+
+void panel_size(Panel *panel, const S2Df size);
+
 uint32_t panel_layout(Panel *panel, Layout *layout);
 
 Layout *panel_get_layout(Panel *panel, const uint32_t index);
@@ -24,10 +30,6 @@ Layout *panel_get_layout(Panel *panel, const uint32_t index);
 void panel_visible_layout(Panel *panel, const uint32_t index);
 
 void panel_update(Panel *panel);
-
-void panel_data_imp(Panel *panel, void **data, FPtr_destroy func_destroy_item);
-
-void *panel_get_data_imp(const Panel *panel);
 
 __END_C
 

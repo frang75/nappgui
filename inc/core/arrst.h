@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -55,29 +55,41 @@
     ((void)((array) == (ArrSt(type)*)(array)),\
 	(void)array_insert_imp((Array*)(array), UINT32_MAX, (n)))
 
+#define arrst_new(array, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert_imp((Array*)(array), UINT32_MAX, 1))
+
+#define arrst_new0(array, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert0_imp((Array*)(array), UINT32_MAX, 1))
+
+#define arrst_new_n(array, n, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert_imp((Array*)(array), UINT32_MAX, (n)))
+
+#define arrst_new_n0(array, n, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert0_imp((Array*)(array), UINT32_MAX, (n)))
+
+#define arrst_prepend_n(array, n, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert_imp((Array*)(array), 0, (n)))
+
+#define arrst_insert_n(array, pos, n, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_insert_imp((Array*)(array), (pos), (n)))
+
 #define arrst_append(array, value, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
 	(*(type*)array_insert_imp((Array*)(array), UINT32_MAX, 1)) = (value))
-
-#define arrst_append1(array, type)\
-    ((void)((array) == (ArrSt(type)*)(array)),\
-	(type*)array_insert_imp((Array*)(array), UINT32_MAX, 1))
 
 #define arrst_prepend(array, value, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
 	(*(type*)array_insert_imp((Array*)(array), 0, 1)) = (value))
 
-#define arrst_prepend1(array, type)\
-    ((void)((array) == (ArrSt(type)*)(array)),\
-	(type*)array_insert_imp((Array*)(array), 0, 1))
-
 #define arrst_insert(array, pos, value, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
 	(*(type*)array_insert_imp((Array*)(array), (pos), 1)) = (value))
-
-#define arrst_insert1(array, pos, type)\
-    ((void)((array) == (ArrSt(type)*)(array)),\
-	(type*)array_insert_imp((Array*)(array), (pos), 1))
 
 #define arrst_delete(array, pos, func_remove, type)\
 	((void)((array) == (ArrSt(type)*)(array)),\
@@ -93,6 +105,12 @@
     ((void)((array) == (ArrSt(type)*)(array)),\
     FUNC_CHECK_COMPARE(func_compare, type),\
     array_sort_imp((Array*)(array), (FPtr_compare)func_compare))
+
+#define arrst_sort_ex(array, func_compare, data, type, dtype)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (void)((data) == (dtype*)(data)),\
+    FUNC_CHECK_COMPARE_EX(func_compare, type, dtype),\
+    array_sort_ex_imp((Array*)(array), (FPtr_compare_ex)func_compare, (void*)(data)))
 
 #define arrst_search(array, func_compare, key, pos, type, ktype)\
     ((void)((array) == (ArrSt(type)*)(array)),\
@@ -118,12 +136,12 @@
 #define arrst_foreach_rev(elem, array, type)\
     {\
         register type *elem = NULL;\
-        register uint32_t i, elem##_i, elem##_total;\
+        register uint32_t __i, elem##_i, elem##_total;\
         elem = arrst_all((array), type);\
         elem##_total = arrst_size((array), type);\
         elem += elem##_total - 1;\
         elem##_i = elem##_total - 1;\
-        for (i = 0; i < elem##_total; ++i, --elem##_i, --elem)\
+        for (__i = 0; __i < elem##_total; ++__i, --elem##_i, --elem)\
         {
 
 #define arrst_end()\

@@ -16,7 +16,7 @@ struct _app_t
 static void i_OnButton(App *app, Event *e)
 {
     String *msg = str_printf("Button click (%d)\n", app->clicks);
-    textview_insert(app->text, tc(msg));
+    textview_writef(app->text, tc(msg));
     str_destroy(&msg);
     app->clicks += 1;
     unref(e);

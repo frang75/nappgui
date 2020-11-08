@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -39,7 +39,7 @@ typedef int(*FPtr_compare)(const void *item1, const void *item2);
 
 typedef int(*FPtr_compare_ex)(const void *item1, const void *item2, const void *data);
 #define FUNC_CHECK_COMPARE_EX(func, type, dtype)\
-    (void)((int(*)(const type*, const type*, const dtype*))func == func)
+    (void)((int(*)(const type*, const type*, dtype*))func == func)
 
 typedef void(*FPtr_assert)(void *item, const uint32_t group, const char_t *caption, const char_t *detail, const char_t *file, const uint32_t line);
 #define FUNC_CHECK_ASSERT_FUNC(func, type)\

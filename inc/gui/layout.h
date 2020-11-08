@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -29,6 +29,8 @@ void layout_edit(Layout *layout, Edit *edit, const uint32_t col, const uint32_t 
 
 void layout_combo(Layout *layout, Combo *combo, const uint32_t col, const uint32_t row);
 
+void layout_listbox(Layout *layout, ListBox *list, const uint32_t col, const uint32_t row);
+
 void layout_updown(Layout *layout, UpDown *updown, const uint32_t col, const uint32_t row);
 
 void layout_slider(Layout *layout, Slider *slider, const uint32_t col, const uint32_t row);
@@ -41,13 +43,19 @@ void layout_textview(Layout *layout, TextView *view, const uint32_t col, const u
 
 void layout_imageview(Layout *layout, ImageView *view, const uint32_t col, const uint32_t row);
 
+void layout_tableview(Layout *layout, TableView *view, const uint32_t col, const uint32_t row);
+
 void layout_panel(Layout *layout, Panel *panel, const uint32_t col, const uint32_t row);
 
 void layout_layout(Layout *layout, Layout *sublayout, const uint32_t col, const uint32_t row);
 
 void *layout_control_imp(Layout *layout, const uint32_t col, const uint32_t row, const char_t *type);
 
-void layout_tab_order(Layout *layout, const orient_t order);
+void layout_taborder(Layout *layout, const orient_t order);
+
+void layout_tabstop(Layout *layout, const uint32_t col, const uint32_t row, const bool_t tabstop);
+
+void layout_content_size(Layout *layout, const S2Df size);
 
 void layout_hsize(Layout *layout, const uint32_t col, const real32_t width);
 
@@ -136,3 +144,4 @@ __END_C
         (void)((type*)obj == obj),\
         layout_dbind_obj_imp(layout, (void*)obj, (const char_t*)#type)\
     )
+

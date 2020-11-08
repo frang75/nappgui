@@ -17,6 +17,8 @@ set(CMAKE_LIB_PATH ${CMAKE_LIB_PATH}/lib)
 get_filename_component(CMAKE_SRC_PATH ${CMAKE_CURRENT_LIST_DIR} PATH)
 set(CMAKE_SRC_PATH ${CMAKE_SRC_PATH}/src)
 
+set(DIRECTX_SDK_FIND FALSE CACHE INTERNAL "")
+
 # Scripts
 include(${CMAKE_PRJ_PATH}/NAppGUIVersion.txt)
 include(${CMAKE_PRJ_PATH}/NAppGUIBuild.txt)

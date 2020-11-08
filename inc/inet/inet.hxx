@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -28,6 +28,7 @@ typedef enum _ierror_t
     ekIOK
 } ierror_t;
 
+typedef struct _url_t Url;
 typedef struct _http_t Http;
 typedef struct _jsonopts_t JsonOpts;
 

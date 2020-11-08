@@ -1,1 +1,1 @@
-processDesktopApp(DrawHello "" "NO")
+processDesktopApp(DrawHello "")

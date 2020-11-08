@@ -1,0 +1,21 @@
+/* Col2D Hello GUI */
+
+#include "col2dhello.hxx"
+
+Window *col2dhello_window(App *app);
+
+void col2dhello_dbind(void);
+
+void col2dhello_update_seg(Seg *seg);
+
+void col2dhello_update_box(Box *box);
+
+void col2dhello_update_obb(OBB *obb);
+
+void col2dhello_update_pol(Pol *pol);
+
+void col2dhello_mouse_collisions(App *app, const real32_t mouse_x, const real32_t mouse_y);
+
+void col2dhello_collisions(App *app);
+
+void col2dhello_dbind_shape(App *app);

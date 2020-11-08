@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -48,5 +48,7 @@ S2Df window_get_size(const Window *window);
 S2Df window_get_client_size(const Window *window);
 
 void window_defbutton(Window *window, Button *button);
+
+void window_cursor(Window *window, const cursor_t cursor, const Image *image, const real32_t hot_x, const real32_t hot_y);
 
 __END_C

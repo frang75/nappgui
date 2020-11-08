@@ -1,1 +1,1 @@
-processDesktopApp(GuiHello "" "NO")
+processDesktopApp(GuiHello "")

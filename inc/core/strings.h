@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -16,6 +16,8 @@
 __EXTERN_C
 
 const char_t *tc(const String *str);
+
+char_t *tcc(String *str);
 
 String *str_c(const char_t *str);
 
@@ -67,7 +69,9 @@ uint32_t str_len_c(const char_t *str);
 
 uint32_t str_nchars(const String *str);
 
-uint32_t str_preffix(const char_t *str1, const char_t *str2);
+uint32_t str_prefix(const char_t *str1, const char_t *str2);
+
+bool_t str_is_prefix(const char_t *str, const char_t *prefix);
 
 int str_scmp(const String *str1, const String *str2);
 

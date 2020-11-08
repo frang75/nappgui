@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -20,5 +20,7 @@ void draw2d_start(void);
 void draw2d_finish(void);
 
 const Image *image_from_resource(const ResPack *pack, const ResId id);
+
+#define resid_image(resid) (const Image*)(resid)
 
 __END_C

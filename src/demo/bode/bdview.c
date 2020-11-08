@@ -187,8 +187,8 @@ static Layout* i_right(Ctrl *ctrl)
 {
     Layout *layout = layout_create(1, 3);
     Layout* layout1 = i_sliders(ctrl);
-    View* view1 = view_create(0);
-    View* view2 = view_create(0);
+    View* view1 = view_create();
+    View* view2 = view_create();
     layout_view(layout, view1, 0, 0);
     layout_view(layout, view2, 0, 1);
     layout_layout(layout, layout1, 0, 2);        

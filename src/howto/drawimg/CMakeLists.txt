@@ -1,1 +1,1 @@
-processDesktopApp(DrawImg "" "NO")
+processDesktopApp(DrawImg "")

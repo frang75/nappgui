@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -42,6 +42,8 @@ real32_t font_size(const Font *font);
 real32_t font_height(const Font *font);
 
 uint32_t font_style(const Font *font);
+
+void font_extents(const Font *font, const char_t *text, const real32_t refwidth, real32_t *width, real32_t *height);
 
 bool_t font_exists_family(const char_t *family);
 

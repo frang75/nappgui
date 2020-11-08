@@ -46,7 +46,7 @@ static void i_OnMoved(App *app, Event *e)
 static Layout *i_layout(App *app)
 {
     Layout *layout = layout_create(1, 2);
-    View *view = view_create(0);
+    View *view = view_create();
     Slider *slider = slider_create();
     view_OnDraw(view, listener(app, i_OnRedraw, App));
     slider_OnMoved(slider, listener(app, i_OnMoved, App));

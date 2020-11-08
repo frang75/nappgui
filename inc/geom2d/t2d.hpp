@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -22,13 +22,19 @@ struct T2D
 
     static void (*scale)(T2D<real> *dest, const T2D<real> *src, const real sx, const real sy);
 
+    static void (*invfast)(T2D<real> *dest, const T2D<real> *src);
+
+    static void (*inverse)(T2D<real> *dest, const T2D<real> *src);
+
     static void (*mult)(T2D<real> *dest, const T2D<real> *src1, const T2D<real> *src2);
 
     static void (*vmult)(V2D<real> *dest, const T2D<real> *t2d, const V2D<real> *src);
 
     static void (*vmultn)(V2D<real> *dest, const T2D<real> *t2d, const V2D<real> *src, const uint32_t n);
 
-    static const T2D<real> *kIDENTITY;
+    static void (*decompose)(const T2D<real> *t2d, V2D<real> *pos, real *angle, V2D<real> *sc);
+
+    static const T2D<real> *kIDENT;
 
     V2D<real> i;
     V2D<real> j;

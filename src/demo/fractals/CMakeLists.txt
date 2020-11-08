@@ -1,1 +1,1 @@
-processDesktopApp(Fractals "" "NO")
+processDesktopApp(Fractals "")

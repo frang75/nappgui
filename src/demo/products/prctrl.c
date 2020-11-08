@@ -195,6 +195,7 @@ static void i_status(Ctrl *ctrl)
         case ekWS_ACCESS:
             label_text(label, ERR_ACCESS);
             break;
+        case ekWS_OK:
         cassert_default();
         }
         break;
@@ -203,6 +204,7 @@ static void i_status(Ctrl *ctrl)
         imageview_image(view, (const Image*)OK_PNG);
         label_text(label, OK_LOGIN);
         break;
+
     cassert_default();
     }
 }
@@ -617,9 +619,9 @@ void ctrl_login_panel(Ctrl *ctrl, Panel *panel)
 
 static UJson *i_user_webserv(const char_t *user, const char_t *pass, wserv_t *ret)
 {
-    UJson *ujson = NULL;
-    Stream *json = NULL;
     Http *http = NULL;
+    uint32_t status = 0;
+    UJson *ujson = NULL;
 
     *ret = ekWS_OK;
     if (str_empty_c(user) || str_empty_c(pass))
@@ -635,12 +637,16 @@ static UJson *i_user_webserv(const char_t *user, const char_t *pass, wserv_t *re
         return ujson;
     }
 
-    json = stm_memory(4096);
-    http_param(http, "user", user);
-    http_param(http, "pass", pass);
-    if (http_get(http, "/duser.php", json, NULL) == TRUE)
+    http_add_param(http, "user", user);
+    http_add_param(http, "pass", pass);
+    http_get(http, "/duser.php", NULL, 0, NULL);
+    status = http_response_status(http);
+    if (status >= 200 && status <= 299)
     {
-        ujson = json_read(json, NULL, UJson);
+        Stream *stm = stm_memory(4096);
+        http_response_body(http, stm, NULL);
+        ujson = json_read(stm, NULL, UJson);
+
         if (!ujson)
         {
             *ret = ekWS_JSON;
@@ -650,13 +656,14 @@ static UJson *i_user_webserv(const char_t *user, const char_t *pass, wserv_t *re
             json_destroy(&ujson, UJson);
             *ret = ekWS_ACCESS;
         }
+
+        stm_close(&stm);
     }
     else
     {
         *ret = ekWS_ACCESS;
     }
 
-    stm_close(&json);
     http_destroy(&http);
     return ujson;
 }
@@ -690,6 +697,7 @@ static void i_login_end(Ctrl *ctrl, const uint32_t rvalue)
         ImageView *view = layout_get_imageview(layout, 0, 0);
         Label *label0 = layout_get_label(layout, 0, 1);
         Label *label1 = layout_get_label(layout, 0, 2);
+        window_defbutton(ctrl->window, NULL);
         imageview_image(view, ctrl->ujson->data.image64);
         label_text(label0, tc(ctrl->ujson->data.name));
         label_text(label1, tc(ctrl->ujson->data.mail));
@@ -703,7 +711,6 @@ static void i_login_end(Ctrl *ctrl, const uint32_t rvalue)
         i_update_product(ctrl);
         json_destroy(&ctrl->ujson, UJson);
         cell_focus(ctrl->code_cell);
-        window_defbutton(ctrl->window, NULL);
         panel_update(ctrl->login_panel);
     }
     else
@@ -720,9 +727,13 @@ static void i_login_end(Ctrl *ctrl, const uint32_t rvalue)
 
 static void i_OnLogin(Ctrl *ctrl, Event *e)
 {
-    ctrl->status = ekIN_LOGIN;
-    i_status(ctrl);
-    osapp_task(ctrl, 0, i_login_begin, NULL, i_login_end, Ctrl);
+    if (ctrl->status != ekIN_LOGIN)
+    {
+        ctrl->status = ekIN_LOGIN;
+        i_status(ctrl);
+        osapp_task(ctrl, 0, i_login_begin, NULL, i_login_end, Ctrl);
+    }
+    
     unref(e);
 }
 
@@ -761,8 +772,8 @@ static void i_OnLogout(Ctrl *ctrl, Event *e)
     i_update_product(ctrl);
     i_status(ctrl);
     cell_focus(ctrl->user_cell);
-    window_defbutton(ctrl->window, cell_button(ctrl->login_cell));
     panel_update(ctrl->login_panel);
+    window_defbutton(ctrl->window, cell_button(ctrl->login_cell));
     unref(e);
 }
 
@@ -788,7 +799,7 @@ void ctrl_logout_item(Ctrl *ctrl, MenuItem *item)
 static void i_OnSetting(Ctrl *ctrl, Event *e)
 {
     state_t state = ekON;
-    if (event_type(e) == ekEVENT_BUTTON)
+    if (event_type(e) == ekEVBUTTON)
     {
         const EvButton *params = event_params(e, EvButton);
         state = params->state;
@@ -796,7 +807,7 @@ static void i_OnSetting(Ctrl *ctrl, Event *e)
     else
     {
         Button *button = cell_button(ctrl->setting_cell);
-        cassert(event_type(e) == ekEVENT_MENU);
+        cassert(event_type(e) == ekEVMENU);
         state = button_get_state(button);
         state = state == ekON ? ekOFF : ekON;
         button_state(button, state);
@@ -839,6 +850,7 @@ static void i_OnStats(Ctrl *ctrl, Event *e)
     real32_t stop[2] = {0, 1};
     c[0] = kHOLDER;
     c[1] = kCOLOR_VIEW;
+
     draw_fill_linear(params->ctx, c,stop, 2, 0, p, 0, params->height - p + 1);
 
     for (i = 0; i < n; ++i)
@@ -854,13 +866,13 @@ static void i_OnStats(Ctrl *ctrl, Event *e)
     pavg = h * (avg / i_MAX_STATS);
     pavg = p + h - pavg;
     bstd_sprintf(tavg, sizeof(tavg), "%.2f", avg);
-    draw_fill_color(params->ctx, kTXTRED);
+    draw_text_color(params->ctx, kTXTRED);
     draw_line_color(params->ctx, kTXTRED);
     draw_line(params->ctx, p - 2, pavg, params->width - p, pavg);
     draw_line_color(params->ctx, kCOLOR_LABEL);
     draw_line(params->ctx, p - 2, y0 + 2, params->width - p, y0 + 2);
     draw_line(params->ctx, p - 2, y0 + 2, p - 2, p);
-    draw_text(params->ctx, ekFILL, tavg, p, pavg);
+    draw_text(params->ctx, tavg, p, pavg);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -879,7 +891,7 @@ static void i_OnLang(Ctrl *ctrl, Event *e)
     MenuItem *item = NULL;
     uint32_t lang_id = 0;
     static const char_t *LANGS[] = { "en_US", "es_ES", "pt_PT", "it_IT", "vi_VN", "ru_RU", "ja_JP" };
-    if (event_type(e) == ekEVENT_POPUP)
+    if (event_type(e) == ekEVPOPUP)
     {
         const EvButton *params = event_params(e, EvButton);
         item = menu_get_item(ctrl->lang_menu, params->index);
@@ -889,7 +901,7 @@ static void i_OnLang(Ctrl *ctrl, Event *e)
     {
         const EvMenu *params = event_params(e, EvMenu);
         PopUp *popup = cell_popup(ctrl->lang_cell);
-        cassert(event_type(e) == ekEVENT_MENU);
+        cassert(event_type(e) == ekEVMENU);
         popup_selected(popup, params->index);
         item = event_sender(e, MenuItem);
         lang_id = params->index;

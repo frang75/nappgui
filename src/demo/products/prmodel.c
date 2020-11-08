@@ -59,9 +59,33 @@ void model_destroy(Model **model)
 
 /*---------------------------------------------------------------------------*/
 
+static Stream *i_http_get(void)
+{
+    Http *http = http_create("serv.nappgui.com", 80, NULL);
+    Stream *stm = NULL;
+    if (http != NULL)
+    {
+        uint32_t status = 0;
+        http_get(http, "/dproducts.php", NULL, 0, NULL);
+        status = http_response_status(http);
+        if (status >= 200 && status <= 299)
+        {
+            stm = stm_memory(4096);
+            if (http_response_body(http, stm, NULL) == FALSE)
+                stm_close(&stm);
+        }
+
+        http_destroy(&http);
+    }
+
+    return stm;
+}
+
+/*---------------------------------------------------------------------------*/
+
 wserv_t model_webserv(Model *model)
 {
-    Stream *stm = http_dget("serv.nappgui.com",80,"/dproducts.php",NULL);
+    Stream *stm = i_http_get();
     if (stm != NULL)
     {
         PJson *json = json_read(stm, NULL, PJson);

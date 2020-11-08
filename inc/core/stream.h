@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -96,7 +96,7 @@ void stm_write_r32(Stream *stm, const real32_t value);
 void stm_write_r64(Stream *stm, const real64_t value);
 
 
-void stm_read(Stream *stm, byte_t *data, const uint32_t size);
+uint32_t stm_read(Stream *stm, byte_t *data, const uint32_t size);
 
 void stm_skip(Stream *stm, const uint32_t size);
 

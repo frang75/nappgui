@@ -5,6 +5,7 @@
 #include "prmenu.h"
 #include "prctrl.h"
 #include "prview.h"
+#include "inet.h"
 #include "res_gui.h"
 
 typedef struct _app_t App;
@@ -40,6 +41,7 @@ static App *i_create(void)
     kSTATBG = color_alt(color_bgr(0xFFC165), color_bgr(0x523d1d));
     kSTATSK = color_alt(color_bgr(0xFF8034), color_bgr(0xFF8034));
     kTXTRED = color_alt(color_bgr(0xFF0000), color_bgr(0xEB665A));
+    inet_init();
     gui_respack(res_gui_respack);
     gui_language("");
     gui_OnThemeChanged(listener(app, i_OnThemeChanged, App));
@@ -65,6 +67,7 @@ static void i_destroy(App **app)
     window_destroy(&(*app)->window);
     menu_destroy(&(*app)->menu);
     model_destroy(&(*app)->model);
+    inet_finish();
     heap_delete(app, App);
 }
 

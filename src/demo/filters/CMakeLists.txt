@@ -1,1 +1,1 @@
-processDesktopApp(Filters "" "NO")
+processDesktopApp(Filters "")

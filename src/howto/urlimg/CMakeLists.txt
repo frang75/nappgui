@@ -1,1 +1,1 @@
-processDesktopApp(UrlImg "inet" "NO")
+processDesktopApp(UrlImg "inet")

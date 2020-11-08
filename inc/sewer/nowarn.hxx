@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -23,6 +23,7 @@
 #if defined(__APPLE__)
 
 #if (__GNUC__ < 4) || (__GNUC__ == 4)
+
 /*
 #pragma GCC diagnostic ignored "-Wall"
 #pragma GCC diagnostic ignored "-pedantic"
@@ -47,13 +48,27 @@
 #pragma GCC diagnostic ignored "-Wshadow"
 */
 
+/* Disable QuickDraw support in old MacOSX */
+#if (__GNUC__ == 4) && (__GNUC_MINOR__ == 2)
+#define __QUICKDRAW__
+#define __QUICKDRAWAPI__
+#define __PALETTES__
+#define __PICTUTILS__
+#define __QUICKDRAWTYPES__
+#define __QDOFFSCREEN__
+#define __VIDEO__
+#define __DISPLAYS__
+#define __ATSUNICODEDRAWING__
+#define __HISHAPE__
+#define __ICONS__
+#endif
+
 #if (__GNUC__ == 4) && (__GNUC_MINOR__ > 2)
 #pragma GCC diagnostic push
 #endif
 #pragma GCC diagnostic warning "-w"
 
 #endif
-
 #endif
 #endif
 
@@ -61,11 +76,14 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Weverything"
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
-#pragma GCC diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wobjc-method-access"
+//#pragma GCC diagnostic ignored "-Wstrict-prototypes"
+//#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 #endif
 

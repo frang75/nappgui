@@ -1,1 +1,1 @@
-processDesktopApp(HelloWorld "" "NO")
+processDesktopApp(HelloWorld "")

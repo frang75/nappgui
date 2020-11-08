@@ -1,5 +1,5 @@
 /*
- * NAppGUI-v1.1.2.2443 Cross-platform C SDK
+ * NAppGUI Cross-platform C SDK
  * © 2015-2020 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
@@ -32,6 +32,8 @@ void edit_align(Edit *edit, const align_t align);
 void edit_passmode(Edit *edit, const bool_t passmode);
 
 void edit_editable(Edit *edit, const bool_t is_editable);
+
+void edit_autoselect(Edit *edit, const bool_t autoselect);
 
 void edit_tooltip(Edit *edit, const char_t *text);
 

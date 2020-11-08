@@ -1,4 +1,4 @@
-/* Labels basics */
+/* Sublayouts */
 
 #include "gui.hxx"
 

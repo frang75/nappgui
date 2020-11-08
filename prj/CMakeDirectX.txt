@@ -1,0 +1,29 @@
+# CMake DirectX Support
+
+#------------------------------------------------------------------------------
+
+function(findDirectX)
+
+	if (${DIRECTX_SDK_FIND})
+
+		# Nothing to do. DirectX SDK is already found
+
+	else()
+	
+		set (DIRECTX_SDK_INC "${CMAKE_PRJ_PATH}/depend/DirectX/inc" CACHE INTERNAL "")
+
+		if (${CMAKE_SIZEOF_VOID_P} MATCHES 4)
+			set (DIRECTX_SDK_LIB "${CMAKE_PRJ_PATH}/depend/DirectX/lib/x86/d3d9.lib;${CMAKE_PRJ_PATH}/depend/DirectX/lib/x86/d3dx9.lib" CACHE INTERNAL "")
+		elseif (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+			set (DIRECTX_SDK_LIB "${CMAKE_PRJ_PATH}/depend/DirectX/lib/x64/d3d9.lib;${CMAKE_PRJ_PATH}/depend/DirectX/lib/x64/d3dx9.lib" CACHE INTERNAL "")
+		else ()
+			message (FATAL_ERROR "Unknown processor architecture")
+		endif()
+
+		message(STATUS "- Found DirectX SDK")
+	
+        set(DIRECTX_SDK_FIND TRUE CACHE INTERNAL "")
+
+	endif()
+
+endfunction()
