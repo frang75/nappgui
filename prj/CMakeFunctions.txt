@@ -712,6 +712,32 @@ endfunction()
 
 #------------------------------------------------------------------------------
 
+function(targetDependOnLib targetName libName _ret)
+
+    set(${_ret} "NO" PARENT_SCOPE)
+
+    foreach(lib in ${${targetName}_LINKDEPENDS})
+
+        if (${lib} MATCHES "${libName}")
+            set(${_ret} "YES" PARENT_SCOPE)
+            break()
+        endif()
+
+        if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        
+            if (${lib} MATCHES ".*lib${libName}.a")
+                set(${_ret} "YES" PARENT_SCOPE)
+                break()
+            endif()
+        
+        endif()                
+    endforeach()
+
+
+endfunction()
+
+#------------------------------------------------------------------------------
+
 function(targetLinkWithLibraries targetName firstLevelDepends) 
 
     set(${targetName}_LINKDEPENDS "" CACHE INTERNAL "")
@@ -743,10 +769,10 @@ function(targetLinkWithLibraries targetName firstLevelDepends)
         if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             find_package(CURL)
             if (${CURL_FOUND})
-                list (FIND ${targetName}_LINKDEPENDS "inet" _index)        
-                if (${_index} GREATER -1)
+                targetDependOnLib(${targetName} "inet" _depends)            
+                if (${_depends} STREQUAL "YES")
                     target_link_libraries(${targetName} ${CURL_LIBRARY})
-                endif()
+                endif()                
             else()
                 message(ERROR "- libCURL is required. Try 'sudo apt-get install libcurl4-openssl-dev'")
             endif()

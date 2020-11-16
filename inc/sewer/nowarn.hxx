@@ -66,7 +66,7 @@
 #if (__GNUC__ == 4) && (__GNUC_MINOR__ > 2)
 #pragma GCC diagnostic push
 #endif
-#pragma GCC diagnostic warning "-w"
+//#pragma GCC diagnostic warning "-w"
 
 #endif
 #endif

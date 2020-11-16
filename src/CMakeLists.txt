@@ -1,5 +1,5 @@
 #------------------------------------------
-# NAppGUI-r2788 CMake build script
+# NAppGUI-r2803 CMake build script
 #------------------------------------------
 cmake_minimum_required(VERSION 2.8)
 project(NAppGUI)

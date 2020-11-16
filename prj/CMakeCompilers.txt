@@ -214,6 +214,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     # Libraries
     set(COCOA_LIB ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/Cocoa.framework)
 
+    # NRC executable permissions
+    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/osx/${NAPPGUI_ARCH}/nrc)
+    file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
+    execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
+
 # IOS configuration
 #------------------------------------------------------------------------------
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -358,6 +363,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     endif()
 
+    # NRC executable permissions
+    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/linux/${NAPPGUI_ARCH}/nrc)
+    file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
+    execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
+    
     #find_package(PNG REQUIRED)
     
 else()
