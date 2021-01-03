@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -17,7 +17,7 @@ __EXTERN_C
 
 Thread *bthread_create_imp(FPtr_thread_main thmain, void *data);
 
-Thread *bthread_current(void);
+int bthread_current_id(void);
 
 void bthread_close(Thread **thread);
 

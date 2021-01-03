@@ -14,6 +14,7 @@ void col2dhello_dbind(void)
     dbind_enum(shtype_t, ekOBB);
     dbind_enum(shtype_t, ekPOLY);
     dbind(App, shtype_t, seltype);
+    dbind(App, bool_t, show_seg_pt);
     dbind(Seg, real32_t, length);
     dbind(Seg, real32_t, angle);
     dbind(Cir2Df, real32_t, r);
@@ -89,6 +90,14 @@ static void i_OnPoly(App *app, Event *e)
     cassert(shape->type == ekPOLY);
     col2dhello_update_pol(&shape->body.pol);
     col2dhello_collisions(app);
+    view_update(app->view);
+    unref(e);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void i_OnOpt(App *app, Event *e)
+{
     view_update(app->view);
     unref(e);
 }
@@ -337,7 +346,7 @@ static Layout *i_new_layout(App *app)
 
 static Layout *i_left_layout(App *app)
 {
-    Layout *layout1 = layout_create(1, 2);
+    Layout *layout1 = layout_create(1, 3);
     Layout *layout2 = i_new_layout(app);
     Layout *layout3 = i_empty_layout();
     Layout *layout4 = i_point_layout(app);
@@ -346,7 +355,9 @@ static Layout *i_left_layout(App *app)
     Layout *layout7 = i_box_layout(app);
     Layout *layout8 = i_obb_layout(app);
     Layout *layout9 = i_pol_layout(app);
+    Button *button1 = button_check();
     Panel *panel = panel_create();
+    button_text(button1, "Show Segment-Point distance");
     panel_layout(panel, layout3);
     panel_layout(panel, layout4);
     panel_layout(panel, layout5);
@@ -356,11 +367,14 @@ static Layout *i_left_layout(App *app)
     panel_layout(panel, layout9);
     layout_hsize(layout1, 0, 200);
     layout_layout(layout1, layout2, 0, 0);
-    layout_panel(layout1, panel, 0, 1);
+    layout_button(layout1, button1, 0, 1);
+    layout_panel(layout1, panel, 0, 2);
     layout_vmargin(layout1, 0, 10);
+    layout_vmargin(layout1, 1, 10);
     layout_margin(layout1, 10);
     app->obj_panel = panel;
-    layout_dbind(layout1, NULL, App);
+    cell_dbind(layout_cell(layout1, 0, 1), App, bool_t, show_seg_pt);
+    layout_dbind(layout1, listener(app, i_OnOpt, App), App);
     layout_dbind_obj(layout1, app, App);        
     return layout1;
 }
@@ -502,6 +516,7 @@ static void i_draw_bbox(DCtx *ctx, const Shape *shape)
 static void i_OnDraw(App *app, Event *e)
 {
     const EvDraw *p = event_params(e, EvDraw);
+
     draw_clear(p->ctx, color_rgb(255, 212, 255));
 
     arrst_foreach(shape, app->shapes, Shape)
@@ -540,6 +555,16 @@ static void i_OnDraw(App *app, Event *e)
             i_draw_bbox(p->ctx, shape);
 
     arrst_end()
+
+    if (app->show_seg_pt == TRUE)
+    {
+        real32_t pattern[2] = {2, 2};
+        draw_line_dash(p->ctx, pattern, 2);
+        draw_line_color(p->ctx, kCOLOR_MAGENTA);
+        arrst_foreach(dist, app->dists, Dist)
+            draw_line(p->ctx, dist->p0.x, dist->p0.y, dist->p1.x, dist->p1.y);
+        arrst_end();
+    }
 }
 
 /*---------------------------------------------------------------------------*/

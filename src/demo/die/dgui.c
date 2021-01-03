@@ -90,8 +90,8 @@ static void i_OnLang(App *app, Event *e)
     label_text(label4, TEXT_CORNER);
     label_text(label5, TEXT_RADIUS);
     label_text(label6, TEXT_INFO);
-    popup_add_elem(popup1, TEXT_ENGLISH, (const Image*)USA_PNG);
-    popup_add_elem(popup1, TEXT_SPANISH, (const Image*)SPAIN_PNG);
+    popup_add_elem(popup1, TEXT_ENGLISH, resid_image(USA_PNG));
+    popup_add_elem(popup1, TEXT_SPANISH, resid_image(SPAIN_PNG));
     popup_OnSelect(popup1, listener(app, i_OnLang, App));
     popup_add_elem(popup2, TEXT_ONE, NULL);
     popup_add_elem(popup2, TEXT_TWO, NULL);

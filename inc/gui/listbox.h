@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -17,25 +17,33 @@ __EXTERN_C
 
 ListBox *listbox_create(void);
 
-void listbox_OnSelect(ListBox *box, Listener *listener);
+void listbox_OnSelect(ListBox *listbox, Listener *listener);
 
-void listbox_size(ListBox *box, S2Df size);
+void listbox_size(ListBox *listbox, S2Df size);
 
-void listbox_clear(ListBox *box);
+void listbox_checkbox(ListBox *listbox, const bool_t show);
 
-void listbox_add_elem(ListBox *box, const char_t *text, const Image *image);
+void listbox_multisel(ListBox *listbox, const bool_t multisel);
 
-void listbox_set_elem(ListBox *box, const uint32_t index, const char_t *text, const Image *image);
+void listbox_add_elem(ListBox *listbox, const char_t *text, const Image *image);
 
-void listbox_color(ListBox *box, const uint32_t index, const color_t color);
+void listbox_set_elem(ListBox *listbox, const uint32_t index, const char_t *text, const Image *image);
 
-void listbox_selected(ListBox *box, const uint32_t index);
+void listbox_clear(ListBox *listbox);
 
-uint32_t listbox_count(const ListBox *box);
+void listbox_color(ListBox *listbox, const uint32_t index, const color_t color);
 
-const char_t *listbox_text(const ListBox *box, const uint32_t index);
+void listbox_select(ListBox *listbox, const uint32_t index, const bool_t select);
 
-uint32_t listbox_get_selected(const ListBox *box);
+void listbox_check(ListBox *listbox, const uint32_t index, const bool_t check);
+
+uint32_t listbox_count(const ListBox *listbox);
+
+const char_t *listbox_text(const ListBox *listbox, const uint32_t index);
+
+bool_t listbox_selected(const ListBox *listbox, uint32_t index);
+
+bool_t listbox_checked(const ListBox *listbox, uint32_t index);
 
 __END_C
 

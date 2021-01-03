@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -47,12 +47,12 @@ __END_C
 	cassert_no_null_imp((void*)ptr, #ptr, __FILE__, __LINE__)
 
 #ifdef  __cplusplus
-#if defined (__APPLE__)
-#define cassert_no_nullf(fptr)\
-    cassert_no_nullf_imp((void(*)(void))fptr, #fptr, __FILE__, __LINE__)
-#else
+#if defined (__WINDOWS__)
 #define cassert_no_nullf(fptr)\
     cassert_no_null_imp((void*)fptr, #fptr, __FILE__, __LINE__)
+#else
+#define cassert_no_nullf(fptr)\
+    cassert_no_nullf_imp((void(*)(void))fptr, #fptr, __FILE__, __LINE__)
 #endif
 #else
 #define cassert_no_nullf(fptr)\

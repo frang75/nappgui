@@ -5,8 +5,10 @@
 macro(checkGCCVersion)
 
     if (CMAKE_COMPILER_IS_GNUCC)
-	   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.2)
-            message(FATAL_ERROR "GCC 4.2 is the minimun supported version.")
+       if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+            message(FATAL_ERROR "GCC 4.8 is the minimun supported version in Linux.")
+       elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
+            set(GCC_VERSION "gcc4_8")
        elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
             set(GCC_VERSION "gcc5")
        elseif (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7)

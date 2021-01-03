@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -65,25 +65,9 @@ extern const color_t kCOLOR_VIEW;
 
 extern const color_t kCOLOR_LINE;
 
+extern const color_t kCOLOR_BORDER;
+
 extern const color_t kCOLOR_LINK;
-
-extern const color_t kCOLOR_TEXT;
-
-extern const color_t kCOLOR_SELTEXT;
-
-extern const color_t kCOLOR_HOTTEXT;
-
-extern const color_t kCOLOR_BGTEXT;
-
-extern const color_t kCOLOR_BGSELTEXT;
-
-extern const color_t kCOLOR_BGHOTTEXT;
-
-extern const color_t kCOLOR_HEADER;
-
-extern const color_t kCOLOR_ROW1;
-
-extern const color_t kCOLOR_ROW2;
 
 extern const color_t kCOLOR_BLACK;
 

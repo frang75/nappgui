@@ -8,6 +8,7 @@
 #define CENTER_RADIUS   3
 
 typedef struct _shape_t Shape;
+typedef struct _dist_t Dist;
 typedef struct _box_t Box;
 typedef struct _seg_t Seg;
 typedef struct _obb_t OBB;
@@ -73,6 +74,12 @@ struct _shape_t
     } body;
 };
 
+struct _dist_t
+{
+    V2Df p0;
+    V2Df p1;
+};
+
 struct _app_t
 {
     Window *window;
@@ -85,8 +92,10 @@ struct _app_t
     Layout *pol_layout;
     Panel *obj_panel;
     ArrSt(Shape) *shapes;
+    ArrSt(Dist) *dists;
     shtype_t seltype;
     uint32_t selshape;
+    bool_t show_seg_pt;
     V2Df mouse_pos;
     V2Df obj_pos;
 };

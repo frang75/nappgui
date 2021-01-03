@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *

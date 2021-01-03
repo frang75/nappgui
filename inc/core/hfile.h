@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -21,7 +21,7 @@ bool_t hfile_dir_create(const char_t *pathname, ferror_t *error);
 
 bool_t hfile_dir_destroy(const char_t *pathname, ferror_t *error);
 
-ArrSt(DirEntry) *hfile_dir_list(const char_t *pathname, ferror_t *error);
+ArrSt(DirEntry) *hfile_dir_list(const char_t *pathname, const bool_t subdirs, ferror_t *error);
 
 void hfile_dir_entry_remove(DirEntry *entry);
 

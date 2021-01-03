@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -48,6 +48,8 @@
                 #define __x86__
             #elif defined (__x86_64__)
                 #define __x64__
+            #elif defined (__arm64__)
+                #define __ARM64__
             #else
                 #error Unknown processor
             #endif
@@ -74,6 +76,8 @@
         #define __x64__
     #elif defined (__arm__)
         #define __ARM__
+    #elif defined (__aarch64__)
+        #error ARM64 is not supported by Linux systems
     #else
         #error Unknown processor
     #endif

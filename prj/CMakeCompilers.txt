@@ -171,8 +171,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     checkXcodeVersion()
 
     osxSDKName(${BASE_OSX_SDK} OSX_SDK_NAME)
-    message(STATUS "- Xcode: ${XCODE_VERSION}  SDK: ${BASE_OSX_SDK}-${OSX_SDK_NAME}")
-    
+    message(STATUS "- Xcode: ${XCODE_VERSION} SDK: ${BASE_OSX_SDK}-${OSX_SDK_NAME}")
+        
+    # Deployment target
+    set(CMAKE_OSX_DEPLOYMENT_TARGET ${CMAKE_DEPLOYMENT_TARGET})
+    osxSDKName(${CMAKE_OSX_DEPLOYMENT_TARGET} OSX_SDK_NAME)
+    set(NAPPGUI_COMPILER_TOOLSET sdk${CMAKE_OSX_DEPLOYMENT_TARGET})
+    string(REPLACE "." "_" NAPPGUI_COMPILER_TOOLSET ${NAPPGUI_COMPILER_TOOLSET})
+    message(STATUS "- Deployment Target: ${CMAKE_OSX_DEPLOYMENT_TARGET}-${OSX_SDK_NAME}")
+
     if (CMAKE_CXX_FLAGS MATCHES "/EHsc")
         string(REGEX REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif()
@@ -187,23 +194,31 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(CMAKE_${LOOP_PROPERTY} ${LOOP_VALUE})
     endforeach()
 
-    # Architecture
-    set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
-    set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64;i386")
+    # Build architecture
     set(CMAKE_OSX_ARCHITECTURES ${CMAKE_ARCHITECTURE})
     if (${CMAKE_OSX_ARCHITECTURES} STREQUAL "i386")
         set(NAPPGUI_ARCH x86)
     elseif (${CMAKE_OSX_ARCHITECTURES} STREQUAL "x86_64")
         set(NAPPGUI_ARCH x64)
+    elseif (${CMAKE_OSX_ARCHITECTURES} STREQUAL "arm64")
+        set(NAPPGUI_ARCH arm)
     endif()
-    message(STATUS "- Architecture: ${CMAKE_OSX_ARCHITECTURES}")
+    message(STATUS "- Build architecture: ${CMAKE_OSX_ARCHITECTURES}")
 
-    # Deployment target
-    set(CMAKE_OSX_DEPLOYMENT_TARGET ${CMAKE_DEPLOYMENT_TARGET})
-    osxSDKName(${CMAKE_OSX_DEPLOYMENT_TARGET} OSX_SDK_NAME)
-    set(NAPPGUI_COMPILER_TOOLSET sdk${CMAKE_OSX_DEPLOYMENT_TARGET})
-    string(REPLACE "." "_" NAPPGUI_COMPILER_TOOLSET ${NAPPGUI_COMPILER_TOOLSET})
-    message(STATUS "- Deployment Target: ${CMAKE_OSX_DEPLOYMENT_TARGET}-${OSX_SDK_NAME}")
+    # Host architecture
+    execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH)
+    string(STRIP ${HOST_ARCH} HOST_ARCH)
+
+    if (${HOST_ARCH} STREQUAL "i386")
+        set(NAPPGUI_HOST x86)
+    elseif (${HOST_ARCH} STREQUAL "x86_64")
+        set(NAPPGUI_HOST x64)
+    elseif (${HOST_ARCH} STREQUAL "arm64")
+        set(NAPPGUI_HOST arm64)
+    else()
+        message("- Unknown host architecture")
+    endif()
+    message(STATUS "- Host architecture: ${HOST_ARCH}")
 
     # Package tool
 	set(CMAKE_PACKAGE FALSE CACHE BOOL "Pack executables On/Off")
@@ -215,7 +230,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(COCOA_LIB ${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/Cocoa.framework)
 
     # NRC executable permissions
-    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/osx/${NAPPGUI_ARCH}/nrc)
+    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/osx/${NAPPGUI_HOST}/nrc)
     file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
     execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
 
@@ -298,33 +313,57 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message(STATUS "- GCC compiler: ${CMAKE_CXX_COMPILER_VERSION}")                                
             
     # Warnings
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -std=c99")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
     
-    # Architecture
-    string(FIND ${LSB_RELEASE_ID_SHORT} Raspbian RASPBIAN)
-    if (${RASPBIAN} EQUAL -1)
+    # Host architecture
+    execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH)
+    string(STRIP ${HOST_ARCH} HOST_ARCH)
+
+    if (${HOST_ARCH} STREQUAL "i386" OR ${HOST_ARCH} STREQUAL "i486" OR ${HOST_ARCH} STREQUAL "i586" OR ${HOST_ARCH} STREQUAL "i686")
+        set(NAPPGUI_HOST x86)
+        set(CMAKE_ARCHITECTURE "i386" CACHE STRING "Processor architecture")
+        set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS i386)  
+          
+    elseif (${HOST_ARCH} STREQUAL "x86_64")
+        set(NAPPGUI_HOST x64)
         set(CMAKE_ARCHITECTURE "x64" CACHE STRING "Processor architecture")
         set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS i386 x64)
-
-        if (CMAKE_ARCHITECTURE MATCHES "i386")
-            set(NAPPGUI_ARCH x86)
-            set(IDE_PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
-        elseif(CMAKE_ARCHITECTURE MATCHES "x64")
-            set(NAPPGUI_ARCH x64)
-            set(IDE_PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")
-        else()
-            message(FATAL_ERROR "Unknown processor architecture ${CMAKE_ARCHITECTURE}")
-        endif()
+        
     else()
-        set(NAPPGUI_RASPBIAN 1)
-        set(NAPPGUI_ARCH armv8)
-        set(CMAKE_ARCHITECTURE "armv8-a" CACHE STRING "Processor architecture")
-        set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS armv8-a)
-        set(IDE_PROPERTIES COMPILE_FLAGS "-march=armv8-a")
+        string(FIND ${HOST_ARCH} "armv7" ARM_RES)
+        if (${ARM_RES} EQUAL -1)
+            message("- Unknown host architecture")
+        else()
+            set(NAPPGUI_HOST arm)
+            set(CMAKE_ARCHITECTURE "armv7" CACHE STRING "Processor architecture")
+            set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS armv7)
+        endif()
     endif()
 
-    message(STATUS "- Architecture: ${CMAKE_ARCHITECTURE}")
+    # Architecture    
+    if (CMAKE_ARCHITECTURE MATCHES "i386")
+        set(NAPPGUI_ARCH x86)        
+        set(IDE_PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+        
+    elseif (CMAKE_ARCHITECTURE MATCHES "x64")
+        set(NAPPGUI_ARCH x64)
+        set(IDE_PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")
+        
+    elseif (CMAKE_ARCHITECTURE MATCHES "armv7")
+        set(NAPPGUI_RASPBIAN 1)
+        set(NAPPGUI_ARCH armv7)
+        set(IDE_PROPERTIES COMPILE_FLAGS "-march=armv7-a")
+      
+    else()
+        message(FATAL_ERROR "Unknown processor architecture ${CMAKE_ARCHITECTURE}")
+        
+    endif()
+
+    message(STATUS "- Build architecture: ${CMAKE_ARCHITECTURE}")
+    message(STATUS "- Host architecture: ${HOST_ARCH}")
     
     # Build configurations
     set(CMAKE_BUILD_CONFIG "Debug" CACHE STRING "Build configuration")
@@ -364,7 +403,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     endif()
 
     # NRC executable permissions
-    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/linux/${NAPPGUI_ARCH}/nrc)
+    set(NRC_FILE ${CMAKE_PRJ_PATH}/script/linux/${NAPPGUI_HOST}/nrc)
     file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
     execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
     

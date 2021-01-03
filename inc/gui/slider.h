@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -22,6 +22,8 @@ Slider *slider_vertical(void);
 void slider_OnMoved(Slider *slider, Listener *listener);
 
 void slider_tooltip(Slider *slider, const char_t *text);
+
+void slider_steps(Slider *slider, const uint32_t steps);
 
 void slider_value(Slider *slider, const real32_t value);
 

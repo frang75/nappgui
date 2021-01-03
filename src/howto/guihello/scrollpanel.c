@@ -9,11 +9,10 @@ static const uint32_t i_ROWS = 100;
 
 Panel *scrollpanel(void)
 {
-    Panel *panel = panel_create();
+    Panel *panel = panel_scroll(FALSE, TRUE);
     Layout *layout = layout_create(3, i_ROWS);
-    panel_size(panel, s2df(-1, 400));
     uint32_t i = 0;
-
+    panel_size(panel, s2df(-1, 400));
     for (i = 0; i < i_ROWS; ++i)
     {
         char_t text[128];

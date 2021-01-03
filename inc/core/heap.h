@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -15,7 +15,9 @@
 
 __EXTERN_C
 
-void heap_thread_safe(const bool_t enable);
+void heap_start_mt(void);
+
+void heap_end_mt(void);
 
 byte_t *heap_malloc_imp(const uint32_t size, const char_t *name, const bool_t equal_sized);
 

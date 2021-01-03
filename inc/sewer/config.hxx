@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -49,19 +49,27 @@
 #undef PRIu64
 #undef PRId64
 #if defined (__x86__)
-#define PRIu64              "llu"
-#define PRId64              "lld"
+    #if defined (__LINUX__)
+        #define PRIu64          "llu"
+        #define PRId64          "lld"
+    #else
+        #define PRIu64          "llu"
+        #define PRId64          "lld"
+    #endif
 #elif defined (__x64__)
-#if defined (__LINUX__)
-#define PRIu64              "lu"
-#define PRId64              "ld"
-#else
-#define PRIu64              "llu"
-#define PRId64              "lld"
-#endif
+    #if defined (__LINUX__)
+        #define PRIu64          "lu"
+        #define PRId64          "ld"
+    #else
+        #define PRIu64          "llu"
+        #define PRId64          "lld"
+    #endif
 #elif defined (__ARM__)
-#define PRIu64              "llu"
-#define PRId64              "lld"
+    #define PRIu64              "llu"
+    #define PRId64              "lld"
+#elif defined (__ARM64__)
+    #define PRIu64              "llu"
+    #define PRId64              "lld"
 #endif
 
 /*! <Compiler> */ 
@@ -91,7 +99,13 @@
 
 	#define __DEPRECATED                    __attribute__((__deprecated__))
     #define __SENTINEL                      __attribute__((__sentinel__))
+
+#if (__GNUC__ == 4)
+    #define __PRINTF(format_idx, arg_idx)
+#else
     #define __PRINTF(format_idx, arg_idx)   __attribute__((__format__ (__printf__, format_idx, arg_idx)))
+#endif
+
     #define __SCANF(format_idx, arg_idx)    __attribute__((__format__ (__scanf__, format_idx, arg_idx)))
     #define __UNUSED                        __attribute__((warn_unused_result))
 

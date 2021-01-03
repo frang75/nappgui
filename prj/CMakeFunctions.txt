@@ -235,9 +235,9 @@ function(getResourceFiles targetName targetType dir _ret _include_dir)
             source_group("res\\${resPack}\\gen" FILES ${resCompiled})
             
             # Linker error in binary distributions if only the C compiler works '__gxx_personality_v0'
-            if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-                set_source_files_properties(${DEST_RESDIR}/${resPack}.c PROPERTIES LANGUAGE CXX)                      
-            endif()
+            #if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+            #    set_source_files_properties(${DEST_RESDIR}/${resPack}.c PROPERTIES LANGUAGE CXX)                      
+            #endif()
             
             list(APPEND res_files ${resCompiled})
             

@@ -51,13 +51,13 @@ static ArrSt(Shape) *i_shapes(void)
     shape[4].type = ekPOINT;
     shape[4].mouse = FALSE;
     shape[4].collisions = 0;
-    shape[4].body.pnt.x = 50;
-    shape[4].body.pnt.y = 50;
+    shape[4].body.pnt.x = 520;
+    shape[4].body.pnt.y = 230;
     shape[5].type = ekPOINT;
     shape[5].mouse = FALSE;
     shape[5].collisions = 0;
-    shape[5].body.pnt.x = 200;
-    shape[5].body.pnt.y = 50;
+    shape[5].body.pnt.x = 220;
+    shape[5].body.pnt.y = 205;
     shape[6].type = ekBOX;
     shape[6].mouse = FALSE;
     shape[6].collisions = 0;
@@ -95,8 +95,10 @@ static App *i_create(void)
     App *app = heap_new0(App);
     col2dhello_dbind();
     app->shapes = i_shapes();
+    app->dists = arrst_create(Dist);
     app->seltype = ekOBB;
     app->selshape = UINT32_MAX;
+    app->show_seg_pt = TRUE;
     app->window = col2dhello_window(app);
     window_title(app->window, "2D Collision Detection");
     window_origin(app->window, v2df(500, 200));
@@ -123,6 +125,7 @@ static void i_remove_shape(Shape *shape)
 static void i_destroy(App **app)
 {
     arrst_destroy(&(*app)->shapes, i_remove_shape, Shape);
+    arrst_destroy(&(*app)->dists, NULL, Dist);
     window_destroy(&(*app)->window);
     heap_delete(app, App);
 }
@@ -226,11 +229,23 @@ void col2dhello_mouse_collisions(App *app, const real32_t mouse_x, const real32_
 
 /*---------------------------------------------------------------------------*/
 
+static void i_point_segment_dist(const Seg2Df *seg, const V2Df *pnt, ArrSt(Dist) *dists)
+{
+    Dist *dist = arrst_new(dists, Dist);
+    real32_t t = seg2d_close_paramf(seg, pnt);
+    dist->p0 = *pnt;
+    dist->p1 = seg2d_evalf(seg, t);
+}
+
+/*---------------------------------------------------------------------------*/
+
 void col2dhello_collisions(App *app)
 {
     Shape *shape = arrst_all(app->shapes, Shape);
     uint32_t n = arrst_size(app->shapes, Shape);
     uint32_t i, j;
+
+    arrst_clear(app->dists, NULL, Dist);
 
     for (i = 0; i < n; ++i)
         shape[i].collisions = 0;
@@ -248,6 +263,7 @@ void col2dhello_collisions(App *app)
 
             case ekSEGMENT:
                 col = col2d_segment_pointf(&shape[j].body.seg.seg, &shape[i].body.pnt, CENTER_RADIUS, NULL);
+                i_point_segment_dist(&shape[j].body.seg.seg, &shape[i].body.pnt, app->dists);
                 break;
 
             case ekCIRCLE:
@@ -274,6 +290,7 @@ void col2dhello_collisions(App *app)
             switch(shape[j].type) {
             case ekPOINT:
                 col = col2d_segment_pointf(&shape[i].body.seg.seg, &shape[j].body.pnt, CENTER_RADIUS, NULL);
+                i_point_segment_dist(&shape[i].body.seg.seg, &shape[j].body.pnt, app->dists);
                 break;
 
             case ekSEGMENT:

@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -16,6 +16,8 @@
 __EXTERN_C
 
 Panel *panel_create(void);
+
+Panel *panel_scroll(const bool_t hscroll, const bool_t vscroll);
 
 void panel_data_imp(Panel *panel, void **data, FPtr_destroy func_destroy_item);
 

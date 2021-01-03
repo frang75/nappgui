@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -98,6 +98,10 @@ bool_t str_equ_end(const char_t *str, const char_t *end);
 void str_upper(String *str);
 
 void str_lower(String *str);
+
+void str_upper_c(char_t *dest, const uint32_t size, const char_t *str);
+
+void str_lower_c(char_t *dest, const uint32_t size, const char_t *str);
 
 void str_subs(String *str, const char_t replace, const char_t with);
 

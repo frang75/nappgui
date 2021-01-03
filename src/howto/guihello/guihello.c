@@ -7,6 +7,7 @@
 #include "sliders.h"
 #include "form.h"
 #include "popcom.h"
+#include "listboxes.h"
 #include "textviews.h"
 #include "baslayout.h"
 #include "sublayout.h"
@@ -20,6 +21,7 @@ struct _app_t
 {
     Window *window;
     Layout *layout;
+    Cell *listcell;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -44,27 +46,30 @@ static void i_set_panel(Layout *layout, const uint32_t index)
         panel = popup_combo();
         break;
     case 5:
-        panel = form_basic();
+        panel = listboxes();
         break;
     case 6:
-        panel = sliders();
+        panel = form_basic();
         break;
     case 7:
-        panel = textviews();
+        panel = sliders();
         break;
     case 8:
-        panel = basic_layout();
+        panel = textviews();
         break;
     case 9:
-        panel = sublayouts();
+        panel = basic_layout();
         break;
     case 10:
-        panel = subpanels();
+        panel = sublayouts();
         break;
     case 11:
-        panel = multilayouts();
+        panel = subpanels();
         break;
     case 12:
+        panel = multilayouts();
+        break;
+    case 13:
         panel = scrollpanel();
         break;
     }
@@ -97,6 +102,7 @@ static Panel *i_panel(App *app)
     listbox_add_elem(list, "Labels mouse sensitive", NULL);
     listbox_add_elem(list, "Buttons", NULL);
     listbox_add_elem(list, "PopUp Combo", NULL);
+    listbox_add_elem(list, "ListBoxes", NULL);
     listbox_add_elem(list, "Form", NULL);
     listbox_add_elem(list, "Sliders", NULL);
     listbox_add_elem(list, "TextViews", NULL);
@@ -105,7 +111,7 @@ static Panel *i_panel(App *app)
     listbox_add_elem(list, "Subpanels", NULL);
     listbox_add_elem(list, "Multi-Layouts", NULL);
     listbox_add_elem(list, "Scroll panel", NULL);
-    listbox_selected(list, 0);
+    listbox_select(list, 0, TRUE);
     listbox_OnSelect(list, listener(app, i_OnSelect, App));
     layout_listbox(layout, list, 0, 0);
     i_set_panel(layout, 0);
@@ -115,6 +121,7 @@ static Panel *i_panel(App *app)
     layout_margin(layout, 10);
     layout_hmargin(layout, 0, 10);
     app->layout = layout;
+    app->listcell = layout_cell(layout, 0, 0);
     return panel;
 }
 
@@ -148,6 +155,7 @@ static App *i_create(void)
     window_origin(app->window, v2df(500.f, 200.f));
     window_OnClose(app->window, listener(app, i_OnClose, App));
     window_show(app->window);
+    cell_focus(app->listcell);
     return app;
 }
 

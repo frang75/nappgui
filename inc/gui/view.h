@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2020 Francisco Garcia Collado
+ * © 2015-2021 Francisco Garcia Collado
  * All rights reserved
  * https://nappgui.com/en/legal/eula.html
  *
@@ -57,7 +57,11 @@ void view_get_size(const View *view, S2Df *size);
 
 void view_content_size(View *view, const S2Df size, const S2Df line);
 
-void view_scroll_to(View *view, const real32_t x, const real32_t y);
+void view_scroll_x(View *view, const real32_t pos);
+
+void view_scroll_y(View *view, const real32_t pos);
+
+void view_scroll_size(const View *view, real32_t *width, real32_t *height);
 
 void view_viewport(const View *view, V2Df *pos, S2Df *size);
 
