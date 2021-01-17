@@ -5,13 +5,13 @@
  * https://nappgui.com/en/legal/eula.html
  *
  * File: bmem.h
- * https://nappgui.com/en/osbs/bmem.html
+ * https://nappgui.com/en/sewer/bmem.html
  *
  */
 
 /* Operating System memory support */
 
-#include "osbs.hxx"
+#include "sewer.hxx"
 
 __EXTERN_C
 

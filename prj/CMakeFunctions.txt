@@ -126,7 +126,8 @@ function(getRecursiveSourceFiles targetName dir group)
                 string(REPLACE "/" "\\" groupname ${group})
                 source_group(${groupname} FILES ${dir}/${child})
 
-                # Linker error in binary distributions if only the C compiler works '__gxx_personality_v0'
+                # Linker error in binary distributions 
+                # when linking mixed c++ and c modules
                 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
                     if (${extLower} MATCHES ".c")
                         set_source_files_properties(${child} PROPERTIES LANGUAGE CXX)                      
@@ -992,7 +993,8 @@ endfunction()
 
 function(processCommandApp appName dependList)
 
-    set(dependencies "core")
+    #set(dependencies "core")
+    set(dependencies "")
     list(APPEND dependencies "${dependList}")
 
     if (WIN32)

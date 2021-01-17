@@ -5,13 +5,13 @@
  * https://nappgui.com/en/legal/eula.html
  *
  * File: bstd.h
- * https://nappgui.com/en/osbs/bstd.html
+ * https://nappgui.com/en/sewer/bstd.html
  *
  */
 
 /* Basic standard functions */
 
-#include "osbs.hxx"
+#include "sewer.hxx"
 
 __EXTERN_C
 

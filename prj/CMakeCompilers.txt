@@ -51,7 +51,7 @@ if (WIN32)
         # Disable C++ Exceptions
         removeFlag(CMAKE_CXX_FLAGS "/EHsc")
 
-        # Standard C Library �Static or Dynamic?
+        # Standard C Library Static or Dynamic
         #set(NAPPGUI_RUNTIME_LIBRARY static CACHE STRING "C Standard library static or dynamic linking.")
         #set_property(CACHE NAPPGUI_RUNTIME_LIBRARY PROPERTY STRINGS "static;dynamic")
         set(NAPPGUI_RUNTIME_LIBRARY "static")
@@ -192,7 +192,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         list(GET IDE_PROPERTIES ${PROP_INDEX} LOOP_PROPERTY)
         list(GET IDE_PROPERTIES ${PROP_NEXT} LOOP_VALUE)
         set(CMAKE_${LOOP_PROPERTY} ${LOOP_VALUE})
+        #message(CMAKE_${LOOP_PROPERTY} ${LOOP_VALUE})
     endforeach()
+    set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf")
 
     # Build architecture
     set(CMAKE_OSX_ARCHITECTURES ${CMAKE_ARCHITECTURE})
@@ -315,8 +317,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     # Warnings
     #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic")
     #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -std=c99")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -std=c99 -fPIE")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -fPIE")
     
     # Host architecture
     execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH)

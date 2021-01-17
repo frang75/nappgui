@@ -140,6 +140,12 @@ macro(configureMacOSClang)
             XCODE_ATTRIBUTE_CLANG_WARN__DUPLICATE_METHOD_MATCH      "YES"
             XCODE_ATTRIBUTE_GCC_WARN_UNDECLARED_SELECTOR            "YES")
 
+			# Avoid Linker warnings in user distributions
+            # (Debug symbols DWARF)
+	    	if (RELEASE_DISTRIBUTION)
+            	SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -Xlinker -w")
+            endif()
+
             # C/C++ Compiler Flags
             if(${XCODE_VERSION} VERSION_GREATER "7.99.99")
 

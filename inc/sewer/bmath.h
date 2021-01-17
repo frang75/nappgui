@@ -5,13 +5,13 @@
  * https://nappgui.com/en/legal/eula.html
  *
  * File: bmath.h
- * https://nappgui.com/en/osbs/bmath.html
+ * https://nappgui.com/en/sewer/bmath.html
  *
  */
 
 /* Math funcions */
 
-#include "osbs.hxx"
+#include "sewer.hxx"
 
 __EXTERN_C
 
@@ -109,8 +109,6 @@ real32_t bmath_ceilf(const real32_t value);
 
 real64_t bmath_ceild(const real64_t value);
 
-
-uint32_t bmath_time_seed(void);
 
 void bmath_rand_seed(const uint32_t seed);
 

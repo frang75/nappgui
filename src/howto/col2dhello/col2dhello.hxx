@@ -22,7 +22,8 @@ typedef enum _shtype_t
     ekCIRCLE,
     ekBOX,
     ekOBB,
-    ekPOLY
+    ekCONVEX_POLY,
+    ekSIMPLE_POLY
 } shtype_t;
 
 struct _seg_t
@@ -55,6 +56,7 @@ struct _pol_t
     V2Df center;
     real32_t angle;
     real32_t scale;
+    T2Df t2d;
     Pol2Df *pol;
 };
 

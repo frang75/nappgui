@@ -14,10 +14,30 @@ static void i_OnClose(App *app, Event *e)
 
 /*---------------------------------------------------------------------------*/
 
+static Pol2Df *i_convex_pol(void)
+{
+    const V2Df pt[] = { {4,1}, {2,5}, {-3,5}, {-4,2}, {0,-3} };
+    Pol2Df *pol = pol2d_createf(pt, sizeof(pt) / sizeof(V2Df));
+    cassert(pol2d_convexf(pol) == TRUE);
+    return pol;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static Pol2Df *i_simple_pol(void)
+{
+    const V2Df pt[] = { {9.78f, 12.17f}, {-10.00f, 11.01f}, {-9.68f, 3.20f}, {-9.30f, -5.98f}, {-4.27f, -5.84f}, {-4.03f, -12.17f}, {2.72f, -12.12f}, {2.47f, -6.36f}, {2.04f, 3.26f}, {-1.45f, 3.05f}, {-1.08f, -2.08f}, {-3.98f, -2.38f}, {-4.23f, 2.88f}, {-1.45f, 3.05f}, {2.04f, 3.26f}, {10.00f, 3.75f} };
+    Pol2Df *pol = pol2d_createf(pt, sizeof(pt) / sizeof(V2Df));
+    cassert(pol2d_convexf(pol) == FALSE);
+    return pol;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static ArrSt(Shape) *i_shapes(void) 
 {
     ArrSt(Shape) *shapes = arrst_create(Shape);
-    Shape *shape = arrst_new_n(shapes, 9, Shape);
+    Shape *shape = arrst_new_n(shapes, 10, Shape);
     shape[0].type = ekCIRCLE;
     shape[0].mouse = FALSE;
     shape[0].collisions = 0;
@@ -72,19 +92,30 @@ static ArrSt(Shape) *i_shapes(void)
     shape[7].body.seg.center.y = 280;
     shape[7].body.seg.length = 190;
     shape[7].body.seg.angle = 2.2f;
-    shape[8].type = ekPOLY;
+    shape[8].type = ekCONVEX_POLY;
     shape[8].mouse = FALSE;
     shape[8].collisions = 0;
     shape[8].body.pol.center.x = 535;
     shape[8].body.pol.center.y = 325;
     shape[8].body.pol.angle = .55f;
     shape[8].body.pol.scale = 15;
-    shape[8].body.pol.pol = NULL;
+    shape[8].body.pol.t2d = *kT2D_IDENTf;
+    shape[8].body.pol.pol = i_convex_pol();
+    shape[9].type = ekSIMPLE_POLY;
+    shape[9].mouse = FALSE;
+    shape[9].collisions = 0;
+    shape[9].body.pol.center.x = 370;
+    shape[9].body.pol.center.y = 450;
+    shape[9].body.pol.angle = .78f;
+    shape[9].body.pol.scale = 7;
+    shape[9].body.pol.t2d = *kT2D_IDENTf;
+    shape[9].body.pol.pol = i_simple_pol();
     col2dhello_update_obb(&shape[2].body.obb);
     col2dhello_update_obb(&shape[3].body.obb);
     col2dhello_update_box(&shape[6].body.box);
     col2dhello_update_seg(&shape[7].body.seg);
     col2dhello_update_pol(&shape[8].body.pol);
+    col2dhello_update_pol(&shape[9].body.pol);
     return shapes;
 }
 
@@ -116,7 +147,7 @@ static void i_remove_shape(Shape *shape)
     cassert_no_null(shape);
     if (shape->type == ekOBB)
         obb2d_destroyf(&shape->body.obb.obb);
-    else if (shape->type == ekPOLY)
+    else if (shape->type == ekCONVEX_POLY || shape->type == ekSIMPLE_POLY)
         pol2d_destroyf(&shape->body.pol.pol);
 }
 
@@ -128,6 +159,71 @@ static void i_destroy(App **app)
     arrst_destroy(&(*app)->dists, NULL, Dist);
     window_destroy(&(*app)->window);
     heap_delete(app, App);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void col2dhello_new_shape(App *app, const V2Df pos)
+{
+    Shape *shape = arrst_new(app->shapes, Shape);
+    shape->type = app->seltype;
+    shape->collisions = 0;
+    shape->mouse = FALSE;
+    app->selshape = arrst_size(app->shapes, Shape) - 1;
+
+    switch(app->seltype) {
+    case ekPOINT:
+        shape->body.pnt = pos;
+        break;
+
+    case ekSEGMENT:
+        shape->body.seg.center = pos;
+        shape->body.seg.length = 100;
+        shape->body.seg.angle = 15 * kBMATH_DEG2RADf;
+        col2dhello_update_seg(&shape->body.seg);
+        break;
+
+    case ekCIRCLE:
+        shape->body.cir.c = pos;
+        shape->body.cir.r = 30;
+        break;
+
+    case ekBOX:
+        shape->body.box.center = pos;
+        shape->body.box.width = 100;
+        shape->body.box.height = 50;
+        col2dhello_update_box(&shape->body.box);
+        break;
+
+    case ekOBB:
+        shape->body.obb.center = pos;
+        shape->body.obb.width = 100;
+        shape->body.obb.height = 50;
+        shape->body.obb.angle = 15 * kBMATH_DEG2RADf;
+        shape->body.obb.obb = NULL;
+        col2dhello_update_obb(&shape->body.obb);
+        break;
+
+    case ekCONVEX_POLY:
+        shape->body.pol.center = pos;
+        shape->body.pol.angle = 0;
+        shape->body.pol.scale = 10;
+        shape->body.pol.t2d = *kT2D_IDENTf;
+        shape->body.pol.pol = i_convex_pol();
+        col2dhello_update_pol(&shape->body.pol);
+        break;
+
+    case ekSIMPLE_POLY:
+        shape->body.pol.center = pos;
+        shape->body.pol.angle = 0;
+        shape->body.pol.scale = 10;
+        shape->body.pol.t2d = *kT2D_IDENTf;
+        shape->body.pol.pol = i_simple_pol();
+        col2dhello_update_pol(&shape->body.pol);
+        break;
+
+    cassert_default();
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -171,20 +267,16 @@ void col2dhello_update_obb(OBB *obb)
 
 void col2dhello_update_pol(Pol *pol)
 {
-    const V2Df verts[5] = { {4,1}, {2,5}, {-3,5}, {-4,2}, {0,-3} };
-    V2Df tverts[5];
-    T2Df t2d;
-
+    T2Df t2d, nt2d;
     cassert_no_null(pol);
-    t2d_movef(&t2d, kT2D_IDENTf, pol->center.x, pol->center.y);
-    t2d_rotatef(&t2d, &t2d, pol->angle);
-    t2d_scalef(&t2d, &t2d, pol->scale, pol->scale);
-    t2d_vmultnf(tverts, &t2d, verts, 5);
-
-    if (pol->pol == NULL)
-        pol->pol = pol2d_createf(tverts, 5);
-    else
-        pol2d_updatef(pol->pol, tverts);
+    cassert_no_null(pol->pol);
+    t2d_inversef(&t2d, &pol->t2d);
+    t2d_movef(&nt2d, kT2D_IDENTf, pol->center.x, pol->center.y);
+    t2d_rotatef(&nt2d, &nt2d, pol->angle);
+    t2d_scalef(&nt2d, &nt2d, pol->scale, pol->scale);
+    t2d_multf(&t2d, &nt2d, &t2d);
+    pol2d_transformf(pol->pol, &t2d);
+    pol->t2d = nt2d;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -209,7 +301,8 @@ static bool_t i_mouse_inside(const Shape *shape, const real32_t mouse_x, const r
     case ekOBB:
         return col2d_obb_pointf(shape->body.obb.obb, &m, NULL);
 
-    case ekPOLY:
+    case ekCONVEX_POLY:
+    case ekSIMPLE_POLY:
         return col2d_poly_pointf(shape->body.pol.pol, &m, NULL);
 
     cassert_default();
@@ -278,7 +371,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_obb_pointf(shape[j].body.obb.obb, &shape[i].body.pnt, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_pointf(shape[j].body.pol.pol, &shape[i].body.pnt, NULL);
                 break;
 
@@ -309,7 +403,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_obb_segmentf(shape[j].body.obb.obb, &shape[i].body.seg.seg, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_segmentf(shape[j].body.pol.pol, &shape[i].body.seg.seg, NULL);
                 break;
 
@@ -339,7 +434,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_obb_circlef(shape[j].body.obb.obb, &shape[i].body.cir, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_circlef(shape[j].body.pol.pol, &shape[i].body.cir, NULL);
                 break;
 
@@ -369,7 +465,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_obb_boxf(shape[j].body.obb.obb, &shape[i].body.box.box, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_boxf(shape[j].body.pol.pol, &shape[i].body.box.box, NULL);
                 break;
 
@@ -399,7 +496,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_obb_obbf(shape[i].body.obb.obb, shape[j].body.obb.obb, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_obbf(shape[j].body.pol.pol, shape[i].body.obb.obb, NULL);
                 break;
 
@@ -407,7 +505,8 @@ void col2dhello_collisions(App *app)
             }
             break;
 
-        case ekPOLY:
+        case ekCONVEX_POLY:
+        case ekSIMPLE_POLY:
             switch(shape[j].type) {
             case ekPOINT:
                 col = col2d_poly_pointf(shape[i].body.pol.pol, &shape[j].body.pnt, NULL);
@@ -429,7 +528,8 @@ void col2dhello_collisions(App *app)
                 col = col2d_poly_obbf(shape[i].body.pol.pol, shape[j].body.obb.obb, NULL);
                 break;
 
-            case ekPOLY:
+            case ekCONVEX_POLY:
+            case ekSIMPLE_POLY:
                 col = col2d_poly_polyf(shape[i].body.pol.pol, shape[j].body.pol.pol, NULL);
                 break;
 

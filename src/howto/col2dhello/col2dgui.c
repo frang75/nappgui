@@ -12,7 +12,8 @@ void col2dhello_dbind(void)
     dbind_enum(shtype_t, ekCIRCLE);
     dbind_enum(shtype_t, ekBOX);
     dbind_enum(shtype_t, ekOBB);
-    dbind_enum(shtype_t, ekPOLY);
+    dbind_enum(shtype_t, ekCONVEX_POLY);
+    dbind_enum(shtype_t, ekSIMPLE_POLY);
     dbind(App, shtype_t, seltype);
     dbind(App, bool_t, show_seg_pt);
     dbind(Seg, real32_t, length);
@@ -87,7 +88,7 @@ static void i_OnOBB(App *app, Event *e)
 static void i_OnPoly(App *app, Event *e)
 {
     Shape *shape = arrst_get(app->shapes, app->selshape, Shape);
-    cassert(shape->type == ekPOLY);
+    cassert(shape->type == ekCONVEX_POLY || shape->type == ekSIMPLE_POLY);
     col2dhello_update_pol(&shape->body.pol);
     col2dhello_collisions(app);
     view_update(app->view);
@@ -262,68 +263,12 @@ static Layout *i_pol_layout(App *app)
 static void i_OnNewShape(App *app, Event *e)
 {
     S2Df size;
-    Shape *shape = arrst_new(app->shapes, Shape);
-    unref(e);
-
     view_get_size(app->view, &size);
-    shape->type = app->seltype;
-    shape->collisions = 0;
-    shape->mouse = FALSE;
-    app->selshape = arrst_size(app->shapes, Shape) - 1;
-
-    switch(app->seltype) {
-    case ekPOINT:
-        shape->body.pnt.x = size.width / 2;
-        shape->body.pnt.y = size.height / 2;
-        break;
-
-    case ekSEGMENT:
-        shape->body.seg.center.x = size.width / 2;
-        shape->body.seg.center.y = size.height / 2;
-        shape->body.seg.length = 100;
-        shape->body.seg.angle = 15 * kBMATH_DEG2RADf;
-        col2dhello_update_seg(&shape->body.seg);
-        break;
-
-    case ekCIRCLE:
-        shape->body.cir.c.x = size.width / 2;
-        shape->body.cir.c.y = size.height / 2;
-        shape->body.cir.r = 30;
-        break;
-
-    case ekBOX:
-        shape->body.box.center.x = size.width / 2;
-        shape->body.box.center.y = size.height / 2;
-        shape->body.box.width = 100;
-        shape->body.box.height = 50;
-        col2dhello_update_box(&shape->body.box);
-        break;
-
-    case ekOBB:
-        shape->body.obb.center.x = size.width / 2;
-        shape->body.obb.center.y = size.height / 2;
-        shape->body.obb.width = 100;
-        shape->body.obb.height = 50;
-        shape->body.obb.angle = 15 * kBMATH_DEG2RADf;
-        shape->body.obb.obb = NULL;
-        col2dhello_update_obb(&shape->body.obb);
-        break;
-
-    case ekPOLY:
-        shape->body.pol.center.x = size.width / 2;
-        shape->body.pol.center.y = size.height / 2;
-        shape->body.pol.angle = 0;
-        shape->body.pol.scale = 10;
-        shape->body.pol.pol = NULL;
-        col2dhello_update_pol(&shape->body.pol);
-        break;
-
-    cassert_default();
-    }
-
+    col2dhello_new_shape(app, v2df(size.width / 2, size.height / 2));
     col2dhello_dbind_shape(app);
     col2dhello_collisions(app);
     view_update(app->view);
+    unref(e);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -496,7 +441,8 @@ static void i_draw_bbox(DCtx *ctx, const Shape *shape)
         break;
     }
 
-    case ekPOLY:
+    case ekCONVEX_POLY:
+    case ekSIMPLE_POLY:
     {
         const V2Df *points = pol2d_pointsf(shape->body.pol.pol);
         uint32_t n = pol2d_nf(shape->body.pol.pol);
@@ -544,7 +490,8 @@ static void i_OnDraw(App *app, Event *e)
             i_draw_obb(p->ctx, &shape->body.obb);
             break;
 
-        case ekPOLY:
+        case ekCONVEX_POLY:
+        case ekSIMPLE_POLY:
             i_draw_poly(p->ctx, &shape->body.pol);
             break;
 
@@ -607,7 +554,8 @@ static void i_get_shape_pos(const Shape *shape, V2Df *pos)
         pos->y = shape->body.obb.center.y;
         break;
 
-    case ekPOLY:
+    case ekCONVEX_POLY:
+    case ekSIMPLE_POLY:
         pos->x = shape->body.pol.center.x;
         pos->y = shape->body.pol.center.y;
         break;
@@ -618,40 +566,35 @@ static void i_get_shape_pos(const Shape *shape, V2Df *pos)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_set_shape_pos(Shape *shape, const V2Df *pos)
+static void i_set_shape_pos(Shape *shape, const V2Df pos)
 {
     switch(shape->type) {
     case ekPOINT:
-        shape->body.pnt.x = pos->x;
-        shape->body.pnt.y = pos->y;
+        shape->body.pnt = pos;
         break;
 
     case ekSEGMENT:
-        shape->body.seg.center.x = pos->x;
-        shape->body.seg.center.y = pos->y;
+        shape->body.seg.center = pos;
         col2dhello_update_seg(&shape->body.seg);
         break;
 
     case ekCIRCLE:
-        shape->body.cir.c.x = pos->x;
-        shape->body.cir.c.y = pos->y;
+        shape->body.cir.c = pos;
         break;
 
     case ekBOX:
-        shape->body.box.center.x = pos->x;
-        shape->body.box.center.y = pos->y;
+        shape->body.box.center = pos;
         col2dhello_update_box(&shape->body.box);
         break;
 
     case ekOBB:
-        shape->body.obb.center.x = pos->x;
-        shape->body.obb.center.y = pos->y;
+        shape->body.obb.center = pos;
         col2dhello_update_obb(&shape->body.obb);
         break;
 
-    case ekPOLY:
-        shape->body.pol.center.x = pos->x;
-        shape->body.pol.center.y = pos->y;
+    case ekCONVEX_POLY:
+    case ekSIMPLE_POLY:
+        shape->body.pol.center = pos;
         col2dhello_update_pol(&shape->body.pol);
         break;
 
@@ -699,7 +642,7 @@ static void i_OnDrag(App *app, Event *e)
         const EvMouse *p = event_params(e, EvMouse);
         Shape *shape = arrst_get(app->shapes, app->selshape, Shape);
         V2Df move = v2df(app->obj_pos.x + (p->x - app->mouse_pos.x), app->obj_pos.y + (p->y - app->mouse_pos.y));
-        i_set_shape_pos(shape, &move);
+        i_set_shape_pos(shape, move);
         col2dhello_collisions(app);
         view_update(app->view);
     }
@@ -712,7 +655,7 @@ static Layout *i_layout(App *app)
     Layout *layout1 = layout_create(2, 1);
     Layout *layout2 = i_left_layout(app);
     View *view = view_create();
-    view_size(view, s2df(640, 480));
+    view_size(view, s2df(640, 580));
     view_OnDraw(view, listener(app, i_OnDraw, App));
     view_OnMove(view, listener(app, i_OnMove, App));
     view_OnDown(view, listener(app, i_OnDown, App));
@@ -769,7 +712,8 @@ void col2dhello_dbind_shape(App *app)
             panel_visible_layout(app->obj_panel, 5);
             break;
 
-        case ekPOLY:
+        case ekCONVEX_POLY:
+        case ekSIMPLE_POLY:
             layout_dbind_obj(app->pol_layout, &shape->body.pol, Pol);
             panel_visible_layout(app->obj_panel, 6);
             break;

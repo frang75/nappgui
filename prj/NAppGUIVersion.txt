@@ -8,6 +8,7 @@ set(NAPPGUI_REVISION 2)
 # This is a 'Release' distribution
 if (EXISTS ${CMAKE_LIB_PATH})
     set(VERSION_FILE ${CMAKE_PRJ_PATH}/build.txt)
+    set(RELEASE_DISTRIBUTION YES)
     if (EXISTS "${VERSION_FILE}")
         file(READ ${VERSION_FILE} NAPPGUI_BUILD)
         string(REPLACE "\r\n" "" NAPPGUI_BUILD ${NAPPGUI_BUILD})

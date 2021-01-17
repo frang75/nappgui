@@ -19,6 +19,14 @@ Box2Df box2df(const real32_t minX, const real32_t minY, const real32_t maxX, con
 
 Box2Dd box2dd(const real64_t minX, const real64_t minY, const real64_t maxX, const real64_t maxY);
 
+Box2Df box2d_pointsf(const V2Df *p, const uint32_t n);
+
+Box2Dd box2d_pointsd(const V2Dd *p, const uint32_t n);
+
+V2Df box2d_centerf(const Box2Df *box);
+
+V2Dd box2d_centerd(const Box2Dd *box);
+
 void box2d_addf(Box2Df *box, const V2Df *p);
 
 void box2d_addd(Box2Dd *box, const V2Dd *p);

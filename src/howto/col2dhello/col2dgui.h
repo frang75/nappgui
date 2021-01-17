@@ -6,6 +6,8 @@ Window *col2dhello_window(App *app);
 
 void col2dhello_dbind(void);
 
+void col2dhello_new_shape(App *app, const V2Df pos);
+
 void col2dhello_update_seg(Seg *seg);
 
 void col2dhello_update_box(Box *box);

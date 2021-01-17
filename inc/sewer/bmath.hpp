@@ -5,13 +5,13 @@
  * https://nappgui.com/en/legal/eula.html
  *
  * File: bmath.hpp
- * https://nappgui.com/en/osbs/bmath.html
+ * https://nappgui.com/en/sewer/bmath.html
  *
  */
 
 /* Math funcions */
 
-#include "osbs.hxx"
+#include "sewer.hxx"
 
 template<typename real>
 struct BMath

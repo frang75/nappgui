@@ -23,6 +23,10 @@ struct Box2D
 
     Box2D(const real minX, const real minY, const real maxX, const real maxY) {min.x = minX, min.y = minY, max.x = maxX, max.y = maxY;}
 
+    static Box2D<real> (*points)(const V2D<real> *p, const uint32_t n);
+
+    static V2D<real> (*center)(const Box2D<real> *box);
+
     static void (*add)(Box2D<real> *box, const V2D<real> *p);
 
     static void (*addn)(Box2D<real> *box, const V2D<real> *p, const uint32_t n);

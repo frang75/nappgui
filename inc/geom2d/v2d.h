@@ -19,6 +19,10 @@ V2Df v2df(const real32_t x, const real32_t y);
 
 V2Dd v2dd(const real64_t x, const real64_t y);
 
+V2Df v2d_tof(const V2Dd *v);
+
+V2Dd v2d_tod(const V2Df *v);
+
 V2Df v2d_addf(const V2Df *v1, const V2Df *v2);
 
 V2Dd v2d_addd(const V2Dd *v1, const V2Dd *v2);
@@ -34,6 +38,10 @@ V2Dd v2d_muld(const V2Dd *v, const real64_t s);
 V2Df v2d_unitf(const V2Df *v1, const V2Df *v2, real32_t *dist);
 
 V2Dd v2d_unitd(const V2Dd *v1, const V2Dd *v2, real64_t *dist);
+
+V2Df v2d_unit_xyf(const real32_t x1, const real32_t y1, const real32_t x2, const real32_t y2, real32_t *dist);
+
+V2Dd v2d_unit_xyd(const real64_t x1, const real64_t y1, const real64_t x2, const real64_t y2, real64_t *dist);
 
 V2Df v2d_perp_posf(const V2Df *v);
 
