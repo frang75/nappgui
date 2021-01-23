@@ -37,3 +37,8 @@ desktopApp("DrawImg" "howto/drawimg" "" NRC_EMBEDDED)
 desktopApp("UrlImg" "howto/urlimg" "inet" NRC_EMBEDDED)
 
 # Your projects here!
+desktopApp("MyProject1" "myproject1" "inet" NRC_EMBEDDED)
+desktopApp("MyProject2" "myproject2" "inet" NRC_EMBEDDED)
+desktopApp("MyProject3" "myproject3" "inet" NRC_EMBEDDED)
+desktopApp("MyProject4" "myproject4" "inet" NRC_EMBEDDED)
+desktopApp("MyProject5" "myproject5" "inet" NRC_EMBEDDED)
