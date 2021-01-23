@@ -70,3 +70,4 @@ gdb ./demo/die/Debug/Die   // Debug an example
 - [Create a new project](https://nappgui.com/en/start/newprj.html)
 - [About Portability](https://nappgui.com/en/start/win_mac_linux.html)
 
+## Edited
