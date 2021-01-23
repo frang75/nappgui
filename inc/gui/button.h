@@ -1,3 +1,6 @@
+// EDITED
+// EDITED
+
 /*
  * NAppGUI Cross-platform C SDK
  * © 2015-2021 Francisco Garcia Collado
