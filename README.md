@@ -25,11 +25,36 @@ sudo apt-get install libcurl4-openssl-dev
 
 - **All platforms:** [CMake](https://cmake.org/download/)
 
-## Running on Windows
-### Open a terminal
+## Quick start in Windows
+
+### Prerequisites
+- [Visual Studio](https://visualstudio.microsoft.com/vs/)
+- [CMake](https://cmake.org/download/)
+
+### Open the Developer Command Prompt
 ```
-C:\>git clone https://github.com/frang75/nappgui.git C:\nappgui
-```
+(from C:\)
+
+// Clone the NAppGUI repo
+git clone --depth 1 https://github.com/frang75/nappgui.git nappgui_sdk
+
+// Create a build directory
+mkdir nappgui_build
+cd nappgui_build
+
+// Generate the Visual Studio Solution
+cmake -G "Visual Studio 16 2019" ../nappgui_sdk/src
+
+// Build the examples
+msbuild NAppGUI.sln
+
+// Run examples in 'demo' and 'howto' folders
+.\demo\die\Debug\Die.exe
+.\demo\bricks\Debug\Bricks.exe
+.\demo\products\Debug\Products.exe
+.\howto\col2dhello\Debug\Col2dHello.exe
+.\howto\guihello\Debug\GuiHello.exe
+...```
 
 It will create a working copy on `C:\nappgui`
 
