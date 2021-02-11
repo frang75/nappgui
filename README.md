@@ -4,10 +4,26 @@ Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and
 ![NAppGUI Stack](https://nappgui.com/img/start/nappgui_stack.png)
 
 ## Prerequisites
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) - Windows
-- [Xcode 12, 11, 10](https://developer.apple.com/xcode/) - macOS Big Sur, Catalina or Mojave
-- GCC 9, 7 - Ubuntu 20.04 LTS or 18.04 LTS
-- [CMake](https://cmake.org/download/) - Cross platform
+- **Windows:** [Visual Studio](https://visualstudio.microsoft.com/vs/)
+
+- **macOS:** [Xcode](https://developer.apple.com/xcode/)
+
+- **Linux:**
+```
+// Development tools
+sudo apt-get install gcc
+sudo apt-get install g++
+sudo apt-get install git
+sudo apt-get install make
+sudo apt-get install cmake
+
+// Development libraries
+sudo apt-get install libgtk-3-dev
+sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
+sudo apt-get install libcurl4-openssl-dev
+```
+
+- **All platforms:** [CMake](https://cmake.org/download/)
 
 ## Running on Windows
 ### Open a terminal
