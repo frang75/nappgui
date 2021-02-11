@@ -54,7 +54,8 @@ msbuild NAppGUI.sln
 .\demo\products\Debug\Products.exe
 .\howto\col2dhello\Debug\Col2dHello.exe
 .\howto\guihello\Debug\GuiHello.exe
-...```
+```
+![Running demo project in Windows](https://nappgui.com/img/start/run_demo_windows.png)
 
 It will create a working copy on `C:\nappgui`
 
