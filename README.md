@@ -54,40 +54,42 @@ msbuild NAppGUI.sln
 .\demo\products\Debug\Products.exe
 .\howto\col2dhello\Debug\Col2dHello.exe
 .\howto\guihello\Debug\GuiHello.exe
+...
 ```
 ![Running demo project in Windows](https://nappgui.com/img/start/run_demo_windows.png)
 
-It will create a working copy on `C:\nappgui`
+## Quick start in macOS
 
-### Open CMake
-- **Where is the source code:** `C:\nappgui\src` (Or `src` folder in your working copy)
-- **Where to build the binaries:** `C:\nappgui_build` (Or other folder)
-- [Configure]
-- [Generate]
-- [Open Project]
+### Prerequisites
+- [Xcode](https://developer.apple.com/xcode/)
+- [CMake](https://cmake.org/download/)
 
-![NAppGUI CMake](https://nappgui.com/img/start/nappgui_cmake.png)
-
-You must select the **Visual Studio 16 2019** generator with **x64** platform the first time.
-
-![NAppGUI Generator](https://nappgui.com/img/start/cmake_generator.png)
-
-### In Visual Studio 2019 (after click in [Open Project])
-- Build->Build Solution
-- Run the examples under `demo` or `howto`
-
-![NAppGUI Build](https://nappgui.com/img/start/rundemo_visualstudio.png)
-
-## Running on macOS
-
-Get the working copy and run CMake in the same way as Windows, using `Xcode` generator.
-
+### Open the Terminal
 ```
-git clone https://github.com/frang75/nappgui.git ~/nappgui
-```
-![Xcode_Debugging](https://nappgui.com/img/start/xcode_debug.png)
+(from your home dir ~/)
 
-**Important:** `CMAKE_DEPLOYMENT_TARGET` must be `11.0`, `10.15` or `10.14`
+// Clone the NAppGUI repo
+git clone --depth 1 https://github.com/frang75/nappgui.git nappgui_sdk
+
+// Create a build directory
+mkdir nappgui_build
+cd nappgui_build
+
+// Generate the Xcode project
+cmake -G "Xcode" ../nappgui_sdk/src
+
+// Build the examples
+xcodebuild
+
+// Run examples in 'demo' and 'howto' folders
+./demo/die/Debug/Die.app/Contents/MacOS/Die
+./demo/bricks/Debug/Bricks.app/Contents/MacOS/Bricks
+./demo/products/Debug/Products.app/Contents/MacOS/Products
+./howto/col2dhello/Debug/Col2dHello.app/Contents/MacOS/Col2dHello
+./howto/guihello/Debug/GuiHello.app/Contents/MacOS/GuiHello
+...
+```
+![Running demo project in macOS](https://nappgui.com/img/start/run_demo_macos.png)
 
 ## Running on Ubuntu 20.04 or 18.04
 
