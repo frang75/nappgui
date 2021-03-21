@@ -16,6 +16,11 @@
 #define arrst_create(type)\
     (ArrSt(type)*)array_create_imp(sizeof(type), (const char_t*)(ARRST#type))
 
+#define arrst_copy(array, func_copy, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    FUNC_CHECK_SCOPY(func_copy, type),\
+    (ArrSt(type)*)array_copy_imp((Array*)(array), (FPtr_scopy)(func_copy), (const char_t*)(ARRST#type)))
+
 #define arrst_destroy(array, func_remove, type)\
     ((void)((array) == (ArrSt(type)**)(array)),\
     FUNC_CHECK_REMOVE(func_remove, type),\
@@ -42,6 +47,10 @@
 #define arrst_get(array, pos, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
     (type*)array_get_imp((Array*)(array), (pos)))
+
+#define arrst_first(array, type)\
+    ((void)((array) == (ArrSt(type)*)(array)),\
+    (type*)array_get_imp((Array*)(array), (0)))
 
 #define arrst_last(array, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
@@ -90,6 +99,12 @@
 #define arrst_insert(array, pos, value, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
 	(*(type*)array_insert_imp((Array*)(array), (pos), 1)) = (value))
+
+#define arrst_join(dest, src, func_copy, type)\
+    ((void)((dest) == (ArrSt(type)*)(dest)),\
+    (void)((src) == (ArrSt(type)*)(src)),\
+    FUNC_CHECK_SCOPY(func_copy, type),\
+    array_join_imp((Array*)(dest), (const Array*)src, (FPtr_scopy)func_copy))
 
 #define arrst_delete(array, pos, func_remove, type)\
 	((void)((array) == (ArrSt(type)*)(array)),\

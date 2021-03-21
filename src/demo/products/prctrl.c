@@ -620,50 +620,46 @@ void ctrl_login_panel(Ctrl *ctrl, Panel *panel)
 static UJson *i_user_webserv(const char_t *user, const char_t *pass, wserv_t *ret)
 {
     Http *http = NULL;
-    uint32_t status = 0;
+    String *path = NULL;
     UJson *ujson = NULL;
 
     *ret = ekWS_OK;
     if (str_empty_c(user) || str_empty_c(pass))
     {
         *ret = ekWS_ACCESS;
-        return ujson;
+        return NULL;
     }
 
-    http = http_create("serv.nappgui.com", 80, NULL);
-    if (http == NULL)
+    http = http_create("serv.nappgui.com", 80);
+    path = str_printf("/duser.php?user=%s&pass=%s", user, pass);
+    if (http_get(http, tc(path), NULL, 0, NULL) == TRUE)
     {
-        *ret = ekWS_CONNECT;
-        return ujson;
-    }
-
-    http_add_param(http, "user", user);
-    http_add_param(http, "pass", pass);
-    http_get(http, "/duser.php", NULL, 0, NULL);
-    status = http_response_status(http);
-    if (status >= 200 && status <= 299)
-    {
-        Stream *stm = stm_memory(4096);
-        http_response_body(http, stm, NULL);
-        ujson = json_read(stm, NULL, UJson);
-
-        if (!ujson)
+        uint32_t status = http_response_status(http);
+        if (status >= 200 && status <= 299)
         {
-            *ret = ekWS_JSON;
+            Stream *stm = stm_memory(4096);
+            http_response_body(http, stm, NULL);
+            ujson = json_read(stm, NULL, UJson);
+
+            if (!ujson)
+            {
+                *ret = ekWS_JSON;
+            }
+            else if (ujson->code != 0)
+            {
+                json_destroy(&ujson, UJson);
+                *ret = ekWS_ACCESS;
+            }
+
+            stm_close(&stm);
         }
-        else if (ujson->code != 0)
+        else
         {
-            json_destroy(&ujson, UJson);
             *ret = ekWS_ACCESS;
         }
-
-        stm_close(&stm);
-    }
-    else
-    {
-        *ret = ekWS_ACCESS;
     }
 
+    str_destroy(&path);
     http_destroy(&http);
     return ujson;
 }

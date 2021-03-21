@@ -29,6 +29,8 @@ struct V2D
 
     static V2D<real> (*mul)(const V2D<real> *v, const real s);
 
+    static V2D<real> (*from)(const V2D<real> *v, const V2D<real> *dir, const real length);
+
     static V2D<real> (*unit)(const V2D<real> *v1, const V2D<real> *v2, real *dist);
 
     static V2D<real> (*perp_pos)(const V2D<real> *v);

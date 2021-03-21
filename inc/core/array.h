@@ -17,6 +17,10 @@ __EXTERN_C
 
 Array *array_create_imp(const uint16_t esize, const char_t *type);
 
+Array *array_copy_imp(const Array *array, FPtr_scopy func_copy, const char_t *type);
+
+Array *array_copy_ptr_imp(const Array *array, FPtr_copy func_copy, const char_t *type);
+
 void array_destroy_imp(Array **array, FPtr_remove func_remove, const char_t *type);
 
 void array_destroy_ptr_imp(Array **array, FPtr_destroy func_destroy, const char_t *type);
@@ -46,6 +50,8 @@ byte_t *array_all_imp(const Array *array);
 byte_t *array_insert_imp(Array *array, const uint32_t pos, const uint32_t n);
 
 byte_t *array_insert0_imp(Array *array, const uint32_t pos, const uint32_t n);
+
+void array_join_imp(Array *dest, const Array *src, FPtr_scopy func_copy);
 
 void array_delete_imp(Array *array, const uint32_t pos, const uint32_t n, FPtr_remove func_remove);
 

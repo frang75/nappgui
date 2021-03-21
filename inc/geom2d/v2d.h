@@ -35,6 +35,12 @@ V2Df v2d_mulf(const V2Df *v, const real32_t s);
 
 V2Dd v2d_muld(const V2Dd *v, const real64_t s);
 
+V2Df v2d_fromf(const V2Df *v, const V2Df *dir, const real32_t length);
+
+V2Dd v2d_fromd(const V2Dd *v, const V2Dd *dir, const real64_t length);
+
+V2Dd v2d_midd(const V2Dd *v1, const V2Dd *v2);
+
 V2Df v2d_unitf(const V2Df *v1, const V2Df *v2, real32_t *dist);
 
 V2Dd v2d_unitd(const V2Dd *v1, const V2Dd *v2, real64_t *dist);

@@ -31,6 +31,10 @@ typedef void*(*FPtr_copy)(const void *item);
 #define FUNC_CHECK_COPY(func, type)\
     (void)((type*(*)(const type*))func == func)
 
+typedef void(*FPtr_scopy)(void *dest, const void *src);
+#define FUNC_CHECK_SCOPY(func, type)\
+    (void)((void(*)(type*, const type*))func == func)
+
 typedef int(*FPtr_compare)(const void *item1, const void *item2);
 #define FUNC_CHECK_COMPARE(func, type)\
     (void)((int(*)(const type*, const type*))func == func)

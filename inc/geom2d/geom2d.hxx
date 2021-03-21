@@ -131,15 +131,18 @@ struct _col2df_t
 {
     V2Df p;
     V2Df n;
-    real32_t sqdist;
+    real32_t d;
 };
 
 struct _col2dd_t
 {
     V2Dd p;
     V2Dd n;
-    real64_t sqdist;
+    real64_t d;
 };
+
+DeclType(V2Df);
+DeclType(V2Dd);
 
 #endif
 

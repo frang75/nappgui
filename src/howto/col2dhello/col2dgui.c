@@ -7,13 +7,13 @@
 
 void col2dhello_dbind(void)
 {
-    dbind_enum(shtype_t, ekPOINT);
-    dbind_enum(shtype_t, ekSEGMENT);
-    dbind_enum(shtype_t, ekCIRCLE);
-    dbind_enum(shtype_t, ekBOX);
-    dbind_enum(shtype_t, ekOBB);
-    dbind_enum(shtype_t, ekCONVEX_POLY);
-    dbind_enum(shtype_t, ekSIMPLE_POLY);
+    dbind_enum(shtype_t, ekPOINT, "");
+    dbind_enum(shtype_t, ekSEGMENT, "");
+    dbind_enum(shtype_t, ekCIRCLE, "");
+    dbind_enum(shtype_t, ekBOX, "");
+    dbind_enum(shtype_t, ekOBB, "");
+    dbind_enum(shtype_t, ekCONVEX_POLY, "");
+    dbind_enum(shtype_t, ekSIMPLE_POLY, "");
     dbind(App, shtype_t, seltype);
     dbind(App, bool_t, show_seg_pt);
     dbind(Seg, real32_t, length);

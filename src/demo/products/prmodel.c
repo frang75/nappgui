@@ -61,23 +61,21 @@ void model_destroy(Model **model)
 
 static Stream *i_http_get(void)
 {
-    Http *http = http_create("serv.nappgui.com", 80, NULL);
+    Http *http = http_create("serv.nappgui.com", 80);
     Stream *stm = NULL;
-    if (http != NULL)
+
+    if (http_get(http, "/dproducts.php", NULL, 0, NULL) == TRUE)
     {
-        uint32_t status = 0;
-        http_get(http, "/dproducts.php", NULL, 0, NULL);
-        status = http_response_status(http);
+        uint32_t status = http_response_status(http);
         if (status >= 200 && status <= 299)
         {
             stm = stm_memory(4096);
             if (http_response_body(http, stm, NULL) == FALSE)
                 stm_close(&stm);
         }
-
-        http_destroy(&http);
     }
 
+    http_destroy(&http);
     return stm;
 }
 
@@ -226,10 +224,10 @@ Product *model_product(Model *model, const uint32_t product_id)
 
 void model_bind(void)
 {
-    dbind_enum(type_t, ekCPU);
-    dbind_enum(type_t, ekGPU);
-    dbind_enum(type_t, ekHDD);
-    dbind_enum(type_t, ekSCD);
+    dbind_enum(type_t, ekCPU, "");
+    dbind_enum(type_t, ekGPU, "");
+    dbind_enum(type_t, ekHDD, "");
+    dbind_enum(type_t, ekSCD, "");
     dbind(Product, type_t, type);
     dbind(Product, String*, code);
     dbind(Product, String*, description);

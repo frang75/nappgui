@@ -17,9 +17,7 @@ __EXTERN_C
 
 void dbind_imp(const char_t *type, const uint16_t size, const char_t *mname, const char_t *mtype, const uint16_t moffset, const uint16_t msize);
 
-void dbind_enum_imp(const char_t *type, const char_t *name, const enum_t value);
-
-void dbind_alias_imp(const char_t *type, const char_t *name, const char_t *alias);
+void dbind_enum_imp(const char_t *type, const char_t *name, const enum_t value, const char_t *alias);
 
 byte_t *dbind_create_imp(const char_t *type);
 
@@ -59,21 +57,13 @@ __END_C
                 (uint16_t)STRUCT_MEMBER_SIZE(type, mname))\
     )
 
-#define dbind_enum(type, value)\
+#define dbind_enum(type, value, alias)\
     (\
         (void)(((type)value) == value),\
         dbind_enum_imp(\
                 (const char_t*)#type,\
                 (const char_t*)#value,\
-                (enum_t)value)\
-    )
-
-#define dbind_alias(type, value, alias)\
-    (\
-        (void)(((type)value) == value),\
-        dbind_alias_imp(\
-                (const char_t*)#type,\
-                (const char_t*)#value,\
+                (enum_t)value,\
                 alias)\
     )
 

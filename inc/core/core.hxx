@@ -248,31 +248,6 @@ typedef struct _evfiledir_t EvFileDir;
 #define TreeSt(type)    struct Tree##St##type
 #define NodeSt(type)    struct Node##St##type
 
-ArrSt(bool_t);
-ArrSt(int8_t);
-ArrSt(int16_t);
-ArrSt(int32_t);
-ArrSt(int64_t);
-ArrSt(uint8_t);
-ArrSt(uint16_t);
-ArrSt(uint32_t);
-ArrSt(uint64_t);
-ArrSt(real32_t);
-ArrSt(real64_t);
-SetSt(bool_t);
-SetSt(int8_t);
-SetSt(int16_t);
-SetSt(int32_t);
-SetSt(int64_t);
-SetSt(uint8_t);
-SetSt(uint16_t);
-SetSt(uint32_t);
-SetSt(uint64_t);
-SetSt(real32_t);
-SetSt(real64_t);
-ArrPt(String);
-ArrPt(ResPack);
-
 typedef void(*FPtr_remove)(void *obj);
 #define FUNC_CHECK_REMOVE(func, type)\
     (void)((void(*)(type*))func == func)
@@ -308,6 +283,33 @@ struct _evfiledir_t
     uint32_t depth;
 };
 
+ArrSt(bool_t);
+ArrSt(int8_t);
+ArrSt(int16_t);
+ArrSt(int32_t);
+ArrSt(int64_t);
+ArrSt(uint8_t);
+ArrSt(uint16_t);
+ArrSt(uint32_t);
+ArrSt(uint64_t);
+ArrSt(real32_t);
+ArrSt(real64_t);
+SetSt(bool_t);
+SetSt(int8_t);
+SetSt(int16_t);
+SetSt(int32_t);
+SetSt(int64_t);
+SetSt(uint8_t);
+SetSt(uint16_t);
+SetSt(uint32_t);
+SetSt(uint64_t);
+SetSt(real32_t);
+SetSt(real64_t);
+ArrPt(String);
+ArrPt(ResPack);
+ArrPtDecl(String);
+DeclType(DirEntry);
+
 #ifdef  __cplusplus
 
 struct IListener
@@ -319,39 +321,5 @@ protected:
 typedef void(IListener::*EventHandler)(Event*);
 
 #endif
-
-#define ArrStDecl(type)\
-struct type##Data\
-{\
-    type elem[1024];\
-};\
-\
-struct Arr##St##type\
-{\
-    uint32_t reserved;\
-    uint32_t size;\
-    uint16_t elem_sizeof;\
-    struct type##Data *content;\
-}
-
-#define ArrPtDecl(type)\
-struct type##PtData\
-{\
-    type *elem[1024];\
-};\
-\
-struct Arr##Pt##type\
-{\
-    uint32_t reserved;\
-    uint32_t size;\
-    uint16_t elem_sizeof;\
-    struct type##PtData *content;\
-}
-
-#define DeclType(type)\
-    ArrStDecl(type);\
-    ArrPtDecl(type)
-
-ArrPtDecl(String);
 
 #endif

@@ -18,7 +18,6 @@
 #include "box2d.hpp"
 #include "obb2d.hpp"
 #include "pol2d.hpp"
-#include "seg2d.hpp"
 #include "v2d.hpp"
 
 template<typename real>
@@ -68,7 +67,7 @@ struct Col2D
 
     V2D<real> p;
     V2D<real> n;
-    real sqdist;
+    real d;
 };
 
 #endif

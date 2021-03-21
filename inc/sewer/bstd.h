@@ -33,6 +33,8 @@ bool_t bstd_write(const byte_t *data, const uint32_t size, uint32_t *wsize);
 
 bool_t bstd_ewrite(const byte_t *data, const uint32_t size, uint32_t *wsize);
 
+void bstd_abort(void);
+
 void bstd_debug_break(void);
 
 __END_C

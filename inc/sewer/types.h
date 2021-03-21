@@ -33,4 +33,6 @@ real64_t max_r64(const real64_t v1, const real64_t v2);
 
 real32_t abs_r32(const real32_t v);
 
+uint8_t to_u8(const uint32_t v);
+
 __END_C

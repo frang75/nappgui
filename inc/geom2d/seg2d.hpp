@@ -20,11 +20,17 @@ struct Seg2D
 
     Seg2D(const real x0, const real y0, const real x1, const real y1) {p0.x = x0, p0.y = y0, p1.x = x1, p1.y = y1;}
 
+    static real (*length)(const Seg2D<real> *seg);
+
+    static real (*sqlength)(const Seg2D<real> *seg);
+
     static V2D<real> (*eval)(const Seg2D<real> *seg, const real t);
 
     static real (*close_param)(const Seg2D<real> *seg, const V2D<real> *pnt);
 
     static real (*point_sqdist)(const Seg2D<real> *seg, const V2D<real> *pnt, real *t);
+
+    static real (*sqdist)(const Seg2D<real> *seg1, const Seg2D<real> *seg2);
 
     V2D<real> p0;
     V2D<real> p1;

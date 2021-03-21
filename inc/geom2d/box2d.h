@@ -43,6 +43,10 @@ void box2d_mergef(Box2Df *dest, const Box2Df *src);
 
 void box2d_merged(Box2Dd *dest, const Box2Dd *src);
 
+void box2d_segmentsf(const Box2Df *box, Seg2Df *segs);
+
+void box2d_segmentsd(const Box2Dd *box, Seg2Dd *segs);
+
 bool_t box2d_is_nullf(const Box2Df *box);
 
 bool_t box2d_is_nulld(const Box2Dd *box);

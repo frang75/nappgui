@@ -122,8 +122,4 @@ real32_t col2d_line_point_distf(const real32_t x0, const real32_t y0, const real
 
 real64_t col2d_line_point_distd(const real64_t x0, const real64_t y0, const real64_t x1, const real64_t y1, const real64_t x, const real64_t y);
 
-real32_t col2d_segment_point_sqdistf(const V2Df *a, const V2Df *b, const V2Df *c);
-
-real64_t col2d_segment_point_sqdistd(const V2Dd *a, const V2Dd *b, const V2Dd *c);
-
 __END_C

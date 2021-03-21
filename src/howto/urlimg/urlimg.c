@@ -17,8 +17,6 @@ struct _app_t
     Label *imgformat;
 };
 
-static const char_t *i_HOST = "test.nappgui.com";
-static const char_t *i_URI = "/image_formats";
 static const char_t *i_FILES[] = {
                             "anim_04_bat.gif",
                             "anim_04_cube.gif",
@@ -86,74 +84,60 @@ static __INLINE String *i_pixformat(const pixformat_t format, const uint32_t nco
 
 static void i_download(App *app)
 {
-    String *uri = str_printf("%s/%s", i_URI, i_FILES[app->selected]);
-    ierror_t err;
-    Http *http = http_create(i_HOST, 80, &err);
-    if (http != NULL)
+    String *url = str_printf("http://test.nappgui.com/image_formats/%s", i_FILES[app->selected]);
+    Stream *stm = http_dget(tc(url), NULL, NULL);
+    if (stm != NULL)
     {
-        uint32_t status = 0;
-        http_get(http, tc(uri), NULL, 0, &err);
-        status = http_response_status(http);
-        if (status >= 200 && status <= 299)
+        uint32_t width, height;
+        pixformat_t format;
+        uint32_t ncolors = 0;
+        uint64_t start = stm_bytes_readed(stm);
+        Image *image = image_read(stm);
+        uint64_t end = stm_bytes_readed(stm);
+        String *ssize = str_printf("%d bytes", (uint32_t)(end - start));
+        String *sres = NULL;
+        String *sformat = NULL;
+
+        // Test for image pixels read
+        if (image_get_codec(image) != ekGIF)
         {
-            Stream *stm = stm_memory(8096);
+            Pixbuf *pixdata = NULL;
+            Palette *palette = NULL;
+            image_pixels(image, ekOPTIMAL, &pixdata, &palette);
+            image_destroy(&image);
+            width = pixbuf_width(pixdata);
+            height = pixbuf_height(pixdata);
+            format = pixbuf_format(pixdata);
+            image = image_from_pixbuf(pixdata, palette);
+            pixbuf_destroy(&pixdata);
 
-            if (http_response_body(http, stm, &err) == TRUE)
+            if (palette != NULL)
             {
-                uint32_t width, height;
-                pixformat_t format;
-                uint32_t ncolors = 0;
-                uint64_t start = stm_bytes_readed(stm);
-                Image *image = image_read(stm);
-                uint64_t end = stm_bytes_readed(stm);
-                String *ssize = str_printf("%d bytes", (uint32_t)(end - start));
-                String *sres = NULL;
-                String *sformat = NULL;
-
-                // Test for image pixels read
-                if (image_get_codec(image) != ekGIF)
-                {
-                    Pixbuf *pixdata = NULL;
-                    Palette *palette = NULL;
-                    image_pixels(image, ekOPTIMAL, &pixdata, &palette);
-                    image_destroy(&image);
-                    width = pixbuf_width(pixdata);
-                    height = pixbuf_height(pixdata);
-                    format = pixbuf_format(pixdata);
-                    image = image_from_pixbuf(pixdata, palette);
-                    pixbuf_destroy(&pixdata);
-
-                    if (palette != NULL)
-                    {
-                        ncolors = palette_size(palette);
-                        palette_destroy(&palette);
-                    }
-                }
-                else
-                {
-                    image_size(image, &width, &height);
-                    image_format(image, &format);
-                }
-
-                imageview_image(app->view, image);
-                sres = str_printf("%d x %d", width, height);
-                sformat = i_pixformat(format, ncolors);
-                label_text(app->imgname, i_FILES[app->selected]);
-                label_text(app->imgsize, tc(ssize));
-                label_text(app->imgres, tc(sres));
-                label_text(app->imgformat, tc(sformat));
-                image_destroy(&image);
-                stm_close(&stm);
-                str_destroy(&ssize);
-                str_destroy(&sres);
-                str_destroy(&sformat);
+                ncolors = palette_size(palette);
+                palette_destroy(&palette);
             }
         }
+        else
+        {
+            image_size(image, &width, &height);
+            image_format(image, &format);
+        }
 
-        http_destroy(&http);
+        imageview_image(app->view, image);
+        sres = str_printf("%d x %d", width, height);
+        sformat = i_pixformat(format, ncolors);
+        label_text(app->imgname, i_FILES[app->selected]);
+        label_text(app->imgsize, tc(ssize));
+        label_text(app->imgres, tc(sres));
+        label_text(app->imgformat, tc(sformat));
+        image_destroy(&image);
+        stm_close(&stm);
+        str_destroy(&ssize);
+        str_destroy(&sres);
+        str_destroy(&sformat);
     }
 
-    str_destroy(&uri);
+    str_destroy(&url);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -177,13 +161,12 @@ static Layout* i_label(const char_t *title, Label **info)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_add_files(PopUp *popup)
+static void i_add_files(ListBox *listbox)
 {
     register uint32_t i, n = sizeof(i_FILES) / sizeof(char_t*);
     for (i = 0; i < n; ++i)
-        popup_add_elem(popup, i_FILES[i], NULL);
-
-    popup_list_height(popup, 20);
+        listbox_add_elem(listbox, i_FILES[i], NULL);
+    listbox_select(listbox, 0, TRUE);    
 }
 
 /*---------------------------------------------------------------------------*/
@@ -204,15 +187,15 @@ static Panel *i_panel(App *app)
     Layout *layout2 = layout_create(1, 2);
     Layout *layout3 = layout_create(1, 5);
     Label *label = label_create();
-    PopUp *popup = popup_create();
+    ListBox *listbox = listbox_create();
     ImageView *view = imageview_create();
     app->view = view;
     label_text(label, "Images");
-    i_add_files(popup);
-    popup_OnSelect(popup, listener(app, i_OnSelect, App));
+    i_add_files(listbox);
+    listbox_OnSelect(listbox, listener(app, i_OnSelect, App));
     imageview_size(view, s2df(600, 400));
     layout_label(layout2, label, 0, 0);
-    layout_popup(layout2, popup, 0, 1);
+    layout_listbox(layout2, listbox, 0, 1);
     layout_imageview(layout3, view, 0, 0);
     layout_layout(layout3, i_label("Image name:", &app->imgname), 0, 1);
     layout_layout(layout3, i_label("Image size:", &app->imgsize), 0, 2);
@@ -226,7 +209,8 @@ static Panel *i_panel(App *app)
     layout_vmargin(layout3, 0, 5);
     layout_vmargin(layout3, 1, 3);
     layout_vmargin(layout3, 2, 3);
-    layout_valign(layout1, 0, 0, ekTOP);
+    layout_hsize(layout1, 0, 200);
+    layout_vexpand(layout2, 1);
     panel_layout(panel, layout1);
     return panel;
 }
@@ -246,16 +230,14 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);
-    String *title = str_printf("Images from URL '%s%s'", i_HOST, i_URI);
     app->window = window_create(ekWNSTD, &panel);
     app->selected = 0;
     inet_init();
     i_download(app);
-    window_title(app->window, tc(title));
+    window_title(app->window, "Images from URL 'http://test.nappgui.com/image_formats'");
     window_origin(app->window, v2df(500, 200));
     window_OnClose(app->window, listener(app, i_OnClose, App));
     window_show(app->window);
-    str_destroy(&title);
     return app;
 }
 

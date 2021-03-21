@@ -16,6 +16,11 @@
 #define arrpt_create(type)\
     (ArrPt(type)*)array_create_imp(sizeof(type*), (const char_t*)(ARRPT#type))
 
+#define arrpt_copy(array, func_copy, type)\
+    ((void)((array) == (ArrPt(type)*)(array)),\
+    FUNC_CHECK_COPY(func_copy, type),\
+    (ArrPt(type)*)array_copy_ptr_imp((Array*)(array), (FPtr_copy)(func_copy), (const char_t*)(ARRPT#type)))
+
 #define arrpt_destroy(array, func_destroy, type)\
     ((void)(array == (ArrPt(type)**)(array)),\
     array_destroy_ptr_imp((Array**)(array), (FPtr_destroy)func_destroy, (const char_t*)(ARRPT#type)))
@@ -41,6 +46,10 @@
 #define arrpt_get(array, pos, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\
     *(type**)array_get_imp((Array*)(array), (pos)))
+
+#define arrpt_first(array, type)\
+    ((void)((array) == (ArrPt(type)*)(array)),\
+    *(type**)array_get_imp((Array*)(array), (0)))
 
 #define arrpt_last(array, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\

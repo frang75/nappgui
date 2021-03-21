@@ -14,7 +14,7 @@
 #ifndef __B2D_HPP__
 #define __B2D_HPP__
 
-#include "v2d.hpp"
+#include "seg2d.hpp"
 
 template<typename real>
 struct Box2D
@@ -32,6 +32,8 @@ struct Box2D
     static void (*addn)(Box2D<real> *box, const V2D<real> *p, const uint32_t n);
 
     static void (*merge)(Box2D<real> *dest, const Box2D<real> *src);
+
+    static void (*segments)(const Box2D<real> *box, Seg2D<real> *segs);
 
     static bool_t (*is_null)(const Box2D<real> *box);
 

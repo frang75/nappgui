@@ -73,6 +73,8 @@ uint32_t str_prefix(const char_t *str1, const char_t *str2);
 
 bool_t str_is_prefix(const char_t *str, const char_t *prefix);
 
+bool_t str_is_sufix(const char_t *str, const char_t *sufix);
+
 int str_scmp(const String *str1, const String *str2);
 
 int str_cmp(const String *str1, const char_t *str2);

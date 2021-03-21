@@ -118,6 +118,9 @@ __END_C
 #define layout_get_combo(layout, col, row)\
     (Combo*)layout_control_imp(layout, col, row, "Combo")
 
+#define layout_get_listbox(layout, col, row)\
+    (Combo*)layout_control_imp(layout, col, row, "ListBox")
+
 #define layout_get_updown(layout, col, row)\
     (UpDown*)layout_control_imp(layout, col, row, "UpDown")
 
