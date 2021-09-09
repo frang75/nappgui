@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: geom2d.hxx
  * https://nappgui.com/en/geom2d/geom2d.html
@@ -32,12 +32,10 @@ typedef struct _box2df_t Box2Df;
 typedef struct _box2dd_t Box2Dd;
 typedef struct _obb2df_t OBB2Df;
 typedef struct _obb2dd_t OBB2Dd;
+typedef struct _tri2df_t Tri2Df;
+typedef struct _tri2dd_t Tri2Dd;
 typedef struct _pol2df_t Pol2Df;
 typedef struct _pol2dd_t Pol2Dd;
-typedef struct _cur2df_t Cur2Df;
-typedef struct _cur2dd_t Cur2Dd;
-typedef struct _reg2df_t Reg2Df;
-typedef struct _reg2dd_t Reg2Dd;
 typedef struct _col2df_t Col2Df;
 typedef struct _col2dd_t Col2Dd;
 
@@ -91,6 +89,18 @@ struct _t2dd_t
     V2Dd p;
 };
 
+struct _seg2df_t
+{
+    V2Df p0;
+    V2Df p1;
+};
+
+struct _seg2dd_t
+{
+    V2Dd p0;
+    V2Dd p1;
+};
+
 struct _cir2df_t
 {
     V2Df c;
@@ -115,16 +125,18 @@ struct _box2dd_t
     V2Dd max;
 };
 
-struct _seg2df_t
+struct _tri2df_t
 {
     V2Df p0;
     V2Df p1;
+    V2Df p2;
 };
 
-struct _seg2dd_t
+struct _tri2dd_t
 {
     V2Dd p0;
     V2Dd p1;
+    V2Dd p2;
 };
 
 struct _col2df_t
@@ -143,6 +155,23 @@ struct _col2dd_t
 
 DeclType(V2Df);
 DeclType(V2Dd);
+DeclType(S2Df);
+DeclType(S2Dd);
+DeclType(R2Df);
+DeclType(R2Dd);
+DeclType(T2Df);
+DeclType(T2Dd);
+DeclType(Seg2Df);
+DeclType(Seg2Dd);
+DeclType(Cir2Df);
+DeclType(Cir2Dd);
+DeclType(Box2Df);
+DeclType(Box2Dd);
+DeclType(Tri2Df);
+DeclType(Tri2Dd);
+ArrPtDecl(Pol2Df);
+ArrPtDecl(Pol2Dd);
+DeclType(Col2Df);
+DeclType(Col2Dd);
 
 #endif
-

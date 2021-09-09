@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: ptr.h
  * https://nappgui.com/en/sewer/ptr.html
@@ -19,9 +19,9 @@ void *ptr_dget_imp(void **dptr);
 
 void *ptr_dget_no_null_imp(void **dptr);
 
-void ptr_destroy_optional_imp(void **dptr, FPtr_destroy func_destroy);
+void ptr_destopt_imp(void **dptr, FPtr_destroy func_destroy);
 
-void *ptr_copy_optional_imp(void *ptr, FPtr_copy func_copy);
+void *ptr_copyopt_imp(void *ptr, FPtr_copy func_copy);
 
 __END_C
 
@@ -54,9 +54,9 @@ __END_C
 #define ptr_destopt(func_destroy, dptr, type)\
     ((void)((dptr) == (type**)(dptr)),\
     FUNC_CHECK_DESTROY(func_destroy, type),\
-    ptr_destroy_optional_imp((void**)(dptr), (FPtr_destroy)func_destroy))
+    ptr_destopt_imp((void**)(dptr), (FPtr_destroy)func_destroy))
 
 #define ptr_copyopt(func_copy, ptr, type)\
     ((void)((ptr) == (type*)(ptr)),\
     FUNC_CHECK_COPY(func_copy, type),\
-    (type*)ptr_copy_optional_imp((void*)(ptr), (FPtr_copy)func_copy))
+    (type*)ptr_copyopt_imp((void*)(ptr), (FPtr_copy)func_copy))

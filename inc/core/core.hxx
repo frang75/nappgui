@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: core.hxx
  * https://nappgui.com/en/core/core.html
@@ -159,7 +159,7 @@ typedef enum _mkey_t
     ekMKEY_COMMAND  = 1 << 3
 } mkey_t;
 
-typedef enum _lextoken_t
+typedef enum _token_t
 {
     ekTSLCOM = 1,
     ekTMLCOM,
@@ -214,14 +214,13 @@ typedef enum _lextoken_t
 
     ekTRESERVED
 
-} lextoken_t;
+} ltoken_t;
 
 typedef struct _array_t Array;
 typedef struct _buffer_t Buffer;
 typedef struct _keybuf_t KeyBuf;
 typedef struct _clock_t Clock;
 typedef struct _event_t Event;
-typedef struct _lexscn_t LexScn;
 typedef struct _listener_t Listener;
 typedef struct _rbtree_t RBTree;
 typedef const char_t* ResId;
@@ -239,14 +238,6 @@ typedef struct _evfiledir_t EvFileDir;
 #define ArrSt(type)     struct Arr##St##type
 #define SetPt(type)     struct Set##Pt##type
 #define SetSt(type)     struct Set##St##type
-#define DictPt(type)    struct Dict##Pt##type
-#define DictSt(type)    struct Dict##St##type
-#define HashPt(type)    struct Hash##Pt##type
-#define HashSt(type)    struct Hash##St##type
-#define TreePt(type)    struct Tree##Pt##type
-#define NodePt(type)    struct Node##Pt##type
-#define TreeSt(type)    struct Tree##St##type
-#define NodeSt(type)    struct Node##St##type
 
 typedef void(*FPtr_remove)(void *obj);
 #define FUNC_CHECK_REMOVE(func, type)\
@@ -283,17 +274,17 @@ struct _evfiledir_t
     uint32_t depth;
 };
 
-ArrSt(bool_t);
-ArrSt(int8_t);
-ArrSt(int16_t);
-ArrSt(int32_t);
-ArrSt(int64_t);
-ArrSt(uint8_t);
-ArrSt(uint16_t);
-ArrSt(uint32_t);
-ArrSt(uint64_t);
-ArrSt(real32_t);
-ArrSt(real64_t);
+DeclType(bool_t);
+DeclType(int8_t);
+DeclType(int16_t);
+DeclType(int32_t);
+DeclType(int64_t);
+DeclType(uint8_t);
+DeclType(uint16_t);
+DeclType(uint32_t);
+DeclType(uint64_t);
+DeclType(real32_t);
+DeclType(real64_t);
 SetSt(bool_t);
 SetSt(int8_t);
 SetSt(int16_t);
@@ -305,9 +296,8 @@ SetSt(uint32_t);
 SetSt(uint64_t);
 SetSt(real32_t);
 SetSt(real64_t);
-ArrPt(String);
-ArrPt(ResPack);
 ArrPtDecl(String);
+ArrPtDecl(ResPack);
 DeclType(DirEntry);
 
 #ifdef  __cplusplus

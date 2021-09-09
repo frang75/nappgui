@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: v2d.h
  * https://nappgui.com/en/geom2d/v2d.html
@@ -23,6 +23,10 @@ V2Df v2d_tof(const V2Dd *v);
 
 V2Dd v2d_tod(const V2Df *v);
 
+void v2d_tofn(V2Df *vf, const V2Dd *vd, const uint32_t n);
+
+void v2d_todn(V2Dd *vd, const V2Df *vf, const uint32_t n);
+
 V2Df v2d_addf(const V2Df *v1, const V2Df *v2);
 
 V2Dd v2d_addd(const V2Dd *v1, const V2Dd *v2);
@@ -38,6 +42,8 @@ V2Dd v2d_muld(const V2Dd *v, const real64_t s);
 V2Df v2d_fromf(const V2Df *v, const V2Df *dir, const real32_t length);
 
 V2Dd v2d_fromd(const V2Dd *v, const V2Dd *dir, const real64_t length);
+
+V2Df v2d_midf(const V2Df *v1, const V2Df *v2);
 
 V2Dd v2d_midd(const V2Dd *v1, const V2Dd *v2);
 
@@ -56,6 +62,10 @@ V2Dd v2d_perp_posd(const V2Dd *v);
 V2Df v2d_perp_negf(const V2Df *v);
 
 V2Dd v2d_perp_negd(const V2Dd *v);
+
+V2Df v2d_from_anglef(const real32_t a);
+
+V2Dd v2d_from_angled(const real64_t a);
 
 bool_t v2d_normf(V2Df *v);
 

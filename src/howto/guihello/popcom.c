@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: popcom.c
+ *
+ */
+
 /* PopUp and Combo */
 
 #include "popcom.h"

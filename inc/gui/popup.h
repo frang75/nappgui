@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: popup.h
  * https://nappgui.com/en/gui/popup.html
@@ -27,7 +27,7 @@ void popup_set_elem(PopUp *popup, const uint32_t index, const char_t *text, cons
 
 void popup_clear(PopUp *popup);
 
-uint32_t popup_size(const PopUp *popup);
+uint32_t popup_count(const PopUp *popup);
 
 void popup_list_height(PopUp *popup, const uint32_t elems);
 

@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: main.c
+ *
+ */
+
 /* NAppGUI Hello World */
 
 #include "nappgui.h"
@@ -86,17 +96,18 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);    
+    app->window = window_create(ekWNSTD);
+    window_panel(app->window, panel);
+    window_title(app->window, "Dice");
+    window_origin(app->window, v2df(500.f, 200.f));
+    window_OnClose(app->window, listener(app, i_OnClose, App));
+    window_show(app->window);
     app->face[0] = 1;
     app->face[1] = 2;
     app->face[2] = 3;
     app->face[3] = 4;
     app->face[4] = 5;
     app->face[5] = 6;
-    app->window = window_create(ekWNSTD, &panel);
-    window_title(app->window, "Dice");
-    window_origin(app->window, v2df(500.f, 200.f));
-    window_OnClose(app->window, listener(app, i_OnClose, App));
-    window_show(app->window);
     return app;
 }
 

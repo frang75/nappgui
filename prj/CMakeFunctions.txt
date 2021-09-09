@@ -1,5 +1,6 @@
 # CMake build functions script
-include(${CMAKE_PRJ_PATH}/CMakeDirectX.txt)
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 #------------------------------------------------------------------------------
 
@@ -42,7 +43,6 @@ function(isSourceSubDir subDirName _ret)
         endif()
     elseif (${subDirLower} STREQUAL unix) 
 	    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin"
-            OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS"
             OR ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             set(${_ret} TRUE PARENT_SCOPE)
         else()
@@ -352,13 +352,6 @@ function(getRecursiveTargetIncludes targetName dependList)
             appendIncludeDependency(${targetName} ${CMAKE_SRC_PATH}/${depend})
             getDirectDepends(${depend} childDependList)
 
-			if (WIN32)
-				if (${dependName} STREQUAL "dx9")
-					findDirectX()
-					appendIncludeDependency(${targetName} "${DIRECTX_SDK_INC}")
-				endif()
-			endif()
-
         elseif (EXISTS ${CMAKE_INC_PATH}/${depend})            
             appendIncludeDependency(${targetName} ${CMAKE_INC_PATH}/${depend})
             getDirectDepends(${depend} childDependList)
@@ -453,14 +446,6 @@ function(processTarget targetName targetType dependList)
 
     endif()
 
-	# DirectX SDK Include directories
-	if (WIN32)
-		if (${targetName} STREQUAL "dx9")
-			findDirectX()
-			target_include_directories(${targetName} PUBLIC ${DIRECTX_SDK_INC})
-		endif()
-	endif()
-
     # GTK Include directories
     if (${CMAKE_TOOLKIT} MATCHES "GTK3")    
         if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/gtk3)
@@ -522,20 +507,6 @@ function(setDotNetProps targetName dotnetDependList dotnetFramework)
 
 	# DOTNET Framework version
 	set_target_properties(${targetName} PROPERTIES DOTNET_TARGET_FRAMEWORK_VERSION v${dotnetFramework})
-
-endfunction()
-
-#------------------------------------------------------------------------------
-
-function(processDynamicCli libName dependList dotnetDependList dotnetFramework)
-    processTarget("${libName}" "WIN_DLL" "${dependList}")
-
-	# Enable '\clr' option
-	set_target_properties(${libName} PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-
-    setDotNetProps(${libName} "${dotnetDependList}" "${dotnetFramework}")
-	set_target_properties(${libName} PROPERTIES COMPILE_DEFINITIONS "__CXXCLI_DLL__")
-    targetLinkWithLibraries(${libName} "${dependList}") 
 
 endfunction()
 
@@ -778,57 +749,6 @@ function(targetLinkWithLibraries targetName firstLevelDepends)
                 message(ERROR "- libCURL is required. Try 'sudo apt-get install libcurl4-openssl-dev'")
             endif()
         endif()
-
-        # Support for DirectX
-		if (WIN32)
-            existsDepend(${targetName} "dx9" _index)                
-            if (${_index} GREATER -1)        
-				findDirectX()
-				target_link_libraries(${targetName} ${DIRECTX_SDK_LIB})
-			endif()
-        endif()
-		
-        # Support for OpenGL        
-        list (FIND ${targetName}_LINKDEPENDS "opengl" _index)        
-        if (${_index} GREATER -1)
-            if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-                find_package(OpenGL REQUIRED EGL)
-                target_link_libraries(${targetName} ${OPENGL_LIBRARY})
-           
-                # Some older Linux don't detect EGL
-                if (NOT OPENGL_egl_LIBRARY)     
-                    if (NAPPGUI_RASPBIAN)
-                        set(OPENGL_egl_LIBRARY "/usr/lib/arm-linux-gnueabihf/libEGL.so")
-                    elseif(${NAPPGUI_ARCH} MATCHES "x64")                
-                        set(OPENGL_egl_LIBRARY "/usr/lib/x86_64-linux-gnu/libEGL.so")
-                    else()
-                        set(OPENGL_egl_LIBRARY "/usr/lib/x86-linux-gnu/libEGL.so")
-                    endif()
-                endif()
-                                    
-                target_link_libraries(${targetName} ${OPENGL_egl_LIBRARY})
-                
-                #message(${OPENGL_egl_LIBRARY})                
-                #message(${OPENGL::GL})
-                #message(${OpenGL_EGL_FOUND})
-                #message(${OpenGL_GLX_FOUND})
-                #target_include_directories("opengl" PUBLIC ${GTKGL_INCLUDE_DIRS})
-                #target_link_libraries("opengl" ${OPENGL_egl_LIBRARY})
-                #message(${OPENGL_LIBRARY})
-                #message(${OpenGL_EGL_FOUND})
-                #message(${OPENGL_egl_LIBRARY})
-                #find_package(EGL REQUIRED)
-                #pkg_check_modules(EGL REQUIRED gtkglext-1.0)
-                #target_include_directories("opengl" PUBLIC ${GTKGL_INCLUDE_DIRS})            
-                #target_include_directories(${targetName} PUBLIC ${GTKGL_INCLUDE_DIRS})            
-                #target_link_libraries("opengl" ${GTKGL_LIBRARY})
-                #target_link_libraries(${targetName} ${GTKGL_LIBRARY})
-            else()
-                find_package(OpenGL REQUIRED)
-                target_link_libraries(${targetName} ${OPENGL_LIBRARY})
-            endif()
-            
-        endif()
         
     endif()
 
@@ -1020,26 +940,6 @@ endfunction()
 
 #------------------------------------------------------------------------------
 
-function(processCommandCli appName dependList dotnetDependList dotnetFramework)
-
-    set(dependencies "core")
-    list(APPEND dependencies "${dependList}")
-
-    if (WIN32)
-        windowsBundle(${appName} WIN_CONSOLE "${dependencies}")
-	    set_target_properties(${appName} PROPERTIES COMMON_LANGUAGE_RUNTIME "")
-        setDotNetProps(${appName} "${dotnetDependList}" "${dotnetFramework}")
-        targetLinkWithLibraries(${appName} "${dependencies}")
-
-    else()
-        message(ERROR "- ${appName} C++/Cli application only supported in Windows platform")
-
-    endif()
-
-endfunction()
-
-#------------------------------------------------------------------------------
-
 function(addTarget targetName targetPath nrcMode)
 
     if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${targetPath})
@@ -1139,113 +1039,6 @@ function(staticLib libPath dependencies nrcMode)
 		setTargetFilter(${libName} ${libPath})
 
 	endif()
-
-endfunction()
-
-#------------------------------------------------------------------------------
-
-function(dynamicCli libPath dependencies dotnetDependencies dotnetFramework nrcMode)
-
-	# C++/Cli libraries only can be build in Windows systems
-	if (WIN32)
-
-		# Library location
-		set(libSourcePath ${CMAKE_CURRENT_SOURCE_DIR}/${libPath})
-		get_filename_component(libDir ${libPath} PATH)
-		get_filename_component(libName ${libPath} NAME)
-		set(libBinaryPath ${CMAKE_LIB_PATH}/${NAPPGUI_COMPILER_TOOLSET}_${NAPPGUI_ARCH}/Debug/${libDir}/${NAPPGUI_LIB_PREFIX}${libName}${NAPPGUI_LIB_SUFFIX})
-		set(${libPath}_DIRECTDEPENDS "${dependencies}" CACHE INTERNAL "")
-
-		# Library exists as binary
-		if (EXISTS ${libBinaryPath})
-			message(STATUS "- ${libName}: Detected binary file")
-
-		else()			
-			# New Library (doesn't exists yet)
-			if (NOT EXISTS ${libSourcePath})
-
-				set(libPathName ${libSourcePath}/${libName})
-				string(TOUPPER ${libName} libNameUpper)
-
-				# New directory
-				file(MAKE_DIRECTORY ${libPath})
-				file(MAKE_DIRECTORY ${libPath}/res)
-
-				# lib.h file
-				file(WRITE ${libPathName}.h "/* ${libName} */\n\n")
-				file(APPEND ${libPathName}.h "using namespace System;\n\n")
-				file(APPEND ${libPathName}.h "namespace ${libName}Space {\n\n")
-				file(APPEND ${libPathName}.h "public ref class ${libName}\n")
-				file(APPEND ${libPathName}.h "{\n")
-				file(APPEND ${libPathName}.h "public:\n")
-				file(APPEND ${libPathName}.h "    ${libName}();\n")
-				file(APPEND ${libPathName}.h "};\n\n")
-				file(APPEND ${libPathName}.h "}\n")
-
-				# lib.cpp file
-				file(WRITE  ${libPathName}.cpp "/* ${libName} */\n\n")
-				file(APPEND ${libPathName}.cpp "#include \"${libName}.h\"\n\n")
-				file(APPEND ${libPathName}.cpp "namespace ${libName}Space {\n\n")
-				file(APPEND ${libPathName}.cpp "/*---------------------------------------------------------------------------*/\n\n")
-				file(APPEND ${libPathName}.cpp "${libName}::${libName}()\n")
-
-				file(APPEND ${libPathName}.cpp "{\n")
-				file(APPEND ${libPathName}.cpp "    /*TODO: Implement */\n")
-				file(APPEND ${libPathName}.cpp "}\n\n")
-				file(APPEND ${libPathName}.cpp "/*---------------------------------------------------------------------------*/\n\n")
-				file(APPEND ${libPathName}.cpp "}\n")
-
-				message(STATUS "- ${libName}: Created new project")
-			endif()
-
-			# CMakeLists.txt create/update
-			file(WRITE ${libSourcePath}/CMakeLists.txt "processDynamicCli(${libName} \"${dependencies}\" \"${dotnetDependencies}\" \"${dotnetFramework}\")")
-
-			# Configure (from target dir)
-			addTarget(${libName} ${libPath} ${nrcMode})
-
-			# Filter (folder in IDE)
-			setTargetFilter(${libName} ${libPath})
-
-		endif()
-
-	endif()
-
-endfunction()
-
-#------------------------------------------------------------------------------
-
-function(commandCli appPath dependencies dotnetDependencies dotnetFramework nrcMode)
-
-	# C++/Cli applications only can be build in Windows systems
-	if (WIN32)
-
-        set(appFullPath ${CMAKE_CURRENT_SOURCE_DIR}/${appPath})
-        get_filename_component(appName ${appPath} NAME)
-
-        if (NOT EXISTS ${appFullPath})
-            set(resPath ${appFullPath}/res)
-            file(MAKE_DIRECTORY ${appFullPath})
-            file(MAKE_DIRECTORY ${resPath})
-
-            # main.c
-            string(TOLOWER ${appName} appNameLower)
-            file(COPY ${CMAKE_PRJ_PATH}/templates/climain.c DESTINATION ${appFullPath})
-            file(RENAME ${appFullPath}/climain.c ${appFullPath}/${appNameLower}.cpp)
-
-            message(STATUS "- ${appName}: Created new project")
-        endif()
-
-        # CMakeLists.txt create/update
-        file(WRITE ${appFullPath}/CMakeLists.txt "processCommandCli(${appName} \"${dependencies}\" \"${dotnetDependencies}\" \"${dotnetFramework}\")")
-       
-        # Configure (from target dir)
-	    addTarget(${appName} ${appPath} ${nrcMode})
-
-        # Filter (folder in IDE)
-        setTargetFilter(${appName} ${appPath})
-
-    endif()
 
 endfunction()
 

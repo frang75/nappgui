@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: arrpt.h
  * https://nappgui.com/en/core/arrpt.html
@@ -21,18 +21,22 @@
     FUNC_CHECK_COPY(func_copy, type),\
     (ArrPt(type)*)array_copy_ptr_imp((Array*)(array), (FPtr_copy)(func_copy), (const char_t*)(ARRPT#type)))
 
+#define arrpt_read(stream, func_read, type)\
+    (FUNC_CHECK_READ(func_read, type),\
+    (ArrPt(type)*)array_read_ptr_imp(stream, (FPtr_read)func_read, (const char_t*)(ARRPT#type)))
+
 #define arrpt_destroy(array, func_destroy, type)\
     ((void)(array == (ArrPt(type)**)(array)),\
     array_destroy_ptr_imp((Array**)(array), (FPtr_destroy)func_destroy, (const char_t*)(ARRPT#type)))
+
+#define arrpt_destopt(array, func_destroy, type)\
+    ((void)(array == (ArrPt(type)**)(array)),\
+    array_destopt_ptr_imp((Array**)(array), (FPtr_destroy)func_destroy, (const char_t*)(ARRPT#type)))
 
 #define arrpt_clear(array, func_destroy, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\
     FUNC_CHECK_DESTROY(func_destroy, type),\
     array_clear_ptr_imp((Array*)(array), (FPtr_destroy)func_destroy))
-
-#define arrpt_read(stream, func_read, type)\
-    (FUNC_CHECK_READ(func_read, type),\
-    (ArrPt(type)*)array_read_ptr_imp(stream, (FPtr_read)func_read, (const char_t*)(ARRPT#type)))
 
 #define arrpt_write(stream, array, func_write, type)\
 	((void)((array) == (const ArrPt(type)*)(array)),\
@@ -74,6 +78,12 @@
 #define arrpt_insert(array, pos, value, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\
 	(*(type**)array_insert_imp((Array*)(array), (pos), 1)) = (type*)(value))
+
+#define arrpt_join(dest, src, func_copy, type)\
+    ((void)((dest) == (ArrPt(type)*)(dest)),\
+    (void)((src) == (ArrPt(type)*)(src)),\
+    FUNC_CHECK_COPY(func_copy, type),\
+    array_join_ptr_imp((Array*)(dest), (const Array*)src, (FPtr_copy)func_copy))
 
 #define arrpt_delete(array, pos, func_destroy, type)\
     ((void)((array) == (ArrPt(type)*)(array)),\

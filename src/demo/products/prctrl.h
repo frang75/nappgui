@@ -1,3 +1,14 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: prctrl.h
+ * https://nappgui.com/en/demo/products/prctrl.html
+ *
+ */
+
 /* Products Controller */
 
 #include "products.hxx"

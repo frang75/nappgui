@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: dgui.c
+ *
+ */
+
 /* Die Gui */
 
 #include "dgui.h"
@@ -141,12 +151,14 @@ static void i_OnLang(App *app, Event *e)
 
 Window *dgui_window(App *app)
 {
-    Panel *panel;
-    Window *window;
     gui_respack(all_respack);
     gui_language("");
-    panel = i_panel(app);
-    window = window_create(ekWNSRES, &panel);
-    window_title(window, TEXT_TITLE);
-    return window;
+
+    {
+        Panel *panel = i_panel(app);
+        Window *window = window_create(ekWNSRES);
+        window_panel(window, panel);
+        window_title(window, TEXT_TITLE);
+        return window;
+    }
 }

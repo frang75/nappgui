@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: combo.h
  * https://nappgui.com/en/gui/combo.html
@@ -43,7 +43,7 @@ void combo_phstyle(Combo *combo, const uint32_t fstyle);
 
 const char_t *combo_get_text(const Combo *combo, const uint32_t index);
 
-uint32_t combo_num_elems(const Combo *combo);
+uint32_t combo_count(const Combo *combo);
 
 void combo_add_elem(Combo *combo, const char_t *text, const Image *image);
 

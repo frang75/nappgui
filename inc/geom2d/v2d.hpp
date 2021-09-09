@@ -1,11 +1,10 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: v2d.hpp
- * https://nappgui.com/en/geom2d/v2d.html
  *
  */
 
@@ -31,11 +30,17 @@ struct V2D
 
     static V2D<real> (*from)(const V2D<real> *v, const V2D<real> *dir, const real length);
 
+    static V2D<real> (*mid)(const V2D<real> *v1, const V2D<real> *v2);
+
     static V2D<real> (*unit)(const V2D<real> *v1, const V2D<real> *v2, real *dist);
+
+    static V2D<real> (*unit_xy)(const real x1, const real y1, const real x2, const real y2, real *dist);
 
     static V2D<real> (*perp_pos)(const V2D<real> *v);
 
     static V2D<real> (*perp_neg)(const V2D<real> *v);
+
+    static V2D<real> (*from_angle)(const real a);
 
     static bool_t (*norm)(V2D<real> *v);
 

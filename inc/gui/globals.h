@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: globals.h
  * https://nappgui.com/en/gui/globals.html
@@ -19,6 +19,8 @@ device_t globals_device(void);
 
 void globals_resolution(S2Df *resolution);
 
-void globals_mouse_position(V2Df *mouse_position);
+V2Df globals_mouse_position(void);
+
+uint32_t globals_scrollbar_width(void);
 
 __END_C

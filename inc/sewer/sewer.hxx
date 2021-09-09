@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: sewer.hxx
  * https://nappgui.com/en/sewer/sewer.html
@@ -22,6 +22,8 @@ typedef enum _unicode_t
     ekUTF16,
     ekUTF32
 } unicode_t;
+
+typedef struct _renv_t REnv;
 
 typedef void(*FPtr_destroy)(void **item);
 #define FUNC_CHECK_DESTROY(func, type)\

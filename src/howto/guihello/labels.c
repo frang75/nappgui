@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: labels.c
+ *
+ */
+
 /* Labels basics */
     
 #include "labels.h"
@@ -69,9 +79,9 @@ Panel *labels_single_line(void)
     Label *label4 = label_create();
     Label *label5 = label_create();
     Label *label6 = label_create();
-    color_t c1 = color_alt(color_rgb(192, 255, 255), color_rgb(48, 112, 112));
-    color_t c2 = color_alt(color_rgb(255, 192, 255), color_rgb(128, 48, 112));
-    color_t c3 = color_alt(color_rgb(255, 255, 192), color_rgb(112, 112, 48));
+    color_t c1 = gui_alt_color(color_rgb(192, 255, 255), color_rgb(48, 112, 112));
+    color_t c2 = gui_alt_color(color_rgb(255, 192, 255), color_rgb(128, 48, 112));
+    color_t c3 = gui_alt_color(color_rgb(255, 255, 192), color_rgb(112, 112, 48));
     label_text(label1, i_LABEL_01);
     label_text(label2, i_LABEL_02);
     label_text(label3, i_LABEL_03);
@@ -109,9 +119,9 @@ Panel *labels_multi_line(void)
     Label *label4 = label_multiline();
     Label *label5 = label_multiline();
     Label *label6 = label_multiline();
-    color_t c1 = color_alt(color_rgb(192, 255, 255), color_rgb(48, 112, 112));
-    color_t c2 = color_alt(color_rgb(255, 192, 255), color_rgb(128, 48, 112));
-    color_t c3 = color_alt(color_rgb(255, 255, 192), color_rgb(112, 112, 48));
+    color_t c1 = gui_alt_color(color_rgb(192, 255, 255), color_rgb(48, 112, 112));
+    color_t c2 = gui_alt_color(color_rgb(255, 192, 255), color_rgb(128, 48, 112));
+    color_t c3 = gui_alt_color(color_rgb(255, 255, 192), color_rgb(112, 112, 48));
     label_text(label1, i_LABEL_01);
     label_text(label2, i_LABEL_02);
     label_text(label3, i_LABEL_03);

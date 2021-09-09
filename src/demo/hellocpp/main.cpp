@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: main.cpp
+ *
+ */
+
 /* NAppGUI C++ Hello World */
     
 #include "nappgui.h"
@@ -86,8 +96,9 @@ void App::i_OnClose(Event *e)
 MainWindow::MainWindow(App *app)
 {
     Panel *panel = i_panel();
-    this->window = window_create(ekWNSTD, &panel);
+    this->window = window_create(ekWNSTD);
     this->clicks = 0;
+    window_panel(this->window, panel);
     window_title(this->window, "Hello, C++!");
     window_origin(this->window, v2df(500, 200));
     window_OnClose(this->window, IListen(app, App, i_OnClose));

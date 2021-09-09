@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: warn.hxx
  * https://nappgui.com/en/sewer/warn.html
@@ -13,11 +13,17 @@
 /* USE ONLY IN THIRD PARTY FILES, NOT IN OWN FILES */
 
 #if defined (_MSC_VER)
+#pragma pop_macro("Set")
 #pragma warning(pop) 
-/* Unreferenced inline function has been removed */
 #pragma warning( disable : 4514 )
 #pragma warning( default : 4625 )
 #pragma warning( default : 4626 )
+#pragma warning( default : 4668 )
+#pragma warning( default : 4255 )
+#pragma warning( default : 4458 )
+#pragma warning( default : 4201 )
+#pragma warning( default : 4548 )
+#undef _CRT_SECURE_NO_WARNINGS
 #endif
 
 #if defined (__GNUC__)

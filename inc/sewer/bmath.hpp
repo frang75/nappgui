@@ -1,11 +1,10 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: bmath.hpp
- * https://nappgui.com/en/sewer/bmath.html
  *
  */
 
@@ -27,6 +26,8 @@ struct BMath
     static real(*asin)(const real sin);
 
     static real(*atan2)(const real y, const real x);
+
+    static real(*norm_angle)(const real a);
 
     static real(*sqrt)(const real value);
 
@@ -70,5 +71,6 @@ struct BMath
     static const real kSQRT3;
     static const real kDEG2RAD;
     static const real kRAD2DEG;
+    static const real kINFINITY;
 };
 

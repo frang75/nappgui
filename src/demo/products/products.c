@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: products.c
+ *
+ */
+
 /* NAppGUI Products Demo */
 
 #include "nappgui.h"
@@ -36,12 +46,12 @@ static void i_OnThemeChanged(App *app, Event *e)
 static App *i_create(void)
 {
     App *app = heap_new(App);
-    kHOLDER = color_alt(color_bgr(0x4681Cf), color_bgr(0x1569E6));
-    kEDITBG = color_alt(color_bgr(0xFFFFe4), color_bgr(0x101010));
-    kSTATBG = color_alt(color_bgr(0xFFC165), color_bgr(0x523d1d));
-    kSTATSK = color_alt(color_bgr(0xFF8034), color_bgr(0xFF8034));
-    kTXTRED = color_alt(color_bgr(0xFF0000), color_bgr(0xEB665A));
-    inet_init();
+    kHOLDER = gui_alt_color(color_bgr(0x4681Cf), color_bgr(0x1569E6));
+    kEDITBG = gui_alt_color(color_bgr(0xFFFFe4), color_bgr(0x101010));
+    kSTATBG = gui_alt_color(color_bgr(0xFFC165), color_bgr(0x523d1d));
+    kSTATSK = gui_alt_color(color_bgr(0xFF8034), color_bgr(0xFF8034));
+    kTXTRED = gui_alt_color(color_bgr(0xFF0000), color_bgr(0xEB665A));
+    inet_start();
     gui_respack(res_gui_respack);
     gui_language("");
     gui_OnThemeChanged(listener(app, i_OnThemeChanged, App));

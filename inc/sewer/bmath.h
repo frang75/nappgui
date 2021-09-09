@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: bmath.h
  * https://nappgui.com/en/sewer/bmath.html
@@ -39,6 +39,9 @@ real32_t bmath_atan2f(const real32_t y, const real32_t x);
 
 real64_t bmath_atan2d(const real64_t y, const real64_t x);
 
+real32_t bmath_norm_anglef(const real32_t a);
+
+real64_t bmath_norm_angled(const real64_t a);
 
 real32_t bmath_sqrtf(const real32_t value);
 
@@ -118,6 +121,17 @@ real64_t bmath_randd(const real64_t from, const real64_t to);
 
 uint32_t bmath_randi(const uint32_t from, const uint32_t to);
 
+
+REnv *bmath_rand_env(const uint32_t seed);
+
+void bmath_rand_destroy(REnv **env);
+
+real32_t bmath_rand_mtf(REnv *env, const real32_t from, const real32_t to);
+
+real64_t bmath_rand_mtd(REnv *env, const real64_t from, const real64_t to);
+
+uint32_t bmath_rand_mti(REnv *env, const uint32_t from, const uint32_t to);
+
 extern const real32_t kBMATH_Ef;
 extern const real64_t kBMATH_Ed;
 extern const real32_t kBMATH_LN2f;
@@ -134,6 +148,8 @@ extern const real32_t kBMATH_DEG2RADf;
 extern const real64_t kBMATH_DEG2RADd;
 extern const real32_t kBMATH_RAD2DEGf;
 extern const real64_t kBMATH_RAD2DEGd;
+extern const real32_t kBMATH_INFINITYf;
+extern const real64_t kBMATH_INFINITYd;
 
 __END_C
 

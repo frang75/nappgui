@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: subpanel.c
+ *
+ */
+
 /* Use of subpanels */
 
 #include "subpanel.h"
@@ -28,7 +38,7 @@ Panel *subpanels(void)
     layout_hmargin(layout2, 0, 10);
     layout_vmargin(layout2, 0, 10);
     layout_margin4(layout2, 5, 10, 10, 10);
-    layout_skcolor(layout2, kCOLOR_LABEL);
+    layout_skcolor(layout2, gui_label_color());
     panel_layout(panel2, layout2);
 
     layout_label(layout1, label1, 0, 0);

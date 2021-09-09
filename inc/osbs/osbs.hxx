@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: osbs.hxx
  * https://nappgui.com/en/osbs/osbs.html
@@ -135,10 +135,8 @@ typedef struct _dir_t Dir;
 typedef struct _file_t File;
 typedef struct _mutex_t Mutex;
 typedef struct _process_t Proc;
-typedef struct _procopt_t ProcOpt;
 typedef struct _thread_t Thread;
 typedef struct _socket_t Socket;
-typedef struct _sockopt_t SockOpt;
 
 typedef uint32_t(*FPtr_thread_main)(void *data);
 #define FUNC_CHECK_THREAD_MAIN(func, type)\
@@ -158,12 +156,6 @@ struct _date_t
 struct _procopt_t
 {
     uint32_t unused;
-};
-
-struct _sockopt_t
-{
-    uint32_t rcvtimeo_ms;
-    uint32_t sndtimeo_ms;
 };
 
 #endif

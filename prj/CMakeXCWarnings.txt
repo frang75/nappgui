@@ -1,4 +1,6 @@
 # CMake Xcode Warnings config
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 # MacOS GCC Configuration
 #------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: osmain_win.h
  * https://nappgui.com/en/osapp/osmain_win.html
@@ -11,12 +11,9 @@
 
 /* Cross-platform main */
 
-#pragma push_macro("Set")
-#undef Set
-#pragma warning (push, 0)
+#include "nowarn.hxx"
 #include <Windows.h>
-#pragma warning (pop) 
-#pragma pop_macro("Set")
+#include "warn.hxx"
 
 #define osmain(func_create, func_destroy, options, type)\
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)\

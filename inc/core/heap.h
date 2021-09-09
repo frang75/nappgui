@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: heap.h
  * https://nappgui.com/en/core/heap.html
@@ -36,6 +36,8 @@ void heap_free(byte_t **mem, const uint32_t size, const char_t *name);
 void heap_auditor_add(const char_t *name);
 
 void heap_auditor_delete(const char_t *name);
+
+void heap_stats(const bool_t stats);
 
 __END_C
 

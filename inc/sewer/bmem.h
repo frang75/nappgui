@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: bmem.h
  * https://nappgui.com/en/sewer/bmem.html
@@ -49,6 +49,8 @@ void bmem_rev4(byte_t *mem);
 
 void bmem_rev8(byte_t *mem);
 
+void bmem_rev_elems_imp(byte_t *data, const uint32_t num_elems, const uint32_t elem_size);
+
 void bmem_revcopy(byte_t *dest, const byte_t *src, const uint32_t size);
 
 void bmem_swap(byte_t *mem1, byte_t *mem2, const uint32_t size);
@@ -58,37 +60,41 @@ void bmem_shuffle(byte_t *mem, const uint32_t size, const uint32_t esize);
 __END_C
 
 #define bmem_malloc(size)\
-    bmem_aligned_malloc((size), sizeof(void*))
+    bmem_aligned_malloc((size), sizeof32(void*))
 
 #define bmem_realloc(mem, size, new_size)\
-    bmem_aligned_realloc((mem), (size), (new_size), sizeof(void*))
+    bmem_aligned_realloc((mem), (size), (new_size), sizeof32(void*))
 
 #define bmem_zero(dest, type)\
     ((void)((dest) == (type*)(dest)),\
-    bmem_set_zero((byte_t*)(dest), sizeof(type)))
+    bmem_set_zero((byte_t*)(dest), sizeof32(type)))
 
 #define bmem_zero_n(dest, n, type)\
     ((void)((dest) == (type*)(dest)),\
-    bmem_set_zero((byte_t*)(dest), n * sizeof(type)))
+    bmem_set_zero((byte_t*)(dest), n * sizeof32(type)))
 
 #define bmem_copy_n(dest, src, n, type)\
     ((void)((dest) == (type*)(dest)),\
     (void)((src) == (const type*)(src)),\
-    bmem_copy((byte_t*)(dest), (const byte_t*)(src), (uint32_t)sizeof(type) * (uint32_t)(n)))
+    bmem_copy((byte_t*)(dest), (const byte_t*)(src), (uint32_t)sizeof32(type) * (uint32_t)(n)))
+
+#define bmem_rev_elems(elems, n, type)\
+    ((void)((elems) == (type*)(elems)),\
+    bmem_rev_elems_imp((byte_t*)(elems), (n), (uint32_t)sizeof32(type)))
 
 #define bmem_swap_type(obj1, obj2, type)\
     ((void)((obj1) == (type*)(obj1)),\
     (void)((obj2) == (type*)(obj2)),\
-    bmem_swap((byte_t*)(obj1), (byte_t*)(obj2), (uint32_t)sizeof(type)))
+    bmem_swap((byte_t*)(obj1), (byte_t*)(obj2), (uint32_t)sizeof32(type)))
 
 #define bmem_shuffle_n(arr, size, type)\
     ((void)(arr == (type*)arr),\
-    bmem_shuffle((byte_t*)arr, size, sizeof(type)))
+    bmem_shuffle((byte_t*)arr, size, sizeof32(type)))
 
 #define bmem_set_u32(dest, n, value)\
     {uint32_t ___value = (value);\
-    bmem_set4((byte_t*)(dest), (uint32_t)(sizeof(uint32_t) * (n)), (const byte_t*)&___value); }
+    bmem_set4((byte_t*)(dest), (uint32_t)(sizeof32(uint32_t) * (n)), (const byte_t*)&___value); }
 
 #define bmem_set_r32(dest, n, value)\
     {real32_t ___value = (value);\
-    bmem_set4((byte_t*)(dest), (uint32_t)(sizeof(real32_t) * (n)), (const byte_t*)&___value); }
+    bmem_set4((byte_t*)(dest), (uint32_t)(sizeof32(real32_t) * (n)), (const byte_t*)&___value); }

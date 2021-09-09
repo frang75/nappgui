@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: urlimg.c
+ *
+ */
+
 /* Images from URL */
 
 #include "nappgui.h"
@@ -74,10 +84,9 @@ static __INLINE String *i_pixformat(const pixformat_t format, const uint32_t nco
     case ekRGBA32:
         return str_c("RGBA32");
     case ekFIMAGE:
-    case ekOPTIMAL:
-    cassert_default();
+		break;
     }
-    return str_c("");
+    return str_c("Unknown");
 }
 
 /*---------------------------------------------------------------------------*/
@@ -88,39 +97,27 @@ static void i_download(App *app)
     Stream *stm = http_dget(tc(url), NULL, NULL);
     if (stm != NULL)
     {
-        uint32_t width, height;
-        pixformat_t format;
         uint32_t ncolors = 0;
         uint64_t start = stm_bytes_readed(stm);
         Image *image = image_read(stm);
         uint64_t end = stm_bytes_readed(stm);
+        uint32_t width = image_width(image);
+        uint32_t height = image_width(image);
+        pixformat_t format = image_format(image);
         String *ssize = str_printf("%d bytes", (uint32_t)(end - start));
         String *sres = NULL;
         String *sformat = NULL;
 
-        // Test for image pixels read
+        // Full check of read/write pixels
+        // We create again the same image, based on pixel info
         if (image_get_codec(image) != ekGIF)
         {
-            Pixbuf *pixdata = NULL;
-            Palette *palette = NULL;
-            image_pixels(image, ekOPTIMAL, &pixdata, &palette);
+            Pixbuf *pixels = image_pixels(image, ekFIMAGE);
+            Image *nimage = image_from_pixbuf(pixels, NULL);
+            cassert(format == pixbuf_format(pixels));
+            pixbuf_destroy(&pixels);
             image_destroy(&image);
-            width = pixbuf_width(pixdata);
-            height = pixbuf_height(pixdata);
-            format = pixbuf_format(pixdata);
-            image = image_from_pixbuf(pixdata, palette);
-            pixbuf_destroy(&pixdata);
-
-            if (palette != NULL)
-            {
-                ncolors = palette_size(palette);
-                palette_destroy(&palette);
-            }
-        }
-        else
-        {
-            image_size(image, &width, &height);
-            image_format(image, &format);
+            image = nimage;
         }
 
         imageview_image(app->view, image);
@@ -130,8 +127,8 @@ static void i_download(App *app)
         label_text(app->imgsize, tc(ssize));
         label_text(app->imgres, tc(sres));
         label_text(app->imgformat, tc(sformat));
-        image_destroy(&image);
         stm_close(&stm);
+        image_destroy(&image);
         str_destroy(&ssize);
         str_destroy(&sres);
         str_destroy(&sformat);
@@ -200,7 +197,7 @@ static Panel *i_panel(App *app)
     layout_layout(layout3, i_label("Image name:", &app->imgname), 0, 1);
     layout_layout(layout3, i_label("Image size:", &app->imgsize), 0, 2);
     layout_layout(layout3, i_label("Image dimensions:", &app->imgres), 0, 3);
-    layout_layout(layout3, i_label("Image format:", &app->imgformat), 0, 4);
+    layout_layout(layout3, i_label("Pixel format:", &app->imgformat), 0, 4);
     layout_layout(layout1, layout2, 0, 0);
     layout_layout(layout1, layout3, 1, 0);
     layout_margin(layout1, 5);
@@ -230,10 +227,11 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);
-    app->window = window_create(ekWNSTD, &panel);
+    app->window = window_create(ekWNSTD);
     app->selected = 0;
-    inet_init();
+    inet_start();
     i_download(app);
+    window_panel(app->window, panel);
     window_title(app->window, "Images from URL 'http://test.nappgui.com/image_formats'");
     window_origin(app->window, v2df(500, 200));
     window_OnClose(app->window, listener(app, i_OnClose, App));

@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: fractals.c
+ *
+ */
+
 /* Multi-threaded fractals */
 
 #include "nappgui.h"
@@ -82,7 +92,7 @@ static uint32_t i_julia_thread(ThData *data)
             val = i_inset(creal, cimag, kreal, kimag);
             if (val > 0)
             {
-                uint8_t n_val = val % 255;
+                uint8_t n_val = (uint8_t)(val % 255);
                 if ( val < ( i_ITERATIONS >> 1 ) )
                     val = color_rgb((uint8_t)(n_val << 2), (uint8_t)(n_val << 3), (uint8_t)(n_val << 4));
                 else
@@ -293,9 +303,10 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);
-    app->window = window_create(ekWNSTD, &panel);
+    app->window = window_create(ekWNSTD);
     app->clock = clock_create(0);
     i_image(app);
+    window_panel(app->window, panel);
     window_title(app->window, "Fractals");
     window_origin(app->window, v2df(500, 200));
     window_OnClose(app->window, listener(app, i_OnClose, App));

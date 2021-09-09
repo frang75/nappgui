@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: obb2d.h
  * https://nappgui.com/en/geom2d/obb2d.html
@@ -23,6 +23,10 @@ OBB2Df* obb2d_from_linef(const V2Df *p0, const V2Df *p1, const real32_t thicknes
 
 OBB2Dd* obb2d_from_lined(const V2Dd *p0, const V2Dd *p1, const real64_t thickness);
 
+OBB2Df* obb2d_from_pointsf(const V2Df *p, const uint32_t n);
+
+OBB2Dd* obb2d_from_pointsd(const V2Dd *p, const uint32_t n);
+
 OBB2Df* obb2d_copyf(const OBB2Df *obb);
 
 OBB2Dd* obb2d_copyd(const OBB2Dd *obb);
@@ -39,9 +43,9 @@ void obb2d_movef(OBB2Df *obb, const real32_t offset_x, const real32_t offset_y);
 
 void obb2d_moved(OBB2Dd *obb, const real64_t offset_x, const real64_t offset_y);
 
-void obb2d_transf(OBB2Df *obb, const T2Df *t2d);
+void obb2d_transformf(OBB2Df *obb, const T2Df *t2d);
 
-void obb2d_transd(OBB2Dd *obb, const T2Dd *t2d);
+void obb2d_transformd(OBB2Dd *obb, const T2Dd *t2d);
 
 const V2Df *obb2d_cornersf(const OBB2Df *obb);
 
@@ -62,6 +66,10 @@ real64_t obb2d_heightd(const OBB2Dd *obb);
 real32_t obb2d_anglef(const OBB2Df *obb);
 
 real64_t obb2d_angled(const OBB2Dd *obb);
+
+real32_t obb2d_areaf(const OBB2Df *obb);
+
+real64_t obb2d_aread(const OBB2Dd *obb);
 
 Box2Df obb2d_boxf(const OBB2Df *obb);
 

@@ -1,3 +1,14 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: die.hxx
+ * https://nappgui.com/en/demo/die/die.html
+ *
+ */
+
 /* Die Types */
 
 #ifndef __DIE_HXX__

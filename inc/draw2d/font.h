@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: font.h
  * https://nappgui.com/en/draw2d/font.html
@@ -48,7 +48,5 @@ void font_extents(const Font *font, const char_t *text, const real32_t refwidth,
 bool_t font_exists_family(const char_t *family);
 
 ArrPt(String) *font_installed_families(void);
-
-extern const Font *kFONT_DEFAULT;
 
 __END_C

@@ -1,9 +1,23 @@
 # CMake Visual Studio Version Checker
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 # Check for valid Visual Studio Version
 #------------------------------------------------------------------------------
 macro(checkVisualStudioVersion)
     # MSVC_VERSION
+    # 1929 = 16.10/11 Visual Studio 2019 (v142 toolset)
+    # 1928 = 16.8/9 Visual Studio 2019 (v142 toolset)
+    # 1927 = 16.7 Visual Studio 2019 (v142 toolset)
+    # 1926 = 16.6 Visual Studio 2019 (v142 toolset)
+    # 1925 = 16.5 Visual Studio 2019 (v142 toolset)
+    # 1924 = 16.4 Visual Studio 2019 (v142 toolset)
+    # 1923 = 16.3 Visual Studio 2019 (v142 toolset)
+    # 1922 = 16.2 Visual Studio 2019 (v142 toolset)
+    # 1921 = 16.1 Visual Studio 2019 (v142 toolset)
+    # 1920 = 16.0 Visual Studio 2019 (v142 toolset)
+    # 1916 = 15.9 Visual Studio 2017 (v141 toolset)
+    # 1915 = 15.8 Visual Studio 2017 (v141 toolset)
     # 1914 = 15.7 Visual Studio 2017 (v141 toolset)
     # 1913 = 15.6 Visual Studio 2017 (v141 toolset)
     # 1912 = 15.5 Visual Studio 2017 (v141 toolset)

@@ -1,11 +1,10 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: col2d.hpp
- * https://nappgui.com/en/geom2d/col2d.html
  *
  */
 
@@ -53,6 +52,18 @@ struct Col2D
 
     static bool_t (*obb_obb)(const OBB2D<real> *obb1, const OBB2D<real> *obb2, Col2D<real> *col);
 
+    static bool_t (*tri_point)(const Tri2D<real> *tri, const V2D<real> *pnt, Col2D<real> *col);
+
+    static bool_t (*tri_segment)(const Tri2D<real> *tri, const Seg2D<real> *seg, Col2D<real> *col);
+
+    static bool_t (*tri_circle)(const Tri2D<real> *tri, const Cir2D<real> *cir, Col2D<real> *col);
+
+    static bool_t (*tri_box)(const Tri2D<real> *tri, const Box2D<real> *box, Col2D<real> *col);
+
+    static bool_t (*tri_obb)(const Tri2D<real> *tri, const OBB2D<real> *obb, Col2D<real> *col);
+
+    static bool_t (*tri_tri)(const Tri2D<real> *tri1, const Tri2D<real> *tri2, Col2D<real> *col);
+
     static bool_t (*poly_point)(const Pol2D<real> *poly, const V2D<real> *pt, Col2D<real> *col);
 
     static bool_t (*poly_segment)(const Pol2D<real> *poly, const Seg2D<real> *seg, Col2D<real> *col);
@@ -62,6 +73,8 @@ struct Col2D
     static bool_t (*poly_box)(const Pol2D<real> *poly, const Box2D<real> *box, Col2D<real> *col);
 
     static bool_t (*poly_obb)(const Pol2D<real> *poly, const OBB2D<real> *obb, Col2D<real> *col);
+
+    static bool_t (*poly_tri)(const Pol2D<real> *poly, const Tri2D<real> *tri, Col2D<real> *col);
 
     static bool_t (*poly_poly)(const Pol2D<real> *poly1, const Pol2D<real> *poly2, Col2D<real> *col);
 

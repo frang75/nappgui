@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: form.c
+ *
+ */
+
 /* Form demo */
 
 #include "form.h"
@@ -77,7 +87,7 @@ static Layout *i_numbers(color_t colorbg)
 
 static Layout *i_edits(void)
 {
-    color_t colorbg = color_alt(color_bgr(0xFFFFe4), color_bgr(0x101010));
+    color_t colorbg = gui_alt_color(color_bgr(0xFFFFe4), color_bgr(0x101010));
     Layout *layout1 = layout_create(2, 6);
     Layout *layout2 = i_numbers(colorbg);
     Label *label1 = label_create();
@@ -142,9 +152,9 @@ static Layout *i_form(void)
     Layout *layout2 = i_edits();
     Label *label = label_multiline();
     label_text(label, "Please fill in all the information on the form. We will use this data to send commercial mail at all hours, not caring much if it bothers you or not.");
-    label_color(label, color_alt(color_rgb(255, 0, 0), color_rgb(180, 180, 180)));
-    label_bgcolor(label, color_alt(color_rgb(216, 191, 216), color_rgb(80, 40, 40)));
-    label_bgcolor_over(label, color_alt(color_rgb(255, 250, 205), color_rgb(105, 100, 55)));
+    label_color(label, gui_alt_color(color_rgb(255, 0, 0), color_rgb(180, 180, 180)));
+    label_bgcolor(label, gui_alt_color(color_rgb(216, 191, 216), color_rgb(80, 40, 40)));
+    label_bgcolor_over(label, gui_alt_color(color_rgb(255, 250, 205), color_rgb(105, 100, 55)));
     label_style_over(label, ekFUNDERLINE);
     layout_layout(layout1, layout2, 0, 0);
     layout_label(layout1, label, 0, 1);

@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: types.hxx
  * https://nappgui.com/en/sewer/types.html
@@ -15,6 +15,8 @@
 #define __BASETYPES_HXX__
 
 #include "nowarn.hxx"
+#define __STDC_LIMIT_MACROS
+#define __STDC_CONSTANT_MACROS
 #include <stdint.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -22,7 +24,7 @@
 
 typedef char                char_t;
 typedef unsigned char       byte_t;
-typedef unsigned char       bool_t;
+typedef char                bool_t;
 typedef float               real32_t;
 typedef double              real64_t;
 

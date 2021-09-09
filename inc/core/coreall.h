@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: coreall.h
  * https://nappgui.com/en/core/coreall.html
@@ -34,6 +34,7 @@
 #include "core.h"
 #include "arrpt.h"
 #include "arrst.h"
+#include "bhash.h"
 #include "buffer.h"
 #include "date.h"
 #include "dbind.h"
@@ -42,7 +43,6 @@
 #include "heap.h"
 #include "hfile.h"
 #include "keybuf.h"
-#include "lex.h"
 #include "respack.h"
 #include "regex.h"
 #include "setpt.h"

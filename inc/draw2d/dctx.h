@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: dctx.h
  * https://nappgui.com/en/draw2d/dctx.html
@@ -21,11 +21,13 @@ Image *dctx_image(DCtx **ctx);
 
 void draw_clear(DCtx *ctx, const color_t color);
 
-void draw_matrix(DCtx *ctx, const T2Df *t2d);
+void draw_matrixf(DCtx *ctx, const T2Df *t2d);
 
 void draw_matrixd(DCtx *ctx, const T2Dd *t2d);
 
-void draw_matrix_cartesian(DCtx *ctx, const T2Df *t2d);
+void draw_matrix_cartesianf(DCtx *ctx, const T2Df *t2d);
+
+void draw_matrix_cartesiand(DCtx *ctx, const T2Dd *t2d);
 
 void draw_antialias(DCtx *ctx, const bool_t on);
 

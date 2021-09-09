@@ -1,4 +1,7 @@
 # CMake build globals script
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
+
 add_definitions(-DNAPPGUI_MAJOR="${NAPPGUI_MAJOR}")
 add_definitions(-DNAPPGUI_MINOR="${NAPPGUI_MINOR}")
 add_definitions(-DNAPPGUI_REVISION="${NAPPGUI_REVISION}")
@@ -17,7 +20,7 @@ endif()
 
 string(TIMESTAMP CURRENT_YEAR %Y)
 message (STATUS "2015-${CURRENT_YEAR} Francisco Garcia Collado")
-message (STATUS "All rigths reserved")
+message (STATUS "MIT License")
 message (STATUS "---------------------------------------------")
 message (STATUS "${CMAKE_GENERATOR}")
 

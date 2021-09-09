@@ -1,4 +1,6 @@
 # CMake build compilers script
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 #------------------------------------------------------------------------------
 
@@ -208,8 +210,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(STATUS "- Build architecture: ${CMAKE_OSX_ARCHITECTURES}")
 
     # Host architecture
-    execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH)
-    string(STRIP ${HOST_ARCH} HOST_ARCH)
+    set(HOST_ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
     if (${HOST_ARCH} STREQUAL "i386")
         set(NAPPGUI_HOST x86)
@@ -235,59 +236,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(NRC_FILE ${CMAKE_PRJ_PATH}/script/osx/${NAPPGUI_HOST}/nrc)
     file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
     execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
-
-# IOS configuration
-#------------------------------------------------------------------------------
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-
-    set(NAPPGUI_LIB_PREFIX "lib")
-    set(NAPPGUI_LIB_SUFFIX ".a")
-
-    # Xcode version, base SDK and deployment target
-    checkXcodeVersion()
-
-    message(STATUS "- Xcode: ${XCODE_VERSION} iOS ${BASE_IOS_SDK}")
-
-    if (CMAKE_CXX_FLAGS MATCHES "/EHsc")
-        string(REGEX REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-    endif()
-
-    # Set Global Properties (for root Xcode solution)
-    list(LENGTH IDE_PROPERTIES NUM_PROPS)
-    math(EXPR PROP_TOTAL "${NUM_PROPS} - 1")
-    foreach(PROP_INDEX RANGE 0 ${PROP_TOTAL} 2)
-        math(EXPR PROP_NEXT "${PROP_INDEX} + 1")
-        list(GET IDE_PROPERTIES ${PROP_INDEX} LOOP_PROPERTY)
-        list(GET IDE_PROPERTIES ${PROP_NEXT} LOOP_VALUE)
-        set(CMAKE_${LOOP_PROPERTY} ${LOOP_VALUE})
-    endforeach()
-
-    # Architecture
-    set(CMAKE_ARCHITECTURE "arm64" CACHE STRING "Processor architecture")
-    set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "armv7;armv7s;arm64")
-    set(CMAKE_OSX_ARCHITECTURES ${CMAKE_ARCHITECTURE})
-    set(NAPPGUI_ARCH arm)
-    message(STATUS "- Architecture: ${CMAKE_OSX_ARCHITECTURES}")
-
-    # Deployment target
-    set(CMAKE_OSX_DEPLOYMENT_TARGET ${CMAKE_IOS_DEPLOYMENT_TARGET})
-    set(NAPPGUI_COMPILER_TOOLSET ios${CMAKE_OSX_DEPLOYMENT_TARGET})
-    string(REPLACE "." "_" NAPPGUI_COMPILER_TOOLSET ${NAPPGUI_COMPILER_TOOLSET})
-    message(STATUS "- Deployment Target: ${CMAKE_OSX_DEPLOYMENT_TARGET}")
-
-    # Libraries
-    find_library(FOUNDATION_LIB Foundation)
-    find_library(CORE_GRAPHICS_LIB CoreGraphics)
-    find_library(QUARTZ_CORE_LIB QuartzCore)
-    find_library(UIKIT_LIB UIKit)
-    find_library(OPENGL_LIB OpenGLES)
-    #message(STATUS "${CMAKE_OSX_SYSROOT}")
-    #message(STATUS "${FOUNDATION_LIB}")
-    #message(STATUS "${CORE_GRAPHICS_LIB}")
-    #message(STATUS "${QUARTZ_CORE_LIB}")
-    #message(STATUS "${UIKIT_LIB}")
-    #message(STATUS "${OPENGL_LIB}")
-    set(COCOA_LIB ${FOUNDATION_LIB} ${CORE_GRAPHICS_LIB} ${QUARTZ_CORE_LIB} ${UIKIT_LIB})
 
 # Linux configuration
 #------------------------------------------------------------------------------
@@ -315,14 +263,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     message(STATUS "- GCC compiler: ${CMAKE_CXX_COMPILER_VERSION}")                                
             
     # Warnings
-    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic")
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -std=c99 -fPIE")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -fPIE")
     
     # Host architecture
-    execute_process(COMMAND uname -m OUTPUT_VARIABLE HOST_ARCH)
-    string(STRIP ${HOST_ARCH} HOST_ARCH)
+    set(HOST_ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
     if (${HOST_ARCH} STREQUAL "i386" OR ${HOST_ARCH} STREQUAL "i486" OR ${HOST_ARCH} STREQUAL "i586" OR ${HOST_ARCH} STREQUAL "i686")
         set(NAPPGUI_HOST x86)
@@ -409,6 +354,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     file(TO_NATIVE_PATH \"${NRC_FILE}\" NRC_FILE)
     execute_process(COMMAND "chmod" "+x" "${NRC_FILE}")
     
+    set(CMAKE_CODELITE_USE_TARGETS ON)
     #find_package(PNG REQUIRED)
     
 else()

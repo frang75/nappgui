@@ -1,3 +1,14 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: bdcalc.h
+ * https://nappgui.com/en/demo/bode/bdcalc.html
+ *
+ */
+
 /* Bode Algorithm */
 
 #include "geom2d.hxx"

@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: arrst.h
  * https://nappgui.com/en/core/arrst.html
@@ -21,19 +21,24 @@
     FUNC_CHECK_SCOPY(func_copy, type),\
     (ArrSt(type)*)array_copy_imp((Array*)(array), (FPtr_scopy)(func_copy), (const char_t*)(ARRST#type)))
 
+#define arrst_read(stream, func_read, type)\
+	(FUNC_CHECK_READ_INIT(func_read, type),\
+    (ArrSt(type)*)array_read_imp(stream, sizeof(type), (FPtr_read_init)func_read, (const char_t*)(ARRST#type)))
+
 #define arrst_destroy(array, func_remove, type)\
     ((void)((array) == (ArrSt(type)**)(array)),\
     FUNC_CHECK_REMOVE(func_remove, type),\
     array_destroy_imp((Array**)(array), (FPtr_remove)func_remove, (const char_t*)(ARRST#type)))
 
+#define arrst_destopt(array, func_remove, type)\
+    ((void)((array) == (ArrSt(type)**)(array)),\
+    FUNC_CHECK_REMOVE(func_remove, type),\
+    array_destopt_imp((Array**)(array), (FPtr_remove)func_remove, (const char_t*)(ARRST#type)))
+
 #define arrst_clear(array, func_remove, type)\
     ((void)((array) == (ArrSt(type)*)(array)),\
     FUNC_CHECK_REMOVE(func_remove, type),\
     array_clear_imp((Array*)(array), (FPtr_remove)func_remove))
-
-#define arrst_read(stream, func_read, type)\
-	(FUNC_CHECK_READ_INIT(func_read, type),\
-    (ArrSt(type)*)array_read_imp(stream, sizeof(type), (FPtr_read_init)func_read, (const char_t*)(ARRST#type)))
 
 #define arrst_write(stream, array, func_write, type)\
 	((void)((array) == (const ArrSt(type)*)(array)),\

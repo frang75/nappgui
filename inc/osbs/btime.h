@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: btime.h
  * https://nappgui.com/en/osbs/btime.html
@@ -19,6 +19,8 @@ uint64_t btime_now(void);
 
 void btime_date(Date *date);
 
-uint16_t btime_year(void);
+uint64_t btime_to_micro(const Date *date);
+
+void btime_to_date(const uint64_t micro, Date *date);
 
 __END_C

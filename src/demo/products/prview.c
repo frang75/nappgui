@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: prview.c
+ *
+ */
+
 /* Products View */
 
 #include "prview.h"
@@ -336,7 +346,8 @@ Window *prview_create(Ctrl *ctrl)
     Window *window = NULL;
     ctrl_theme_images(ctrl);
     panel_layout(panel, layout);
-    window = window_create(ekWNSTD, &panel);
+    window = window_create(ekWNSTD);
+    window_panel(window, panel);
     window_title(window, TWIN_TITLE);
     ctrl_window(ctrl, window);
     return window;

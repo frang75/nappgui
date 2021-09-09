@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: bdview.c
+ *
+ */
+
 /* Bode View */
 
 #include "bdview.h"
@@ -228,7 +238,8 @@ static Panel *i_panel(Ctrl *ctrl)
 Window* bdview_create(Ctrl *ctrl)
 {
     Panel *panel = i_panel(ctrl);
-    Window *window = window_create(ekWNSRES, &panel);
+    Window *window = window_create(ekWNSRES);
+    window_panel(window, panel);
     window_title(window, "Bode plot");
     return window;
 }

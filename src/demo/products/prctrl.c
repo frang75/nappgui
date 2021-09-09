@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: prctrl.c
+ *
+ */
+
 /* Products Controller */
 
 #include "prctrl.h"
@@ -296,8 +306,8 @@ static void i_OnImgDraw(Ctrl *ctrl, Event *e)
 {
     const EvDraw *params = event_params(e, EvDraw);
     const Image *image = gui_image(EDIT_PNG);
-    uint32_t w, h;
-    image_size(image, &w, &h);
+    uint32_t w = image_width(image);
+    uint32_t h = image_height(image);
     draw_image(params->ctx, image, params->width - w - 10, params->height - h - 10);
     unref(ctrl);
 }
@@ -845,7 +855,7 @@ static void i_OnStats(Ctrl *ctrl, Event *e)
     color_t c[2];
     real32_t stop[2] = {0, 1};
     c[0] = kHOLDER;
-    c[1] = kCOLOR_VIEW;
+    c[1] = gui_view_color();
 
     draw_fill_linear(params->ctx, c,stop, 2, 0, p, 0, params->height - p + 1);
 
@@ -865,7 +875,7 @@ static void i_OnStats(Ctrl *ctrl, Event *e)
     draw_text_color(params->ctx, kTXTRED);
     draw_line_color(params->ctx, kTXTRED);
     draw_line(params->ctx, p - 2, pavg, params->width - p, pavg);
-    draw_line_color(params->ctx, kCOLOR_LABEL);
+    draw_line_color(params->ctx, gui_label_color());
     draw_line(params->ctx, p - 2, y0 + 2, params->width - p, y0 + 2);
     draw_line(params->ctx, p - 2, y0 + 2, p - 2, p);
     draw_text(params->ctx, tavg, p, pavg);
@@ -974,7 +984,7 @@ void ctrl_window(Ctrl *ctrl, Window *window)
 
 void ctrl_theme_images(Ctrl *ctrl)
 {
-    bool_t dark = color_dark_mode();
+    bool_t dark = gui_dark_mode();
     button_image(cell_button(ctrl->first_cell), (const Image*)(dark ? FIRSTD_PNG : FIRST_PNG));
     button_image(cell_button(ctrl->back_cell), (const Image*)(dark ? BACKD_PNG : BACK_PNG));
     button_image(cell_button(ctrl->next_cell), (const Image*)(dark ? NEXTD_PNG : NEXT_PNG));

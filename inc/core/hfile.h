@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: hfile.h
  * https://nappgui.com/en/core/hfile.html
@@ -24,6 +24,8 @@ bool_t hfile_dir_destroy(const char_t *pathname, ferror_t *error);
 ArrSt(DirEntry) *hfile_dir_list(const char_t *pathname, const bool_t subdirs, ferror_t *error);
 
 void hfile_dir_entry_remove(DirEntry *entry);
+
+Date hfile_date(const char_t *pathname, const bool_t recursive);
 
 bool_t hfile_dir_sync(const char_t *src, const char_t *dest, const bool_t recursive, const bool_t remove_in_dest, const char_t **except, const uint32_t except_size, ferror_t *error);
 

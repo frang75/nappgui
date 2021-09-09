@@ -1,4 +1,6 @@
 # CMake Visual Studio additional Warnings
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 # Visual Studio Additional Warnings: Extracted from here:
 # https://msdn.microsoft.com/en-us/library/23k5d385(v=vs.140).aspx
@@ -139,7 +141,7 @@ macro(setVisualStudioWarnings)
     # (level 3) '__assume' contains effect 'effect'
     add_definitions("/w44557")
 
-    # (level 4) informational: catch(…) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
+    # (level 4) informational: catch(ï¿½) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
     add_definitions("/w44571")
 
     # (level 4) 'identifier' is defined to be '0': did you mean to use '#if identifier'?

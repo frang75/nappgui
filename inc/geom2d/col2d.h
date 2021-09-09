@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: col2d.h
  * https://nappgui.com/en/geom2d/col2d.html
@@ -75,6 +75,30 @@ bool_t col2d_obb_obbf(const OBB2Df *obb1, const OBB2Df *obb2, Col2Df *col);
 
 bool_t col2d_obb_obbd(const OBB2Dd *obb1, const OBB2Dd *obb2, Col2Dd *col);
 
+bool_t col2d_tri_pointf(const Tri2Df *tri, const V2Df *pnt, Col2Df *col);
+
+bool_t col2d_tri_pointd(const Tri2Dd *tri, const V2Dd *pnt, Col2Dd *col);
+
+bool_t col2d_tri_segmentf(const Tri2Df *tri, const Seg2Df *seg, Col2Df *col);
+
+bool_t col2d_tri_segmentd(const Tri2Dd *tri, const Seg2Dd *seg, Col2Dd *col);
+
+bool_t col2d_tri_circlef(const Tri2Df *tri, const Cir2Df *cir, Col2Df *col);
+
+bool_t col2d_tri_circled(const Tri2Dd *tri, const Cir2Df *cir, Col2Df *col);
+
+bool_t col2d_tri_boxf(const Tri2Df *tri, const Box2Df *box, Col2Df *col);
+
+bool_t col2d_tri_boxd(const Tri2Dd *tri, const Box2Df *box, Col2Df *col);
+
+bool_t col2d_tri_obbf(const Tri2Df *tri, const OBB2Df *obb, Col2Df *col);
+
+bool_t col2d_tri_obbd(const Tri2Dd *tri, const OBB2Dd *obb, Col2Dd *col);
+
+bool_t col2d_tri_trif(const Tri2Df *tri1, const Tri2Df *tri2, Col2Df *col);
+
+bool_t col2d_tri_trid(const Tri2Dd *tri1, const Tri2Dd *tri2, Col2Dd *col);
+
 bool_t col2d_poly_pointf(const Pol2Df *poly, const V2Df *pnt, Col2Df *col);
 
 bool_t col2d_poly_pointd(const Pol2Dd *poly, const V2Dd *pnt, Col2Dd *col);
@@ -94,6 +118,10 @@ bool_t col2d_poly_boxd(const Pol2Dd *poly, const Box2Dd *box, Col2Dd *col);
 bool_t col2d_poly_obbf(const Pol2Df *poly, const OBB2Df *obb, Col2Df *col);
 
 bool_t col2d_poly_obbd(const Pol2Dd *poly, const OBB2Dd *obb, Col2Dd *col);
+
+bool_t col2d_poly_trif(const Pol2Df *poly, const Tri2Df *tri, Col2Df *col);
+
+bool_t col2d_poly_trid(const Pol2Dd *poly, const Tri2Dd *tri, Col2Dd *col);
 
 bool_t col2d_poly_polyf(const Pol2Df *poly1, const Pol2Df *poly2, Col2Df *col);
 

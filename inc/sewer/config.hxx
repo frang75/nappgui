@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: config.hxx
  * https://nappgui.com/en/sewer/config.html
@@ -72,11 +72,16 @@
     #define PRId64              "lld"
 #endif
 
-/*! <Compiler> */ 
+/*! <Compiler> */
 #if defined(__GNUC__)
 
     #if (__GNUC__ < 4) || (__GNUC__ == 4 && __GNUC_MINOR__ < 2)
         #error At least gcc 4.2 is required
+    #endif
+
+    #if (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
+        #define __STDC_LIMIT_MACROS
+        #define __STDC_CONSTANT_MACROS
     #endif
 
     #if defined (__DEPRECATED)
@@ -85,7 +90,7 @@
 
 	#pragma GCC diagnostic ignored "-Wcomment"
 
-    /*! <Function attributes> */ 
+    /*! <Function attributes> */
     #define __CDECL
     #define __MALLOC                        __attribute__((__malloc__))
     #define __PURE                          __attribute__((__pure__))
@@ -117,7 +122,7 @@
         #define __ALLOC_SIZE2(x,y)
     #endif
 
-    /*! <Optimization Macros> */ 
+    /*! <Optimization Macros> */
     #define __TRUE_EXPECTED(expr)           (__builtin_expect(expr, 1))
     #define __FALSE_EXPECTED(expr)          (__builtin_expect(expr, 0))
 
@@ -131,7 +136,7 @@
     #define __SENTINEL
     #define __PRINTF(format_idx, arg_idx)
     #define __SCANF(format_idx, arg_idx)
-    #define __UNUSED                        
+    #define __UNUSED
     #define __ALLOC_SIZE(x)
     #define __ALLOC_SIZE2(x,y)
     #define __TRUE_EXPECTED(expr)           (expr)
@@ -148,7 +153,7 @@
     #error Unknown Platform
 #endif
 
-/*! <32bits sizeof> */ 
+/*! <32bits sizeof> */
 #define sizeof32(x) (uint32_t)sizeof(x)
 
 /*! <Struct Access> */
@@ -167,7 +172,7 @@ offsetof(type, member)
 #define CHECK_STRUCT_MEMBER_TYPE(type, member, mtype)\
     (void)(&((type*)0)->member == (mtype*)&((type*)0)->member)
 
-/*! <Assigments> */ 
+/*! <Assigments> */
 #define unref(x)     (void)(x)
 #define PARAM(name, value)  (value)
 

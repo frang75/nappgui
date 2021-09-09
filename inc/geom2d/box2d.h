@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: box2d.h
  * https://nappgui.com/en/geom2d/box2d.html
@@ -19,9 +19,9 @@ Box2Df box2df(const real32_t minX, const real32_t minY, const real32_t maxX, con
 
 Box2Dd box2dd(const real64_t minX, const real64_t minY, const real64_t maxX, const real64_t maxY);
 
-Box2Df box2d_pointsf(const V2Df *p, const uint32_t n);
+Box2Df box2d_from_pointsf(const V2Df *p, const uint32_t n);
 
-Box2Dd box2d_pointsd(const V2Dd *p, const uint32_t n);
+Box2Dd box2d_from_pointsd(const V2Dd *p, const uint32_t n);
 
 V2Df box2d_centerf(const Box2Df *box);
 
@@ -46,6 +46,10 @@ void box2d_merged(Box2Dd *dest, const Box2Dd *src);
 void box2d_segmentsf(const Box2Df *box, Seg2Df *segs);
 
 void box2d_segmentsd(const Box2Dd *box, Seg2Dd *segs);
+
+real32_t box2d_areaf(const Box2Df *box);
+
+real64_t box2d_aread(const Box2Dd *box);
 
 bool_t box2d_is_nullf(const Box2Df *box);
 

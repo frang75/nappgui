@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: inet.h
  * https://nappgui.com/en/inet/inet.html
@@ -15,7 +15,7 @@
 
 __EXTERN_C
 
-void inet_init(void);
+void inet_start(void);
 
 void inet_finish(void);
 

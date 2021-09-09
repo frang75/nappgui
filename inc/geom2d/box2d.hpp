@@ -1,11 +1,10 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: box2d.hpp
- * https://nappgui.com/en/geom2d/box2d.html
  *
  */
 
@@ -23,7 +22,7 @@ struct Box2D
 
     Box2D(const real minX, const real minY, const real maxX, const real maxY) {min.x = minX, min.y = minY, max.x = maxX, max.y = maxY;}
 
-    static Box2D<real> (*points)(const V2D<real> *p, const uint32_t n);
+    static Box2D<real> (*from_points)(const V2D<real> *p, const uint32_t n);
 
     static V2D<real> (*center)(const Box2D<real> *box);
 
@@ -34,6 +33,8 @@ struct Box2D
     static void (*merge)(Box2D<real> *dest, const Box2D<real> *src);
 
     static void (*segments)(const Box2D<real> *box, Seg2D<real> *segs);
+
+    static real (*area)(const Box2D<real> *box);
 
     static bool_t (*is_null)(const Box2D<real> *box);
 

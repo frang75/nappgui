@@ -1,5 +1,5 @@
 #------------------------------------------
-# NAppGUI-r3027 CMake build script
+# NAppGUI CMake build script
 #------------------------------------------
 cmake_minimum_required(VERSION 2.8)
 project(NAppGUI)
@@ -27,7 +27,6 @@ desktopApp("Die" "demo/die" "demo/casino" NRC_EMBEDDED)
 desktopApp("Dice" "demo/dice" "demo/casino" NRC_EMBEDDED)
 desktopApp("Bricks" "demo/bricks" "" NRC_EMBEDDED)
 desktopApp("Fractals" "demo/fractals" "" NRC_EMBEDDED)
-desktopApp("Filters" "demo/filters" "" NRC_EMBEDDED)
 desktopApp("Bode" "demo/bode" "" NRC_PACKED)
 desktopApp("Products" "demo/products" "inet" NRC_PACKED)
 desktopApp("GuiHello" "howto/guihello" "" NRC_EMBEDDED)

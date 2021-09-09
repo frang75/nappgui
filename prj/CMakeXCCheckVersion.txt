@@ -1,4 +1,6 @@
 # CMake Xcode Version Checker
+# This file is part of NAppGUI-SDK project
+# See README.txt and LICENSE.txt
 
 # Get macOS name from SDK
 #------------------------------------------------------------------------------
@@ -48,50 +50,36 @@ macro(checkXcodeVersion)
         message(FATAL_ERROR "Xcode 3.2.6 is the minimun supported version.")
     endif()
 
+    if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        message(FATAL_ERROR "Unknown Apple CMAKE_SYSTEM_NAME.")
+    endif()
+
     # Xcode 12
     if(XCODE_VERSION VERSION_GREATER 11.99)
         checkClangCompiler()
-        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            set(BASE_OSX_SDK 11.0)
-            set(CMAKE_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimun macOS version required")
-            set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "11.0;10.15;10.14;10.13;10.12;10.11;10.10;10.9")
-            set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
-            set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64;arm64")
-        else()
-            set(BASE_IOS_SDK 12.4)
-            set(CMAKE_IOS_DEPLOYMENT_TARGET "12.4" CACHE STRING "Minimun iOS version required")
-            set_property(CACHE CMAKE_IOS_DEPLOYMENT_TARGET PROPERTY STRINGS "12.4;12.3;12.2;12.1;12.0;11.4;11.3;11.2;11.1;11.0;10.3;10.2;10.1;10.0;9.3;9.2;9.1;9.0;8.4;8.3;8.2;8.1;8.0")
-        endif()
+        set(BASE_OSX_SDK 11.0)
+        set(CMAKE_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimun macOS version required")
+        set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "11.0;10.15;10.14;10.13;10.12;10.11;10.10;10.9")
+        set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
+        set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64;arm64")
 
     # Xcode 11
     elseif(XCODE_VERSION VERSION_GREATER 10.99)
         checkClangCompiler()
-        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            set(BASE_OSX_SDK 10.15)
-            set(CMAKE_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimun macOS version required")
-            set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "10.15;10.14;10.13;10.12;10.11;10.10;10.9")
-            set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
-            set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64")
-        else()
-            set(BASE_IOS_SDK 12.4)
-            set(CMAKE_IOS_DEPLOYMENT_TARGET "12.4" CACHE STRING "Minimun iOS version required")
-            set_property(CACHE CMAKE_IOS_DEPLOYMENT_TARGET PROPERTY STRINGS "12.4;12.3;12.2;12.1;12.0;11.4;11.3;11.2;11.1;11.0;10.3;10.2;10.1;10.0;9.3;9.2;9.1;9.0;8.4;8.3;8.2;8.1;8.0")
-        endif()
+        set(BASE_OSX_SDK 10.15)
+        set(CMAKE_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimun macOS version required")
+        set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "10.15;10.14;10.13;10.12;10.11;10.10;10.9")
+        set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
+        set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64")
 
     # Xcode 10
     elseif(XCODE_VERSION VERSION_GREATER 9.99)
         checkClangCompiler()
-        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            set(BASE_OSX_SDK 10.14)
-            set(CMAKE_DEPLOYMENT_TARGET "10.14" CACHE STRING "Minimun macOS version required")
-            set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "10.14;10.13;10.12;10.11;10.10;10.9")
-            set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
-            set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64")
-        else()
-            set(BASE_IOS_SDK 12.4)
-            set(CMAKE_IOS_DEPLOYMENT_TARGET "12.4" CACHE STRING "Minimun iOS version required")
-            set_property(CACHE CMAKE_IOS_DEPLOYMENT_TARGET PROPERTY STRINGS "12.4;12.3;12.2;12.1;12.0;11.4;11.3;11.2;11.1;11.0;10.3;10.2;10.1;10.0;9.3;9.2;9.1;9.0;8.4;8.3;8.2;8.1;8.0")
-        endif()
+        set(BASE_OSX_SDK 10.14)
+        set(CMAKE_DEPLOYMENT_TARGET "10.14" CACHE STRING "Minimun macOS version required")
+        set_property(CACHE CMAKE_DEPLOYMENT_TARGET PROPERTY STRINGS "10.14;10.13;10.12;10.11;10.10;10.9")
+        set(CMAKE_ARCHITECTURE "x86_64" CACHE STRING "Processor architecture")
+        set_property(CACHE CMAKE_ARCHITECTURE PROPERTY STRINGS "x86_64")
 
     # Xcode 9
     elseif(XCODE_VERSION VERSION_GREATER 8.99)

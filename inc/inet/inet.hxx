@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: inet.hxx
  * https://nappgui.com/en/inet/inet.html
@@ -32,6 +32,7 @@ typedef struct _url_t Url;
 typedef struct _http_t Http;
 typedef struct _json_t Json;
 typedef struct _jsonopts_t JsonOpts;
+typedef struct _base64_t Base64;
 
 struct _jsonopts_t
 {

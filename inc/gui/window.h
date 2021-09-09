@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: window.h
  * https://nappgui.com/en/gui/window.html
@@ -15,9 +15,11 @@
 
 __EXTERN_C
 
-Window *window_create(const uint32_t flags, Panel **main_panel);
+Window *window_create(const uint32_t flags);
 
 void window_destroy(Window **window);
+
+void window_panel(Window *window, Panel *panel);
 
 void window_OnClose(Window *window, Listener *listener);
 

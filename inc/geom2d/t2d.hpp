@@ -1,15 +1,17 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: t2d.hpp
- * https://nappgui.com/en/geom2d/t2d.html
  *
  */
 
 /* 2D affine transformations */
+
+#ifndef __T2D_HPP__
+#define __T2D_HPP__
 
 #include "v2d.hpp"
 
@@ -40,3 +42,6 @@ struct T2D
     V2D<real> j;
     V2D<real> p;
 };
+
+#endif
+

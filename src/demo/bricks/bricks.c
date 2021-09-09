@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: bricks.c
+ *
+ */
+
 /* Simplistic Breakout-like game */
 
 #include "nappgui.h"
@@ -189,7 +199,8 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);
-    app->window = window_create(ekWNSRES, &panel);
+    app->window = window_create(ekWNSRES);
+    window_panel(app->window, panel);
     window_origin(app->window, v2df(200, 200));
     window_title(app->window, "Bricks - A 2D Game");
     window_OnClose(app->window, listener(app, i_OnClose, App));

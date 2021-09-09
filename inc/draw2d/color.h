@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: color.h
  * https://nappgui.com/en/draw2d/color.html
@@ -35,8 +35,6 @@ color_t color_bgr(const uint32_t bgr);
 
 color_t color_html(const char_t *html);
 
-color_t color_alt(const color_t light_color, const color_t dark_color);
-
 void color_to_hsbf(const color_t color, real32_t *hue, real32_t *sat, real32_t *bright);
 
 void color_to_html(const color_t color, char_t *html, const uint32_t size);
@@ -53,21 +51,9 @@ uint8_t color_get_alpha(const color_t color);
 
 color_t color_set_alpha(const color_t color, const uint8_t alpha);
 
-bool_t color_dark_mode(void);
-
 extern const color_t kCOLOR_TRANSPARENT;
 
 extern const color_t kCOLOR_DEFAULT;
-
-extern const color_t kCOLOR_LABEL;
-
-extern const color_t kCOLOR_VIEW;
-
-extern const color_t kCOLOR_LINE;
-
-extern const color_t kCOLOR_BORDER;
-
-extern const color_t kCOLOR_LINK;
 
 extern const color_t kCOLOR_BLACK;
 

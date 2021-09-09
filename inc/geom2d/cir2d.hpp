@@ -1,11 +1,10 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: cir2d.hpp
- * https://nappgui.com/en/geom2d/cir2d.html
  *
  */
 
@@ -23,15 +22,15 @@ struct Cir2D
 
     Cir2D(const real _x, const real _y, const real _r) {c.x = _x, c.y = _y, r = _r;}
 
-    static bool_t (*null)(const Cir2D<real> *cir);
+    static Cir2D<real> (*from_box)(const Box2D<real> *box);
 
-    static void (*add)(Cir2D<real> *cir, const V2D<real> *p);
+    static Cir2D<real> (*from_points)(const V2D<real> *p, const uint32_t n);
 
-    static void (*addn)(Cir2D<real> *cir, const V2D<real> *p, const uint32_t n);
+    static Cir2D<real> (*minimum)(const V2D<real> *p, const uint32_t n);
 
-    static void (*add_box)(Cir2D<real> *cir, const Box2D<real> *box);
+    static real (*area)(const Cir2D<real> *cir);
 
-    static void (*merge)(Cir2D<real> *dest, const Cir2D<real> *src);
+    static bool_t (*is_null)(const Cir2D<real> *cir);
 
     static const Cir2D<real> *kNULL;
 

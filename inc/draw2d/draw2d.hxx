@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: draw2d.hxx
  * https://nappgui.com/en/draw2d/draw2d.html
@@ -26,8 +26,7 @@ typedef enum _pixformat_t
     ekRGB24,
     ekRGBA32,
 
-    ekFIMAGE = 0xfe,
-    ekOPTIMAL = 0xff
+    ekFIMAGE
 } pixformat_t;
 
 typedef enum _codec_t
@@ -106,6 +105,7 @@ typedef struct _palette_t Palette;
 typedef struct _pixbuf_t Pixbuf;
 typedef struct _image_t Image;
 typedef struct _font_t Font;
-ArrPt(Image);
+ArrPtDecl(Image);
+DeclType(color_t);
 
 #endif

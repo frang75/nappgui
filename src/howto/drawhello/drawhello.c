@@ -1,3 +1,13 @@
+/*
+ * NAppGUI Cross-platform C SDK
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
+ *
+ * File: drawhello.c
+ *
+ */
+
 /* Drawing primitives */
 
 #include "nappgui.h"
@@ -120,7 +130,7 @@ static void i_draw_shapes_row(DCtx *ctx, const drawop_t op, const T2Df *origin)
     draw_ellipse(ctx, op, 430, 50, 55, 37);
     t2d_movef(&matrix, origin, 547, 50);
     t2d_rotatef(&matrix, &matrix, - kBMATH_PIf / 10);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_polygon(ctx, op, poly, 5);
 }
 
@@ -131,16 +141,16 @@ static void i_draw_shapes(DCtx *ctx, const bool_t grad)
     T2Df origin = *kT2D_IDENTf;
     draw_line_color(ctx, kCOLOR_BLACK);
     draw_line_width(ctx, 10);
-    draw_matrix(ctx, &origin);
+    draw_matrixf(ctx, &origin);
     i_draw_shapes_row(ctx, grad ? ekSKFILL : ekSTROKE, &origin);
     t2d_movef(&origin, &origin, 0, 100);
-    draw_matrix(ctx, &origin);
+    draw_matrixf(ctx, &origin);
     i_draw_shapes_row(ctx, grad ? ekSKFILL : ekFILL, &origin);
     t2d_movef(&origin, &origin, 0, 100);
-    draw_matrix(ctx, &origin);
+    draw_matrixf(ctx, &origin);
     i_draw_shapes_row(ctx, grad ? ekSKFILL : ekSKFILL, &origin);
     t2d_movef(&origin, &origin, 0, 100);
-    draw_matrix(ctx, &origin);
+    draw_matrixf(ctx, &origin);
     i_draw_shapes_row(ctx, grad ? ekSKFILL : ekFILLSK, &origin);
 }
 
@@ -176,7 +186,7 @@ static void i_draw_gradient(DCtx *ctx, const real32_t gradient, const bool_t bac
     if (shapes == TRUE)
         i_draw_shapes(ctx, TRUE);
 
-    draw_matrix(ctx, kT2D_IDENTf);
+    draw_matrixf(ctx, kT2D_IDENTf);
     draw_line_width(ctx, 3);
     draw_line_color(ctx, color_rgb(200, 200, 200));
     draw_line(ctx, 3, 3, gx + 3, gy + 3);
@@ -216,7 +226,7 @@ static void i_draw_lines_gradient(DCtx *ctx, const real32_t gradient)
     draw_fill_linear(ctx, c, stop, 2, 0, 0, gx, gy);
     i_draw_shapes_row(ctx, ekSTROKE, kT2D_IDENTf);
 
-    draw_matrix(ctx, kT2D_IDENTf);
+    draw_matrixf(ctx, kT2D_IDENTf);
     draw_line_width(ctx, 1);
     draw_bezier(ctx, 30, 190, 140, 50, 440, 110, 570, 190);
     draw_line_width(ctx, 4);
@@ -284,7 +294,7 @@ static void i_draw_local_gradient(DCtx *ctx, const real32_t gradient)
     draw_fill_linear(ctx, c, stop, 2, 0, 0, gx, gy);
 
     t2d_movef(&matrix, kT2D_IDENTf, 50, 40);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_fill_matrix(ctx, &matrix);
     draw_line_width(ctx, 10);
     draw_line_color(ctx, kCOLOR_BLACK);
@@ -295,7 +305,7 @@ static void i_draw_local_gradient(DCtx *ctx, const real32_t gradient)
 
     t2d_movef(&matrix, kT2D_IDENTf, 400, 40);
     t2d_rotatef(&matrix, &matrix, kBMATH_PIf / 6);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_fill_matrix(ctx, &matrix);
     draw_line_width(ctx, 10);
     draw_line_color(ctx, kCOLOR_BLACK);
@@ -306,13 +316,13 @@ static void i_draw_local_gradient(DCtx *ctx, const real32_t gradient)
 
     t2d_movef(&matrix, kT2D_IDENTf, 250, 280);
     t2d_rotatef(&matrix, &matrix, - kBMATH_PIf / 10);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     t2d_movef(&matrix, &matrix, -100, -50);
     draw_fill_matrix(ctx, &matrix);
     draw_line_width(ctx, 10);
     draw_line_color(ctx, kCOLOR_BLACK);
     draw_ellipse(ctx, ekSKFILL, 0, 0, 100, 50); 
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_line_width(ctx, 3);
     draw_line_color(ctx, color_rgb(200, 200, 200));
     draw_line(ctx, 0, 0, gx, gy);
@@ -397,37 +407,37 @@ static void i_text_single(DCtx *ctx)
     draw_fill_color(ctx, kCOLOR_BLUE);
     t2d_movef(&matrix, kT2D_IDENTf, 25, 200);
     t2d_rotatef(&matrix, &matrix, kBMATH_PIf / 8);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekLEFT, ekTOP);
     draw_text(ctx, text, 0, 0);
 
     t2d_movef(&matrix, kT2D_IDENTf, 300, 250);
     t2d_rotatef(&matrix, &matrix, - kBMATH_PIf / 8);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekCENTER, ekCENTER);
     draw_text(ctx, text, 0, 0);
 
     t2d_movef(&matrix, kT2D_IDENTf, 25, 325);
     t2d_scalef(&matrix, &matrix, 3, 1);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekLEFT, ekTOP);
     draw_text(ctx, text, 0, 0);
 
     t2d_movef(&matrix, kT2D_IDENTf, 575, 200);
     t2d_scalef(&matrix, &matrix, .5f, 1);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekRIGHT, ekTOP);
     draw_text(ctx, text, 0, 0);
 
     t2d_movef(&matrix, kT2D_IDENTf, 575, 230);
     t2d_scalef(&matrix, &matrix, .75f, 1);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekRIGHT, ekTOP);
     draw_text(ctx, text, 0, 0);
 
     t2d_movef(&matrix, kT2D_IDENTf, 575, 260);
     t2d_scalef(&matrix, &matrix, 1.25f, 1);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_text_align(ctx, ekRIGHT, ekTOP);
     draw_text(ctx, text, 0, 0);
 
@@ -451,8 +461,7 @@ static void i_text_newline(DCtx *ctx)
     draw_text_align(ctx, ekCENTER, ekTOP);
     draw_text_halign(ctx, ekCENTER);
     draw_text(ctx, text, 300, 25);
-    
-    
+
     draw_text_align(ctx, ekRIGHT, ekTOP);
     draw_text_halign(ctx, ekRIGHT);
     draw_text(ctx, text, 575, 25);
@@ -568,7 +577,7 @@ static void i_text_art(DCtx *ctx)
     draw_fill_linear(ctx, c, stop, 2, 25, 0, 25 + width, 0);
     draw_text_path(ctx, ekFILLSK, "Gradient dashed text", 25, 250);
     draw_line_color(ctx, kCOLOR_BLACK);
-    draw_line_width(ctx, .5);
+    draw_line_width(ctx, .5f);
     draw_line_dash(ctx, NULL, 0);
     draw_text_path(ctx, ekSTROKE, "Thin stroke text", 25, 325);
     font_destroy(&font);
@@ -587,9 +596,9 @@ static void i_image(DCtx *ctx)
     t2d_movef(&matrix, kT2D_IDENTf, 300, 200);
     t2d_rotatef(&matrix, &matrix, kBMATH_PIf / 8);
     draw_image_align(ctx, ekCENTER, ekCENTER);
-    draw_matrix(ctx, &matrix);
+    draw_matrixf(ctx, &matrix);
     draw_image(ctx, image, 0, 0);
-    draw_matrix(ctx, kT2D_IDENTf);
+    draw_matrixf(ctx, kT2D_IDENTf);
     draw_image_align(ctx, ekRIGHT, ekTOP);
     draw_image(ctx, image, 575, 25);
     draw_image_align(ctx, ekLEFT, ekBOTTOM);
@@ -770,9 +779,10 @@ static App *i_create(void)
 {
     App *app = heap_new0(App);
     Panel *panel = i_panel(app);
-    app->window = window_create(ekWNSTD, &panel);
+    app->window = window_create(ekWNSTD);
     app->gradient = 0;
     app->option = 0;
+    window_panel(app->window, panel);
     window_title(app->window, "Drawing primitives");
     window_origin(app->window, v2df(500, 200));
     window_OnClose(app->window, listener(app, i_OnClose, App));

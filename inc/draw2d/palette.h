@@ -1,8 +1,8 @@
 /*
  * NAppGUI Cross-platform C SDK
- * © 2015-2021 Francisco Garcia Collado
- * All rights reserved
- * https://nappgui.com/en/legal/eula.html
+ * 2015-2021 Francisco Garcia Collado
+ * MIT Licence
+ * https://nappgui.com/en/legal/license.html
  *
  * File: palette.h
  * https://nappgui.com/en/draw2d/palette.html
@@ -16,8 +16,6 @@
 __EXTERN_C
 
 Palette *palette_create(const uint32_t size);
-
-Palette *palette_optimal(const uint32_t width, const uint32_t height, const pixformat_t format, const byte_t *data, const uint32_t size);
 
 Palette *palette_cga2(const bool_t mode, const bool_t intense);
 
