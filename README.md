@@ -1,6 +1,8 @@
 # NAppGUI
 Cross-Platform C SDK. Build portable desktop applications for Windows, macOS and Linux, using just C.
 
+**This repository ONLY have headers and precompiled libraries for the most popular compilers.** The source code is in [nappgui_src](https://github.com/frang75/nappgui_src).
+
 ![NAppGUI Stack](https://nappgui.com/img/start/nappgui_stack.png)
 
 ## Quick start in Windows
@@ -117,3 +119,9 @@ make
 - [NAppGUI Hello World](https://nappgui.com/en/start/hello.html)
 - [Create a new project](https://nappgui.com/en/start/newprj.html)
 - [About Portability](https://nappgui.com/en/start/win_mac_linux.html)
+
+## Build Network
+
+The NAppGUI project has be compiled with the build network show below.
+![BuildNetwork](https://nappgui.com/github/BuildNetwork.png)
+
