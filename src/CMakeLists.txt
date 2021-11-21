@@ -17,24 +17,24 @@ staticLib("draw2d" "geom2d" NRC_NONE)
 staticLib("osgui" "draw2d" NRC_NONE)
 staticLib("gui" "draw2d" NRC_EMBEDDED)
 staticLib("osapp" "osgui;gui" NRC_NONE)
-staticLib("inet" "core" NRC_NONE)
 staticLib("demo/casino" "draw2d" NRC_EMBEDDED)
-
-# Dlls
+staticLib("inet" "core" NRC_NONE)
 
 # Exes
-desktopApp("Bode" "demo/bode" "" NRC_PACKED)
-desktopApp("Products" "demo/products" "inet" NRC_PACKED)
+desktopApp("HelloWorld" "demo/hello" "" NRC_NONE)
+desktopApp("HelloCpp" "demo/hellocpp" "" NRC_NONE)
+desktopApp("Die" "demo/die" "demo/casino" NRC_EMBEDDED)
+desktopApp("Dice" "demo/dice" "demo/casino" NRC_EMBEDDED)
 desktopApp("Bricks" "demo/bricks" "" NRC_EMBEDDED)
 desktopApp("Fractals" "demo/fractals" "" NRC_EMBEDDED)
+desktopApp("Bode" "demo/bode" "" NRC_PACKED)
+desktopApp("Products" "demo/products" "inet" NRC_PACKED)
 desktopApp("GuiHello" "howto/guihello" "" NRC_EMBEDDED)
 desktopApp("DrawHello" "howto/drawhello" "" NRC_EMBEDDED)
 desktopApp("Col2dHello" "howto/col2dhello" "" NRC_EMBEDDED)
 desktopApp("DrawImg" "howto/drawimg" "" NRC_EMBEDDED)
-desktopApp("DrawBig" "howto/drawbig" "" NRC_NONE)
 desktopApp("UrlImg" "howto/urlimg" "inet" NRC_EMBEDDED)
-desktopApp("Die" "demo/die" "demo/casino" NRC_EMBEDDED)
-desktopApp("Dice" "demo/dice" "demo/casino" NRC_EMBEDDED)
+
 
 # Your projects here!
 
