@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * 2015-2021 Francisco Garcia Collado
+ * 2015-2022 Francisco Garcia Collado
  * MIT Licence
  * https://nappgui.com/en/legal/license.html
  *
@@ -48,6 +48,10 @@ bool_t bfile_fstat(const File *file, file_type_t *type, uint64_t *size, Date *up
 bool_t bfile_read(File *file, byte_t *data, const uint32_t size, uint32_t *rsize, ferror_t *error);
 
 bool_t bfile_write(File *file, const byte_t *data, const uint32_t size, uint32_t *wsize, ferror_t *error);
+
+bool_t bfile_seek(File *file, const int64_t offset, const file_seek_t whence, ferror_t *error);
+
+uint64_t bfile_pos(const File *file);
 
 bool_t bfile_delete(const char_t *pathname, ferror_t *error);
 

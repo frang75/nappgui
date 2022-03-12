@@ -1,6 +1,6 @@
 /*
  * NAppGUI Cross-platform C SDK
- * 2015-2021 Francisco Garcia Collado
+ * 2015-2022 Francisco Garcia Collado
  * MIT Licence
  * https://nappgui.com/en/legal/license.html
  *
@@ -98,6 +98,13 @@ typedef enum _file_mode_t
     ekAPPEND
 } file_mode_t;
 
+typedef enum _file_seek_t
+{
+    ekSEEKSET = 1,
+    ekSEEKCUR,
+    ekSEEKEND,
+} file_seek_t;
+
 typedef enum _ferror_t
 {
     ekFEXISTS = 1,
@@ -109,6 +116,7 @@ typedef enum _ferror_t
     ekFNOACCESS,
     ekFLOCK,
     ekFBIG,
+    ekFSEEKNEG,
     ekFUNDEF,
     ekFOK
 } ferror_t;
