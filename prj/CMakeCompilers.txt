@@ -82,8 +82,10 @@ if (WIN32)
         endif()
        
         # Visual Studio properties
-        add_definitions(/fp:fast)
-        add_definitions(-DUNICODE -D_UNICODE)
+        string(REPLACE ";" " " AdditionalDefinitions "${AdditionalDefinitions}")
+        string(REGEX REPLACE "/W[1-3]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /fp:fast ${AdditionalDefinitions}")
+        string(REGEX REPLACE "/W[1-3]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /fp:fast ${AdditionalDefinitions}")
+        add_definitions(-DUNICODE -D_UNICODE /nologo)
 
         # Package tool
         set(CMAKE_PACKAGE FALSE CACHE BOOL "Pack executables On/Off")
@@ -264,7 +266,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
             
     # Warnings
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic -std=c99 -fPIE")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -fPIE")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -std=c++98 -fPIE")
     
     # Host architecture
     set(HOST_ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
@@ -294,7 +296,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     if (CMAKE_ARCHITECTURE MATCHES "i386")
         set(NAPPGUI_ARCH x86)        
         set(IDE_PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
-        
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-long-long")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long")
+
     elseif (CMAKE_ARCHITECTURE MATCHES "x64")
         set(NAPPGUI_ARCH x64)
         set(IDE_PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64")

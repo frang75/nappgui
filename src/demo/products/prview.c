@@ -77,6 +77,15 @@ static Layout *i_code_desc(Ctrl *ctrl)
     edit_phtext(edit1, TWIN_TYPE_DESC);
     edit_bgcolor_focus(edit0, kEDITBG);
     edit_bgcolor_focus(edit1, kEDITBG);
+
+//    Font *font = font_system(18, ekFBOLD);
+//    edit_color(edit1, kCOLOR_RED);
+//    edit_font(edit1, font);
+//    edit_align(edit1, ekRIGHT);
+//    edit_tooltip(edit0, "This is a tooltip single-line");
+//    edit_tooltip(edit1, "This is a tooltip multi-line");
+//    font_destroy(&font);
+
     edit_phcolor(edit0, kHOLDER);
     edit_phcolor(edit1, kHOLDER);
     edit_phstyle(edit0, ekFITALIC | ekFUNDERLINE);
