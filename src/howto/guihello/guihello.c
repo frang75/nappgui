@@ -34,7 +34,6 @@ struct _app_t
 {
     Window *window;
     Layout *layout;
-    Cell *listcell;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -146,7 +145,6 @@ static Panel *i_panel(App *app)
     layout_margin(layout, 10);
     layout_hmargin(layout, 0, 10);
     app->layout = layout;
-    app->listcell = layout_cell(layout, 0, 0);
     return panel;
 }
 
@@ -181,7 +179,6 @@ static App *i_create(void)
     window_origin(app->window, v2df(500.f, 200.f));
     window_OnClose(app->window, listener(app, i_OnClose, App));
     window_show(app->window);
-    cell_focus(app->listcell);
     return app;
 }
 
