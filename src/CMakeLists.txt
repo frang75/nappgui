@@ -8,17 +8,17 @@ project(NAppGUI)
 get_filename_component(ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR} PATH)
 include(${ROOT_PATH}/prj/CMakeNAppGUI.cmake)
 
-# Static libraries
-staticLib("sewer" "sewer" "" NRC_NONE)
-staticLib("osbs" "osbs" "sewer" NRC_NONE)
-staticLib("core" "core" "osbs" NRC_NONE)
-staticLib("geom2d" "geom2d" "core" NRC_NONE)
-staticLib("draw2d" "draw2d" "geom2d" NRC_NONE)
-staticLib("casino" "demo/casino" "draw2d" NRC_EMBEDDED)
-staticLib("osgui" "osgui" "draw2d" NRC_NONE)
-staticLib("gui" "gui" "draw2d" NRC_EMBEDDED)
-staticLib("osapp" "osapp" "osgui;gui" NRC_NONE)
-staticLib("inet" "inet" "core" NRC_NONE)
+# Dynamic libraries
+dynamicLib("sewer" "sewer" "" NRC_NONE)
+dynamicLib("osbs" "osbs" "sewer" NRC_NONE)
+dynamicLib("core" "core" "osbs" NRC_NONE)
+dynamicLib("geom2d" "geom2d" "core" NRC_NONE)
+dynamicLib("draw2d" "draw2d" "geom2d" NRC_NONE)
+dynamicLib("casino" "demo/casino" "draw2d" NRC_EMBEDDED)
+dynamicLib("osgui" "osgui" "draw2d" NRC_NONE)
+dynamicLib("gui" "gui" "draw2d" NRC_EMBEDDED)
+dynamicLib("osapp" "osapp" "osgui;gui" NRC_NONE)
+dynamicLib("inet" "inet" "core" NRC_NONE)
 
 # Executables
 desktopApp("Bode" "demo/bode" "osapp" NRC_EMBEDDED)
