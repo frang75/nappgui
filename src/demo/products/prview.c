@@ -13,7 +13,7 @@
 #include "prview.h"
 #include "prctrl.h"
 #include "guiall.h"
-#include "res_gui.h"
+#include "res_products.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -77,15 +77,6 @@ static Layout *i_code_desc(Ctrl *ctrl)
     edit_phtext(edit1, TWIN_TYPE_DESC);
     edit_bgcolor_focus(edit0, kEDITBG);
     edit_bgcolor_focus(edit1, kEDITBG);
-
-//    Font *font = font_system(18, ekFBOLD);
-//    edit_color(edit1, kCOLOR_RED);
-//    edit_font(edit1, font);
-//    edit_align(edit1, ekRIGHT);
-//    edit_tooltip(edit0, "This is a tooltip single-line");
-//    edit_tooltip(edit1, "This is a tooltip multi-line");
-//    font_destroy(&font);
-
     edit_phcolor(edit0, kHOLDER);
     edit_phcolor(edit1, kHOLDER);
     edit_phstyle(edit0, ekFITALIC | ekFUNDERLINE);
@@ -207,7 +198,7 @@ static Layout *i_form(Ctrl *ctrl)
     layout_vexpand(layout, 2);
     cell = layout_cell(layout, 0, 1);
     cell_padding4(cell, 0, 10, 0, 10);
-    ctrl_slider_cell(ctrl, cell);    
+    ctrl_slider_cell(ctrl, cell);
     return layout;
 }
 
@@ -236,7 +227,7 @@ static Layout *i_login(Ctrl *ctrl)
     popup_add_elem(popup0, VIETNAMESE, (const Image*)VIETNAM_PNG);
     popup_add_elem(popup0, RUSSIAN, (const Image*)RUSSIA_PNG);
     popup_add_elem(popup0, JAPANESE, (const Image*)JAPAN_PNG);
-    popup_tooltip(popup0, TWIN_SETLANG);   
+    popup_tooltip(popup0, TWIN_SETLANG);
     imageview_image(view0, (const Image*)USER_PNG);
     edit_passmode(edit1, TRUE);
     button_text(button, TWIN_LOGIN);
@@ -355,7 +346,7 @@ Window *prview_create(Ctrl *ctrl)
     Window *window = NULL;
     ctrl_theme_images(ctrl);
     panel_layout(panel, layout);
-    window = window_create(ekWNSTD);
+    window = window_create(ekWINDOW_STD);
     window_panel(window, panel);
     window_title(window, TWIN_TITLE);
     ctrl_window(ctrl, window);
